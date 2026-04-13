@@ -18,6 +18,16 @@ public class ajustes : MonoBehaviour
     public TMP_Text m_l11;
     public TMP_Text m_l12;
 
+
+    public Slider espaciadoBus;
+    public TMP_Text b_280;
+    public TMP_Text b_282;
+    public TMP_Text b_284;
+    public TMP_Text b_285;
+    public TMP_Text b_341;
+    public TMP_Text b_n203;
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -44,5 +54,12 @@ public class ajustes : MonoBehaviour
         m_l10.lineSpacing = espaciado.value;
         m_l11.lineSpacing = espaciado.value;
         m_l12.lineSpacing = espaciado.value;
+
+        b_280.lineSpacing = espaciadoBus.value;
+        b_282.lineSpacing = espaciadoBus.value;
+        b_284.lineSpacing = espaciadoBus.value;
+        b_285.lineSpacing = espaciadoBus.value;
+        b_341.lineSpacing = espaciadoBus.value;
+        b_n203.lineSpacing = espaciadoBus.value;
     }
 }
