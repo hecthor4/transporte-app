@@ -24,6 +24,7 @@ public class mapaBus : MonoBehaviour
     void Start()
     {
         HideEverything();
+        mapa280.SetActive(true);
     }
 
     // Update is called once per frame
