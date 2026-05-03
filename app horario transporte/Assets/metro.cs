@@ -125,6 +125,7 @@ public class metro : MonoBehaviour
     public TMP_Text paso2_paradasDiferencia;
 
     public GameObject pasoError;
+    public bool isWayPossible = false;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -192,7 +193,7 @@ public class metro : MonoBehaviour
                 paso1_currentLinea.text = "Línea " + lineaPrimera;
                 paso1_paradaInicial.text = paradasPrimera[paradaPrimera - 1];
 
-                bool isWayPossible = false;
+                isWayPossible = false;
                 for (int i = 0; i < paradasPrimera.Length; i++)
                 {
                     if (paradasPrimera[i].Contains("[" + lineaFinal))
@@ -210,17 +211,7 @@ public class metro : MonoBehaviour
                         paso2_paradasDiferencia.text = Mathf.Abs(paradaFinal - i) + " paradas";
                     }
                 }
-                if (isWayPossible == false)
-                {
-                    /*
-                    paso1.SetActive(false);
-                    paso2.SetActive(false);
-                    paso1_5.SetActive(false);
-                    pasoError.SetActive(true);
-                    */
-                }
-
-
+                StartCoroutine(ErrorIfTripIsntPossible());
 
                 //transbordo
                 paso1_5_text.text = "Transbordo a línea " + lineaFinal;
@@ -239,6 +230,18 @@ public class metro : MonoBehaviour
             m_all.SetActive(false);
             m_metroLineas.SetActive(true);
             recorridoViajes.SetActive(false);
+        }
+    }
+
+    IEnumerator ErrorIfTripIsntPossible()
+    {
+        yield return new WaitForSeconds(1);
+        if (isWayPossible == false)
+        {
+            paso1.SetActive(false);
+            paso2.SetActive(false);
+            paso1_5.SetActive(false);
+            pasoError.SetActive(true);
         }
     }
 
