@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -88,12 +89,42 @@ public class metro : MonoBehaviour
     public TMP_Text parada40_text;
 
     public int lineaNumb;
+    public int ParadaNumb;
 
     public bool isContarParadas = false;
     public GameObject selection;
     public TMP_Text selection_parada;
     public GameObject selection_corresObj;
     public TMP_Text selection_corres;
+    public TMP_Text selection_contarParadas;
+
+    public int lineaPrimera;
+    public int paradaPrimera;
+    public int lineaFinal;
+    public int paradaFinal;
+
+    public GameObject m_all;
+    public GameObject m_metroLineas;
+    public GameObject recorridoViajes;
+
+    public GameObject paso1;
+    public TMP_Text paso1_currentLinea;
+    public TMP_Text paso1_paradaInicial;
+    public TMP_Text paso1_paradaFinal;
+    public TMP_Text paso1_direccion;
+    public TMP_Text paso1_paradasDiferencia;
+
+    public GameObject paso1_5;
+    public TMP_Text paso1_5_text;
+
+    public GameObject paso2;
+    public TMP_Text paso2_currentLinea;
+    public TMP_Text paso2_paradaInicial;
+    public TMP_Text paso2_paradaFinal;
+    public TMP_Text paso2_direccion;
+    public TMP_Text paso2_paradasDiferencia;
+
+    public GameObject pasoError;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -108,7 +139,119 @@ public class metro : MonoBehaviour
         
     }
 
-    public void Selection(int paradaNumb)
+    public void ContarParadas()
+    {
+        paso1.SetActive(false);
+        paso2.SetActive(false);
+        paso1_5.SetActive(false);
+
+        if (isContarParadas == true)
+        {
+            m_all.SetActive(false);
+            m_metroLineas.SetActive(false);
+            recorridoViajes.SetActive(true);
+
+            lineaFinal = lineaNumb;
+            paradaFinal = ParadaNumb;
+
+
+            //el principio y el final están en la misma línea
+            if (lineaPrimera == lineaFinal)
+            {
+                TextAsset paradasEnLinea = Resources.Load<TextAsset>("lineas/" + lineaNumb);
+                string[] paradas = paradasEnLinea.text.Split('\n');
+
+                paso1.SetActive(true);
+                
+                paso1_currentLinea.text = "Línea " + lineaPrimera;
+                paso1_paradaInicial.text = paradas[paradaPrimera - 1];
+                paso1_paradaFinal.text = paradas[paradaFinal - 1];
+                paso1_paradasDiferencia.text = Mathf.Abs(paradaPrimera - paradaFinal) + " paradas";
+                if (paradaPrimera > paradaFinal)
+                {
+                    paso1_direccion.text = "Dirección " + paradas[0];
+                }
+                else
+                {
+                    paso1_direccion.text = "Dirección " + paradas[paradas.Length - 1];
+                }
+            }
+            //hay que hacer transbordos
+            else
+            {
+                TextAsset paradasEnLineaPrimera = Resources.Load<TextAsset>("lineas/" + lineaPrimera);
+                string[] paradasPrimera = paradasEnLineaPrimera.text.Split('\n');
+
+                TextAsset paradasEnLineaFinal = Resources.Load<TextAsset>("lineas/" + lineaFinal);
+                string[] paradasFinal = paradasEnLineaFinal.text.Split('\n');
+
+                paso1.SetActive(true);
+                paso1_5.SetActive(true);
+                paso2.SetActive(true);
+
+                paso1_currentLinea.text = "Línea " + lineaPrimera;
+                paso1_paradaInicial.text = paradasPrimera[paradaPrimera - 1];
+
+                bool isWayPossible = false;
+                for (int i = 0; i < paradasPrimera.Length; i++)
+                {
+                    if (paradasPrimera[i].Contains("[" + lineaFinal))
+                    {
+                        paso1_paradaFinal.text = paradasPrimera[i];
+                        isWayPossible = true;
+
+                        if (paradaPrimera > i) { paso1_direccion.text = "Dirección " + paradasPrimera[0]; }
+                        else { paso1_direccion.text = "Dirección " + paradasPrimera[paradasPrimera.Length - 1]; }
+
+                        if (i > paradaFinal) { paso2_direccion.text = "Dirección " + paradasFinal[0]; }
+                        else { paso2_direccion.text = "Dirección " + paradasFinal[paradasFinal.Length - 1]; }
+
+                        paso1_paradasDiferencia.text = Mathf.Abs(paradaPrimera - i) + " paradas";
+                        paso2_paradasDiferencia.text = Mathf.Abs(paradaFinal - i) + " paradas";
+                    }
+                }
+                if (isWayPossible == false)
+                {
+                    /*
+                    paso1.SetActive(false);
+                    paso2.SetActive(false);
+                    paso1_5.SetActive(false);
+                    pasoError.SetActive(true);
+                    */
+                }
+
+
+
+                //transbordo
+                paso1_5_text.text = "Transbordo a línea " + lineaFinal;
+                //fin transbordo
+
+
+                paso2_currentLinea.text = "Línea " + lineaFinal;
+                paso2_paradaInicial.text = paso1_paradaFinal.text;
+                paso2_paradaFinal.text = paradasFinal[paradaFinal - 1];
+            }
+        }
+        
+        if (isContarParadas == false)
+        {
+            isContarParadas = true;
+            m_all.SetActive(false);
+            m_metroLineas.SetActive(true);
+            recorridoViajes.SetActive(false);
+        }
+    }
+
+    public void ContarParadasReset()
+    {
+        isContarParadas = false;
+        lineaPrimera = 0;
+        paradaPrimera = 0;
+        lineaFinal = 0;
+        paradaFinal = 0;
+    }
+
+    public void Selection(int paradaNumb2)
     {
         metroLinea.text = "Línea " + lineaNumb;
 
@@ -116,31 +259,41 @@ public class metro : MonoBehaviour
         string[] paradas = paradasEnLinea.text.Split('\n');
 
 
+        ParadaNumb = paradaNumb2;
+        selection.SetActive(true);
+
+        int indice = paradas[paradaNumb2 - 1].IndexOf('[');
+        string parada_texto;
+        string corres_texto;
+
+        if (indice != -1)
+        {
+            parada_texto = paradas[paradaNumb2 - 1].Substring(0, indice).Trim();
+            corres_texto = paradas[paradaNumb2 - 1].Substring(indice);
+
+            selection_corresObj.SetActive(true);
+            selection_corres.text = corres_texto;
+        }
+        else
+        {
+            parada_texto = paradas[paradaNumb2 - 1].Trim();
+
+            selection_corres.text = "";
+            selection_corresObj.SetActive(false);
+        }
+
+        selection_parada.text = parada_texto;
+
+
         if (isContarParadas == false)
         {
-            selection.SetActive(true);
-
-            int indice = paradas[paradaNumb - 1].IndexOf('[');
-            string parada_texto;
-            string corres_texto;
-
-            if (indice  != -1)
-            {
-                parada_texto = paradas[paradaNumb - 1].Substring(0, indice).Trim();
-                corres_texto = paradas[paradaNumb - 1].Substring(indice);
-
-                selection_corresObj.SetActive(true);
-                selection_corres.text = corres_texto;
-            }
-            else
-            {
-                parada_texto = paradas[paradaNumb - 1].Trim();
-
-                selection_corres.text = "";
-                selection_corresObj.SetActive(false);
-            }
-
-            selection_parada.text = parada_texto;
+            selection_contarParadas.text = "Viajar desde aquí hasta...";
+            lineaPrimera = lineaNumb;
+            paradaPrimera = paradaNumb2;
+        }
+        if (isContarParadas == true)
+        {
+            selection_contarParadas.text = "Viajar hasta aquí";
         }
     }
 
