@@ -124,6 +124,20 @@ public class metro : MonoBehaviour
     public TMP_Text paso2_direccion;
     public TMP_Text paso2_paradasDiferencia;
 
+    public GameObject paso2_5;
+    public TMP_Text paso2_5_text;
+
+    public GameObject paso3;
+    public TMP_Text paso3_currentLinea;
+    public TMP_Text paso3_paradaInicial;
+    public TMP_Text paso3_paradaFinal;
+    public TMP_Text paso3_direccion;
+    public TMP_Text paso3_paradasDiferencia;
+
+    public GameObject datos;
+    public TMP_Text tiempoEstimado;
+    public TMP_Text paradasTotales;
+
     public GameObject pasoError;
     public bool isWayPossible = false;
 
@@ -145,6 +159,8 @@ public class metro : MonoBehaviour
         paso1.SetActive(false);
         paso2.SetActive(false);
         paso1_5.SetActive(false);
+        paso3.SetActive(false);
+        paso2_5.SetActive(false);
 
         if (isContarParadas == true)
         {
@@ -168,6 +184,10 @@ public class metro : MonoBehaviour
                 paso1_paradaInicial.text = paradas[paradaPrimera - 1];
                 paso1_paradaFinal.text = paradas[paradaFinal - 1];
                 paso1_paradasDiferencia.text = Mathf.Abs(paradaPrimera - paradaFinal) + " paradas";
+
+                paradasTotales.text = "Paradas totales: " + Mathf.Abs(paradaPrimera - paradaFinal);
+                tiempoEstimado.text = "Tiempo estimado: " + Mathf.Abs(paradaPrimera - paradaFinal) * 3 + "''";
+
                 if (paradaPrimera > paradaFinal)
                 {
                     paso1_direccion.text = "Dirección " + paradas[0];
@@ -177,6 +197,7 @@ public class metro : MonoBehaviour
                     paso1_direccion.text = "Dirección " + paradas[paradas.Length - 1];
                 }
             }
+
             //hay que hacer transbordos
             else
             {
@@ -196,6 +217,7 @@ public class metro : MonoBehaviour
                 isWayPossible = false;
                 for (int i = 0; i < paradasPrimera.Length; i++)
                 {
+                    //si en la linea final hay parada de la linea inicial
                     if (paradasPrimera[i].Contains("[" + lineaFinal))
                     {
                         paso1_paradaFinal.text = paradasPrimera[i];
@@ -209,6 +231,9 @@ public class metro : MonoBehaviour
 
                         paso1_paradasDiferencia.text = Mathf.Abs(paradaPrimera - i) + " paradas";
                         paso2_paradasDiferencia.text = Mathf.Abs(paradaFinal - i) + " paradas";
+
+                        paradasTotales.text = "Paradas totales: " + Mathf.Abs(paradaPrimera - i + paradaFinal - i);
+                        tiempoEstimado.text = "Tiempo estimado: " + Mathf.Abs(paradaPrimera - i + paradaFinal - i * 3) + "''";
                     }
                 }
                 StartCoroutine(ErrorIfTripIsntPossible());
@@ -236,6 +261,39 @@ public class metro : MonoBehaviour
     IEnumerator ErrorIfTripIsntPossible()
     {
         yield return new WaitForSeconds(1);
+
+        //empezar de nuevo otra vez
+        if (isWayPossible == false)
+        {
+            /*
+            paso3.SetActive(true);
+            paso2_5.SetActive(true);
+
+            TextAsset paradasEnLineaPrimera = Resources.Load<TextAsset>("lineas/" + lineaPrimera);
+            string[] paradasPrimera = paradasEnLineaPrimera.text.Split('\n');
+
+            TextAsset paradasEnLineaFinal = Resources.Load<TextAsset>("lineas/" + lineaFinal);
+            string[] paradasFinal = paradasEnLineaFinal.text.Split('\n');
+
+            for (int i = 0; i < paradasPrimera.Length; i++) //busca en todas las paradas de la línea primera
+            {
+                for (int j = 0; i <= 12; j++)
+                {
+                    if (paradasPrimera[j].Contains("[" + j)) //busca en todas las paradas todas las líneas
+                    {
+                        if (paradasPrimera[j].Contains("[" + paradaFinal))
+                        {
+                            //isWayPossible = true;
+                        }
+                    }
+
+                }
+            }
+            */
+        }
+
+        yield return new WaitForSeconds(1);
+
         if (isWayPossible == false)
         {
             paso1.SetActive(false);
