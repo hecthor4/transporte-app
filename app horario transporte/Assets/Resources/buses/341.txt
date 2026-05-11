@@ -1,0 +1,64 @@
+Sentido
+enlace
+
+# Madrid
+a
+a
+a
+# Rivas-Vaciamadrid
+b
+b
+
+
+public void Iterate(int linea)
+{
+    busLinea.text = "Línea " + linea;
+    TextAsset paradasEnLinea = Resources.Load<TextAsset>("buses/" + linea);
+    string[] paradas = paradasEnLinea.text.Split('\n');
+
+    // Limpieza de UI previa
+    foreach (Transform child in ciudadParent.transform) {
+        Destroy(child.gameObject);
+    }
+
+    // Configuración cabecera
+    linea_info_direccion.text = paradas[0].Trim();
+    linea_enlace_button.onClick.RemoveAllListeners();
+    linea_enlace_button.onClick.AddListener(() => OpenLink(paradas[1].Trim()));
+
+    Instantiate(linea_info, ciudadParent.transform);
+    Instantiate(linea_enlace, ciudadParent.transform);
+
+    // Procesar ciudades y paradas
+    for (int i = 3; i < paradas.Length; i++)
+    {
+        string lineaActual = paradas[i].Trim();
+        if (string.IsNullOrEmpty(lineaActual)) continue;
+
+        if (lineaActual.StartsWith("#"))
+        {
+            // 1. Instanciar y obtener la referencia del nuevo objeto
+            GameObject nuevaCiudad = Instantiate(ciudadPrefab, ciudadParent.transform);
+            
+            // 2. Buscar los textos DENTRO de ese objeto específico
+            // Es mejor usar un script en el prefab, pero esto funciona:
+            var textoTitulo = nuevaCiudad.transform.Find("NombreDelHijoTitulo").GetComponent<TMPro.TextMeshProUGUI>();
+            var textoParadas = nuevaCiudad.transform.Find("NombreDelHijoParadas").GetComponent<TMPro.TextMeshProUGUI>();
+
+            textoTitulo.text = lineaActual.Replace("#", ""); // Quita el # para mostrar el nombre
+            textoParadas.text = ""; 
+
+            // 3. Llenar paradas hasta encontrar el siguiente "#" o el final
+            for (int j = i + 1; j < paradas.Length; j++)
+            {
+                string paradaCandidata = paradas[j].Trim();
+                if (string.IsNullOrEmpty(paradaCandidata)) continue;
+                
+                if (paradaCandidata.StartsWith("#")) break; // Es otra ciudad, paramos
+
+                textoParadas.text += paradaCandidata + "\n";
+                i = j; // Saltamos estas líneas en el for principal
+            }
+        }
+    }
+}
