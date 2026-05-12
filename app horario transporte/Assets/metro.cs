@@ -232,8 +232,11 @@ public class metro : MonoBehaviour
                         paso1_paradasDiferencia.text = Mathf.Abs(paradaPrimera - i) + " paradas";
                         paso2_paradasDiferencia.text = Mathf.Abs(paradaFinal - i) + " paradas";
 
-                        paradasTotales.text = "Paradas totales: " + Mathf.Abs(paradaPrimera - i + paradaFinal - i);
-                        tiempoEstimado.text = "Tiempo estimado: " + Mathf.Abs(paradaPrimera - i + paradaFinal - i * 3) + "''";
+                        paradasTotales.text = "Paradas totales: " + (Mathf.Abs(paradaPrimera - i) + Mathf.Abs(paradaFinal - i));
+                        if (Mathf.Abs(((paradaPrimera - i + paradaFinal - i) * 3) + 3) > 60) {
+                            tiempoEstimado.text = "Tiempo estimado: 1h y " + (((Mathf.Abs(paradaPrimera - i) + Mathf.Abs(paradaFinal - i)) * 3) - 63) + "''"; }
+                        else {
+                            tiempoEstimado.text = "Tiempo estimado: " + ((Mathf.Abs(paradaPrimera - i) + Mathf.Abs(paradaFinal - i)) * 3) + "''"; }
                     }
                 }
                 StartCoroutine(ErrorIfTripIsntPossible());
