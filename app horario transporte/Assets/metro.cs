@@ -211,8 +211,10 @@ public class metro : MonoBehaviour
                 paso1_5.SetActive(true);
                 paso2.SetActive(true);
 
+                string cleanText(string texto) => texto.Split('[')[0].Trim();
+
                 paso1_currentLinea.text = "Línea " + lineaPrimera;
-                paso1_paradaInicial.text = paradasPrimera[paradaPrimera - 1];
+                paso1_paradaInicial.text = cleanText(paradasPrimera[paradaPrimera - 1]);
 
                 isWayPossible = false;
                 for (int i = 0; i < paradasPrimera.Length; i++)
@@ -220,21 +222,21 @@ public class metro : MonoBehaviour
                     //si en la linea final hay parada de la linea inicial
                     if (paradasPrimera[i].Contains("[" + lineaFinal))
                     {
-                        paso1_paradaFinal.text = paradasPrimera[i];
+                        paso1_paradaFinal.text = cleanText(paradasPrimera[i]);
                         isWayPossible = true;
 
-                        if (paradaPrimera > i) { paso1_direccion.text = "Dirección " + paradasPrimera[0]; }
-                        else { paso1_direccion.text = "Dirección " + paradasPrimera[paradasPrimera.Length - 1]; }
+                        if (paradaPrimera > i) { paso1_direccion.text = "Dirección " + cleanText(paradasPrimera[0]); }
+                        else { paso1_direccion.text = "Dirección " + cleanText(paradasPrimera[paradasPrimera.Length - 1]); }
 
-                        if (i > paradaFinal) { paso2_direccion.text = "Dirección " + paradasFinal[0]; }
-                        else { paso2_direccion.text = "Dirección " + paradasFinal[paradasFinal.Length - 1]; }
+                        if (i > paradaFinal) { paso2_direccion.text = "Dirección " + cleanText(paradasFinal[0]); }
+                        else { paso2_direccion.text = "Dirección " + cleanText(paradasFinal[paradasFinal.Length - 1]); }
 
                         paso1_paradasDiferencia.text = Mathf.Abs(paradaPrimera - i) + " paradas";
                         paso2_paradasDiferencia.text = Mathf.Abs(paradaFinal - i) + " paradas";
 
                         paradasTotales.text = "Paradas totales: " + (Mathf.Abs(paradaPrimera - i) + Mathf.Abs(paradaFinal - i));
-                        if (Mathf.Abs(((paradaPrimera - i + paradaFinal - i) * 3) + 3) > 60) {
-                            tiempoEstimado.text = "Tiempo estimado: 1h y " + (((Mathf.Abs(paradaPrimera - i) + Mathf.Abs(paradaFinal - i)) * 3) - 63) + "''"; }
+                        if ((((Mathf.Abs(paradaPrimera - i) + Mathf.Abs(paradaFinal - i)) * 2) + 3) > 60) {
+                            tiempoEstimado.text = "Tiempo estimado: 1h y " + (((Mathf.Abs(paradaPrimera - i) + Mathf.Abs(paradaFinal - i)) * 2) - 63) + "''"; }
                         else {
                             tiempoEstimado.text = "Tiempo estimado: " + ((Mathf.Abs(paradaPrimera - i) + Mathf.Abs(paradaFinal - i)) * 3) + "''"; }
                     }
@@ -248,7 +250,7 @@ public class metro : MonoBehaviour
 
                 paso2_currentLinea.text = "Línea " + lineaFinal;
                 paso2_paradaInicial.text = paso1_paradaFinal.text;
-                paso2_paradaFinal.text = paradasFinal[paradaFinal - 1];
+                paso2_paradaFinal.text = cleanText(paradasFinal[paradaFinal - 1]);
             }
         }
         
@@ -305,6 +307,27 @@ public class metro : MonoBehaviour
             pasoError.SetActive(true);
         }
     }
+
+    public void SaveRouteToFavs()
+    {
+        favorites favorites = FindFirstObjectByType<favorites>();
+        favorites.SaveRoute(paradaPrimera, lineaPrimera, paradaFinal, lineaFinal);
+    }
+
+    public void GetRouteFromFavs(int paradaInicial, int lineaInicial, int paradaFinal2, int lineaFinal2)
+    {
+        paradaPrimera = paradaInicial;
+        lineaPrimera = lineaInicial;
+        paradaFinal = paradaFinal2;
+        lineaFinal = lineaFinal2;
+
+        lineaNumb = paradaFinal2;
+        ParadaNumb = paradaFinal2;
+
+        isContarParadas = true;
+        ContarParadas();
+    }
+
 
     public void ContarParadasReset()
     {
