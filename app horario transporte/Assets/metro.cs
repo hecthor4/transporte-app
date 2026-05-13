@@ -145,13 +145,13 @@ public class metro : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void ContarParadas()
@@ -178,24 +178,22 @@ public class metro : MonoBehaviour
                 TextAsset paradasEnLinea = Resources.Load<TextAsset>("lineas/" + lineaNumb);
                 string[] paradas = paradasEnLinea.text.Split('\n');
 
+                string cleanText(string texto) => texto.Split('[')[0].Trim();
+
                 paso1.SetActive(true);
-                
+
                 paso1_currentLinea.text = "Línea " + lineaPrimera;
-                paso1_paradaInicial.text = paradas[paradaPrimera - 1];
-                paso1_paradaFinal.text = paradas[paradaFinal - 1];
+                paso1_paradaInicial.text = cleanText(paradas[paradaPrimera - 1]);
+                paso1_paradaFinal.text = cleanText(paradas[paradaFinal - 1]);
                 paso1_paradasDiferencia.text = Mathf.Abs(paradaPrimera - paradaFinal) + " paradas";
 
                 paradasTotales.text = "Paradas totales: " + Mathf.Abs(paradaPrimera - paradaFinal);
                 tiempoEstimado.text = "Tiempo estimado: " + Mathf.Abs(paradaPrimera - paradaFinal) * 3 + "''";
 
-                if (paradaPrimera > paradaFinal)
-                {
-                    paso1_direccion.text = "Dirección " + paradas[0];
-                }
-                else
-                {
-                    paso1_direccion.text = "Dirección " + paradas[paradas.Length - 1];
-                }
+                if (paradaPrimera > paradaFinal) {
+                    paso1_direccion.text = "Dirección " + cleanText(paradas[0]); }
+                else {
+                    paso1_direccion.text = "Dirección " + cleanText(paradas[paradas.Length - 1]); }
             }
 
             //hay que hacer transbordos
@@ -225,20 +223,44 @@ public class metro : MonoBehaviour
                         paso1_paradaFinal.text = cleanText(paradasPrimera[i]);
                         isWayPossible = true;
 
-                        if (paradaPrimera > i) { paso1_direccion.text = "Dirección " + cleanText(paradasPrimera[0]); }
+                        //buscar index en linea final
+                        int indexEnLineaFinal = -1;
+                        for (int j = 0; j < paradasFinal.Length; j++)
+                        {
+                            if (cleanText(paradasFinal[j]) == paso1_paradaFinal.text)
+                            {
+                                indexEnLineaFinal = j;
+                                break;
+                            }
+                        }
+
+                        //si no se encuentra el index
+                        if (indexEnLineaFinal == -1)
+                        {
+                            continue;
+                        }
+
+                        if (paradaPrimera > i + 1) { paso1_direccion.text = "Dirección " + cleanText(paradasPrimera[0]); }
                         else { paso1_direccion.text = "Dirección " + cleanText(paradasPrimera[paradasPrimera.Length - 1]); }
 
-                        if (i > paradaFinal) { paso2_direccion.text = "Dirección " + cleanText(paradasFinal[0]); }
+                        if ((indexEnLineaFinal + 1) > paradaFinal) { paso2_direccion.text = "Dirección " + cleanText(paradasFinal[0]); }
                         else { paso2_direccion.text = "Dirección " + cleanText(paradasFinal[paradasFinal.Length - 1]); }
 
-                        paso1_paradasDiferencia.text = Mathf.Abs(paradaPrimera - i) + " paradas";
-                        paso2_paradasDiferencia.text = Mathf.Abs(paradaFinal - i) + " paradas";
 
-                        paradasTotales.text = "Paradas totales: " + (Mathf.Abs(paradaPrimera - i) + Mathf.Abs(paradaFinal - i));
-                        if ((((Mathf.Abs(paradaPrimera - i) + Mathf.Abs(paradaFinal - i)) * 2) + 3) > 60) {
-                            tiempoEstimado.text = "Tiempo estimado: 1h y " + (((Mathf.Abs(paradaPrimera - i) + Mathf.Abs(paradaFinal - i)) * 2) - 63) + "''"; }
+                        int dif1 = Mathf.Abs(paradaPrimera - (i + 1));
+                        int dif2 = Mathf.Abs(paradaFinal - (indexEnLineaFinal + 1));
+                        int totalParadas = dif1 + dif2;
+
+                        paso1_paradasDiferencia.text = dif1 + " paradas";
+                        paso2_paradasDiferencia.text = dif2 + " paradas";
+
+                        paradasTotales.text = "Paradas totales: " + totalParadas;
+                        if ((totalParadas * 3) > 60) {
+                            tiempoEstimado.text = "Tiempo estimado: 1h y " + ((totalParadas * 3) - 60) + "''"; }
                         else {
-                            tiempoEstimado.text = "Tiempo estimado: " + ((Mathf.Abs(paradaPrimera - i) + Mathf.Abs(paradaFinal - i)) * 3) + "''"; }
+                            tiempoEstimado.text = "Tiempo estimado: " + (totalParadas * 3) + "''"; }
+
+                        break;
                     }
                 }
                 StartCoroutine(ErrorIfTripIsntPossible());
@@ -253,7 +275,7 @@ public class metro : MonoBehaviour
                 paso2_paradaFinal.text = cleanText(paradasFinal[paradaFinal - 1]);
             }
         }
-        
+
         if (isContarParadas == false)
         {
             isContarParadas = true;
@@ -321,7 +343,7 @@ public class metro : MonoBehaviour
         paradaFinal = paradaFinal2;
         lineaFinal = lineaFinal2;
 
-        lineaNumb = paradaFinal2;
+        lineaNumb = lineaFinal2;
         ParadaNumb = paradaFinal2;
 
         isContarParadas = true;

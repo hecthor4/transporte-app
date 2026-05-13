@@ -49,20 +49,29 @@ public class favorites : MonoBehaviour
     public GameObject fav4;
     public GameObject fav5;
 
+    public TMP_Text fav1_name;
     public TMP_Text fav1_text1;
     public TMP_Text fav1_text2;
 
+    public TMP_Text fav2_name;
     public TMP_Text fav2_text1;
     public TMP_Text fav2_text2;
 
+    public TMP_Text fav3_name;
     public TMP_Text fav3_text1;
     public TMP_Text fav3_text2;
 
+    public TMP_Text fav4_name;
     public TMP_Text fav4_text1;
     public TMP_Text fav4_text2;
 
+    public TMP_Text fav5_name;
     public TMP_Text fav5_text1;
     public TMP_Text fav5_text2;
+
+    public int editingNumb;
+    public bool isEditing;
+    public TMP_InputField newName;
 
 
     public GameObject noRoutesError;
@@ -70,31 +79,31 @@ public class favorites : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        _1_name = PlayerPrefs.GetString("_1_name", "Default");
+        _1_name = PlayerPrefs.GetString("_1_name", "Default  name");
         _1_lineaInici = PlayerPrefs.GetInt("_1_lineaInici", 0);
         _1_paradInici = PlayerPrefs.GetInt("_1_paradInici", 0);
         _1_lineaFinal = PlayerPrefs.GetInt("_1_lineaFinal", 0);
         _1_paradFinal = PlayerPrefs.GetInt("_1_paradFinal", 0);
 
-        _2_name = PlayerPrefs.GetString("_2_name", "Default");
+        _2_name = PlayerPrefs.GetString("_2_name", "Default name");
         _2_lineaInici = PlayerPrefs.GetInt("_2_lineaInici", 0);
         _2_paradInici = PlayerPrefs.GetInt("_2_paradInici", 0);
         _2_lineaFinal = PlayerPrefs.GetInt("_2_lineaFinal", 0);
         _2_paradFinal = PlayerPrefs.GetInt("_2_paradFinal", 0);
 
-        _3_name = PlayerPrefs.GetString("_3_name", "Default");
+        _3_name = PlayerPrefs.GetString("_3_name", "Default name");
         _3_lineaInici = PlayerPrefs.GetInt("_3_lineaInici", 0);
         _3_paradInici = PlayerPrefs.GetInt("_3_paradInici", 0);
         _3_lineaFinal = PlayerPrefs.GetInt("_3_lineaFinal", 0);
         _3_paradFinal = PlayerPrefs.GetInt("_3_paradFinal", 0);
 
-        _4_name = PlayerPrefs.GetString("_4_name", "Default");
+        _4_name = PlayerPrefs.GetString("_4_name", "Default name");
         _4_lineaInici = PlayerPrefs.GetInt("_4_lineaInici", 0);
         _4_paradInici = PlayerPrefs.GetInt("_4_paradInici", 0);
         _4_lineaFinal = PlayerPrefs.GetInt("_4_lineaFinal", 0);
         _4_paradFinal = PlayerPrefs.GetInt("_4_paradFinal", 0);
 
-        _5_name = PlayerPrefs.GetString("_5_name", "Default");
+        _5_name = PlayerPrefs.GetString("_5_name", "Default name");
         _5_lineaInici = PlayerPrefs.GetInt("_5_lineaInici", 0);
         _5_paradInici = PlayerPrefs.GetInt("_5_paradInici", 0);
         _5_lineaFinal = PlayerPrefs.GetInt("_5_lineaFinal", 0);
@@ -164,23 +173,53 @@ public class favorites : MonoBehaviour
         }
 
 
-        TextAsset _1_paradasEnLineaPrimera = Resources.Load<TextAsset>("lineas/" + _1_lineaInici);
-        string[] _1_paradasPrimera = _1_paradasEnLineaPrimera.text.Split('\n');
-
-        TextAsset _1_paradasEnLineaFinal = Resources.Load<TextAsset>("lineas/" + _1_lineaFinal);
-        string[] _1_paradasFinal = _1_paradasEnLineaFinal.text.Split('\n');
-
         string cleanText(string texto) => texto.Split('[')[0].Trim();
 
-        fav1_text1.text = cleanText(_1_paradasPrimera[_1_paradInici].Trim()) + " <color=#BCBCBC>(línea " + _1_lineaInici + ")";
-        fav1_text2.text = cleanText(_1_paradasFinal[_1_lineaFinal].Trim()) + " <color=#BCBCBC>(línea " + _1_lineaFinal + ")";
+        if (is1stEmpty == false)
+        {
+            TextAsset _1_paradasEnLineaPrimera = Resources.Load<TextAsset>("lineas/" + _1_lineaInici);
+            string[] _1_paradasPrimera = _1_paradasEnLineaPrimera.text.Split('\n');
+
+            TextAsset _1_paradasEnLineaFinal = Resources.Load<TextAsset>("lineas/" + _1_lineaFinal);
+            string[] _1_paradasFinal = _1_paradasEnLineaFinal.text.Split('\n');
+
+            fav1_name.text = _1_name;
+            fav1_text1.text = cleanText(_1_paradasPrimera[_1_paradInici - 1].Trim()) + " <color=#BCBCBC>(línea " + _1_lineaInici + ")";
+            fav1_text2.text = cleanText(_1_paradasFinal[_1_paradFinal - 1].Trim()) + " <color=#BCBCBC>(línea " + _1_lineaFinal + ")";
+        }
+
+        if (is2ndEmpty == false)
+        {
+            TextAsset _2_paradasEnLineaPrimera = Resources.Load<TextAsset>("lineas/" + _2_lineaInici);
+            string[] _2_paradasPrimera = _2_paradasEnLineaPrimera.text.Split('\n');
+
+            TextAsset _2_paradasEnLineaFinal = Resources.Load<TextAsset>("lineas/" + _2_lineaFinal);
+            string[] _2_paradasFinal = _2_paradasEnLineaFinal.text.Split('\n');
+
+            fav2_name.text = _2_name;
+            fav2_text1.text = cleanText(_2_paradasPrimera[_2_paradInici - 1].Trim()) + " <color=#BCBCBC>(línea " + _2_lineaInici + ")";
+            fav2_text2.text = cleanText(_2_paradasFinal[_2_paradFinal - 1].Trim()) + " <color=#BCBCBC>(línea " + _2_lineaFinal + ")";
+        }
+
+        if (is3rdEmpty == false)
+        {
+            TextAsset _3_paradasEnLineaPrimera = Resources.Load<TextAsset>("lineas/" + _3_lineaInici);
+            string[] _3_paradasPrimera = _3_paradasEnLineaPrimera.text.Split('\n');
+
+            TextAsset _3_paradasEnLineaFinal = Resources.Load<TextAsset>("lineas/" + _3_lineaFinal);
+            string[] _3_paradasFinal = _3_paradasEnLineaFinal.text.Split('\n');
+
+            fav3_name.text = _3_name;
+            fav3_text1.text = cleanText(_3_paradasPrimera[_3_paradInici - 1].Trim()) + " <color=#BCBCBC>(línea " + _3_lineaInici + ")";
+            fav3_text2.text = cleanText(_3_paradasFinal[_3_paradFinal - 1].Trim()) + " <color=#BCBCBC>(línea " + _3_lineaFinal + ")";
+        }
     }
 
     public void SaveRoute(int paradaInicial, int lineaInicial, int paradaFinal, int lineaFinal)
     {
         if (is1stEmpty == true)
         {
-            _1_paradFinal = paradaInicial;
+            _1_paradInici = paradaInicial;
             _1_lineaInici = lineaInicial;
             _1_paradFinal = paradaFinal;
             _1_lineaFinal = lineaFinal;
@@ -191,7 +230,7 @@ public class favorites : MonoBehaviour
         {
             if (is2ndEmpty == true)
             {
-                _2_paradFinal = paradaInicial;
+                _2_paradInici = paradaInicial;
                 _2_lineaInici = lineaInicial;
                 _2_paradFinal = paradaFinal;
                 _2_lineaFinal = lineaFinal;
@@ -202,7 +241,7 @@ public class favorites : MonoBehaviour
             {
                 if (is3rdEmpty == true)
                 {
-                    _3_paradFinal = paradaInicial;
+                    _3_paradInici = paradaInicial;
                     _3_lineaInici = lineaInicial;
                     _3_paradFinal = paradaFinal;
                     _3_lineaFinal = lineaFinal;
@@ -213,7 +252,7 @@ public class favorites : MonoBehaviour
                 {
                     if (is4thEmpty == true)
                     {
-                        _4_paradFinal = paradaInicial;
+                        _4_paradInici = paradaInicial;
                         _4_lineaInici = lineaInicial;
                         _4_paradFinal = paradaFinal;
                         _4_lineaFinal = lineaFinal;
@@ -224,7 +263,7 @@ public class favorites : MonoBehaviour
                     {
                         if (is5thEmpty == true)
                         {
-                            _5_paradFinal = paradaInicial;
+                            _5_paradInici = paradaInicial;
                             _5_lineaInici = lineaInicial;
                             _5_paradFinal = paradaFinal;
                             _5_lineaFinal = lineaFinal;
@@ -239,6 +278,44 @@ public class favorites : MonoBehaviour
         GetEmptySlots();
         SaveDataToPlayerPrefs();
     }
+
+    public void EraseAllData()
+    {
+        _1_name = "Default name";
+        _1_lineaInici = 0;
+        _1_paradInici = 0;
+        _1_lineaFinal = 0;
+        _1_paradFinal = 0;
+
+        _2_name = "Default name";
+        _2_lineaInici = 0;
+        _2_paradInici = 0;
+        _2_lineaFinal = 0;
+        _2_paradFinal = 0;
+
+        _3_name = "Default name";
+        _3_lineaInici = 0;
+        _3_paradInici = 0;
+        _3_lineaFinal = 0;
+        _3_paradFinal = 0;
+
+        _4_name = "Default name";
+        _4_lineaInici = 0;
+        _4_paradInici = 0;
+        _4_lineaFinal = 0;
+        _4_paradFinal = 0;
+
+        _5_name = "Default name";
+        _5_lineaInici = 0;
+        _5_paradInici = 0;
+        _5_lineaFinal = 0;
+        _5_paradFinal = 0;
+
+
+        GetEmptySlots();
+        SaveDataToPlayerPrefs();
+        RefreshData();
+}
 
     void SaveDataToPlayerPrefs()
     {
@@ -299,27 +376,95 @@ public class favorites : MonoBehaviour
         }
     }
 
-    public void EditFav(int favNumber, string name)
+    public void GetEditingInfo(int favNumber)
     {
-        if (favNumber == 1)
+        isEditing = true;
+        editingNumb = favNumber;
+
+        newName.text = "";
+    }
+    public void SaveEditedContent()
+    {
+        if (editingNumb == 1)
         {
-            _1_name = name;
+            _1_name = newName.text;
+
+            if (_1_name == "<borrar>")
+            {
+                _1_name = "Default name";
+                _1_lineaInici = 0;
+                _1_paradInici = 0;
+                _1_lineaFinal = 0;
+                _1_paradFinal = 0;
+
+                GetEmptySlots();
+                SaveDataToPlayerPrefs();
+            }
         }
-        if (favNumber == 2)
+        if (editingNumb == 2)
         {
-            _2_name = name;
+            _2_name = newName.text;
+
+            if (_2_name == "<borrar>")
+            {
+                _2_name = "Default name";
+                _2_lineaInici = 0;
+                _2_paradInici = 0;
+                _2_lineaFinal = 0;
+                _2_paradFinal = 0;
+
+                GetEmptySlots();
+                SaveDataToPlayerPrefs();
+            }
         }
-        if (favNumber == 3)
+        if (editingNumb == 3)
         {
-            _3_name = name;
+            _3_name = newName.text;
+
+            if (_3_name == "<borrar>")
+            {
+                _3_name = "Default name";
+                _3_lineaInici = 0;
+                _3_paradInici = 0;
+                _3_lineaFinal = 0;
+                _3_paradFinal = 0;
+
+                GetEmptySlots();
+                SaveDataToPlayerPrefs();
+            }
         }
-        if (favNumber == 4)
+        if (editingNumb == 4)
         {
-            _4_name = name;
+            _4_name = newName.text;
+
+            if (_3_name == "<borrar>")
+            {
+                _3_name = "Default name";
+                _3_lineaInici = 0;
+                _3_paradInici = 0;
+                _3_lineaFinal = 0;
+                _3_paradFinal = 0;
+
+                GetEmptySlots();
+                SaveDataToPlayerPrefs();
+            }
         }
-        if (favNumber == 5)
+        if (editingNumb == 5)
         {
-            _5_name = name;
+            _5_name = newName.text;
+
+            if (_5_name == "<borrar>")
+            {
+                _5_name = "Default name";
+                _5_lineaInici = 0;
+                _5_paradInici = 0;
+                _5_lineaFinal = 0;
+                _5_paradFinal = 0;
+
+                GetEmptySlots();
+                SaveDataToPlayerPrefs();
+            }
         }
+        isEditing = false;
     }
 }
