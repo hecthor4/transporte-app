@@ -1,6 +1,4 @@
 using TMPro;
-using UnityEditor.PackageManager;
-using UnityEditor.U2D.Tooling.Analyzer;
 using UnityEngine;
 
 public class favorites : MonoBehaviour
@@ -79,7 +77,7 @@ public class favorites : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        _1_name = PlayerPrefs.GetString("_1_name", "Default  name");
+        _1_name = PlayerPrefs.GetString("_1_name", "Default name");
         _1_lineaInici = PlayerPrefs.GetInt("_1_lineaInici", 0);
         _1_paradInici = PlayerPrefs.GetInt("_1_paradInici", 0);
         _1_lineaFinal = PlayerPrefs.GetInt("_1_lineaFinal", 0);
@@ -110,6 +108,7 @@ public class favorites : MonoBehaviour
         _5_paradFinal = PlayerPrefs.GetInt("_5_paradFinal", 0);
 
         GetEmptySlots();
+        RefreshData();
         noRoutesError.SetActive(true);
     }
 
@@ -319,35 +318,37 @@ public class favorites : MonoBehaviour
 
     void SaveDataToPlayerPrefs()
     {
-        PlayerPrefs.SetString("_1_name", _1_name);
+        PlayerPrefs.SetString("_1_name", fav1_name.text);
         PlayerPrefs.SetInt("_1_lineaInici", _1_lineaInici);
         PlayerPrefs.SetInt("_1_paradInici", _1_paradInici);
         PlayerPrefs.SetInt("_1_lineaFinal", _1_lineaFinal);
         PlayerPrefs.SetInt("_1_paradFinal", _1_paradFinal);
 
-        PlayerPrefs.SetString("_2_name", _2_name);
+        PlayerPrefs.SetString("_2_name", fav2_name.text);
         PlayerPrefs.SetInt("_2_lineaInici", _2_lineaInici);
         PlayerPrefs.SetInt("_2_paradInici", _2_paradInici);
         PlayerPrefs.SetInt("_2_lineaFinal", _2_lineaFinal);
         PlayerPrefs.SetInt("_2_paradFinal", _2_paradFinal);
 
-        PlayerPrefs.SetString("_3_name", _3_name);
+        PlayerPrefs.SetString("_3_name", fav3_name.text);
         PlayerPrefs.SetInt("_3_lineaInici", _3_lineaInici);
         PlayerPrefs.SetInt("_3_paradInici", _3_paradInici);
         PlayerPrefs.SetInt("_3_lineaFinal", _3_lineaFinal);
         PlayerPrefs.SetInt("_3_paradFinal", _3_paradFinal);
 
-        PlayerPrefs.SetString("_4_name", _4_name);
+        PlayerPrefs.SetString("_4_name", fav4_name.text);
         PlayerPrefs.SetInt("_4_lineaInici", _4_lineaInici);
         PlayerPrefs.SetInt("_4_paradInici", _4_paradInici);
         PlayerPrefs.SetInt("_4_lineaFinal", _4_lineaFinal);
         PlayerPrefs.SetInt("_4_paradFinal", _4_paradFinal);
 
-        PlayerPrefs.SetString("_5_name", _5_name);
+        PlayerPrefs.SetString("_5_name", fav5_name.text);
         PlayerPrefs.SetInt("_5_lineaInici", _5_lineaInici);
         PlayerPrefs.SetInt("_5_paradInici", _5_paradInici);
         PlayerPrefs.SetInt("_5_lineaFinal", _5_lineaFinal);
         PlayerPrefs.SetInt("_5_paradFinal", _5_paradFinal);
+
+        PlayerPrefs.Save();
     }
 
     public void OnClick(int favNumber)
@@ -437,13 +438,13 @@ public class favorites : MonoBehaviour
         {
             _4_name = newName.text;
 
-            if (_3_name == "<borrar>")
+            if (_4_name == "<borrar>")
             {
-                _3_name = "Default name";
-                _3_lineaInici = 0;
-                _3_paradInici = 0;
-                _3_lineaFinal = 0;
-                _3_paradFinal = 0;
+                _4_name = "Default name";
+                _4_lineaInici = 0;
+                _4_paradInici = 0;
+                _4_lineaFinal = 0;
+                _4_paradFinal = 0;
 
                 GetEmptySlots();
                 SaveDataToPlayerPrefs();
