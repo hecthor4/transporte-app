@@ -1,0 +1,988 @@
+fileFormatVersion: 2
+guid: 79224480868da5f4fa569359bcdacbad
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 3750898681075091589
+    second: plano metro no fondo_0
+  - first:
+      213: -7880833124403293181
+    second: plano metro no fondo_1
+  - first:
+      213: 5477893714923598130
+    second: plano metro no fondo_2
+  - first:
+      213: 7582554381494618178
+    second: plano metro no fondo_3
+  - first:
+      213: 6277569889691358526
+    second: plano metro no fondo_4
+  - first:
+      213: 4060559297277519286
+    second: plano metro no fondo_5
+  - first:
+      213: -2427375666308178439
+    second: plano metro no fondo_6
+  - first:
+      213: -1596671568314577623
+    second: plano metro no fondo_7
+  - first:
+      213: 8574666325989975200
+    second: plano metro no fondo_8
+  - first:
+      213: -272844628864192532
+    second: plano metro no fondo_9
+  - first:
+      213: 6685619986226414873
+    second: plano metro no fondo_10
+  - first:
+      213: -6624753602260005573
+    second: plano metro no fondo_11
+  - first:
+      213: 8471990850829340033
+    second: plano metro no fondo_12
+  - first:
+      213: 3238999673556661602
+    second: plano metro no fondo_13
+  - first:
+      213: -2971039399665306421
+    second: plano metro no fondo_14
+  - first:
+      213: -933079969426621083
+    second: plano metro no fondo_15
+  - first:
+      213: 1393186059781468953
+    second: plano metro no fondo_16
+  - first:
+      213: -7891710310633561130
+    second: plano metro no fondo_17
+  - first:
+      213: -2790908766512665437
+    second: plano metro no fondo_18
+  - first:
+      213: 7374154241381486789
+    second: plano metro no fondo_19
+  - first:
+      213: 959360108315192081
+    second: plano metro no fondo_20
+  - first:
+      213: 3313757308411064381
+    second: plano metro no fondo_21
+  - first:
+      213: -2875906637456171562
+    second: plano metro no fondo_22
+  - first:
+      213: 8584468317107345198
+    second: plano metro no fondo_23
+  - first:
+      213: -5848851025683175796
+    second: plano metro no fondo_24
+  - first:
+      213: 8843308015224071819
+    second: plano metro no fondo_25
+  - first:
+      213: 8060084921579556268
+    second: plano metro no fondo_26
+  - first:
+      213: -7244492788017560505
+    second: plano metro no fondo_27
+  - first:
+      213: 4244672356363682947
+    second: plano metro no fondo_28
+  - first:
+      213: 6235101869886138535
+    second: plano metro no fondo_29
+  - first:
+      213: 1014374872480122975
+    second: plano metro no fondo_30
+  - first:
+      213: 4323828930548038140
+    second: plano metro no fondo_31
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: plano metro no fondo_0
+      rect:
+        serializedVersion: 2
+        x: 187
+        y: 89
+        width: 2806
+        height: 2948
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 58846f13a7edd0430800000000000000
+      internalID: 3750898681075091589
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: plano metro no fondo_1
+      rect:
+        serializedVersion: 2
+        x: 2214
+        y: 3037
+        width: 23
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3045fcd1708a1a290800000000000000
+      internalID: -7880833124403293181
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: plano metro no fondo_2
+      rect:
+        serializedVersion: 2
+        x: 2239
+        y: 3037
+        width: 24
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 231bd538f43650c40800000000000000
+      internalID: 5477893714923598130
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: plano metro no fondo_3
+      rect:
+        serializedVersion: 2
+        x: 2263
+        y: 2996
+        width: 173
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 248811f2905aa3960800000000000000
+      internalID: 7582554381494618178
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: plano metro no fondo_4
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 1315
+        width: 121
+        height: 107
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e35ddbffd886e1750800000000000000
+      internalID: 6277569889691358526
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: plano metro no fondo_5
+      rect:
+        serializedVersion: 2
+        x: 2984
+        y: 1419
+        width: 12
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6b5e2a7ca210a5830800000000000000
+      internalID: 4060559297277519286
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: plano metro no fondo_6
+      rect:
+        serializedVersion: 2
+        x: 2841
+        y: 1219
+        width: 171
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9fd164931ba305ed0800000000000000
+      internalID: -2427375666308178439
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: plano metro no fondo_7
+      rect:
+        serializedVersion: 2
+        x: 2989
+        y: 1195
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 92dc4ab0bab77d9e0800000000000000
+      internalID: -1596671568314577623
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: plano metro no fondo_8
+      rect:
+        serializedVersion: 2
+        x: 2990
+        y: 821
+        width: 23
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0a4e22cc7955ff670800000000000000
+      internalID: 8574666325989975200
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: plano metro no fondo_9
+      rect:
+        serializedVersion: 2
+        x: 572
+        y: 80
+        width: 659
+        height: 375
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cef2da17149a63cf0800000000000000
+      internalID: -272844628864192532
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: plano metro no fondo_10
+      rect:
+        serializedVersion: 2
+        x: 596
+        y: 79
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 915074e94f718cc50800000000000000
+      internalID: 6685619986226414873
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: plano metro no fondo_11
+      rect:
+        serializedVersion: 2
+        x: 608
+        y: 79
+        width: 12
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b3d8dccb2b52014a0800000000000000
+      internalID: -6624753602260005573
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: plano metro no fondo_12
+      rect:
+        serializedVersion: 2
+        x: 626
+        y: 80
+        width: 12
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 18dca04dace829570800000000000000
+      internalID: 8471990850829340033
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: plano metro no fondo_13
+      rect:
+        serializedVersion: 2
+        x: 637
+        y: 79
+        width: 11
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 26573f9ca0d33fc20800000000000000
+      internalID: 3238999673556661602
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: plano metro no fondo_14
+      rect:
+        serializedVersion: 2
+        x: 648
+        y: 79
+        width: 12
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bc47241486fb4c6d0800000000000000
+      internalID: -2971039399665306421
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: plano metro no fondo_15
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 80
+        width: 11
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 56d3b4326b80d03f0800000000000000
+      internalID: -933079969426621083
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: plano metro no fondo_16
+      rect:
+        serializedVersion: 2
+        x: 675
+        y: 79
+        width: 12
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 913fc470757955310800000000000000
+      internalID: 1393186059781468953
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: plano metro no fondo_17
+      rect:
+        serializedVersion: 2
+        x: 687
+        y: 79
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6d32668d8430b7290800000000000000
+      internalID: -7891710310633561130
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: plano metro no fondo_18
+      rect:
+        serializedVersion: 2
+        x: 699
+        y: 80
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3ac2d738343b449d0800000000000000
+      internalID: -2790908766512665437
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: plano metro no fondo_19
+      rect:
+        serializedVersion: 2
+        x: 705
+        y: 79
+        width: 12
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5c0db7c6632465660800000000000000
+      internalID: 7374154241381486789
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: plano metro no fondo_20
+      rect:
+        serializedVersion: 2
+        x: 716
+        y: 79
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 11baec38fe4505d00800000000000000
+      internalID: 959360108315192081
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: plano metro no fondo_21
+      rect:
+        serializedVersion: 2
+        x: 728
+        y: 79
+        width: 13
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d3032b707b4dcfd20800000000000000
+      internalID: 3313757308411064381
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: plano metro no fondo_22
+      rect:
+        serializedVersion: 2
+        x: 825
+        y: 65
+        width: 23
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6dd9c33862ab618d0800000000000000
+      internalID: -2875906637456171562
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: plano metro no fondo_23
+      rect:
+        serializedVersion: 2
+        x: 849
+        y: 65
+        width: 23
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e2757c2b378222770800000000000000
+      internalID: 8584468317107345198
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: plano metro no fondo_24
+      rect:
+        serializedVersion: 2
+        x: 908
+        y: 65
+        width: 23
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c86a9fd0bf4b4dea0800000000000000
+      internalID: -5848851025683175796
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: plano metro no fondo_25
+      rect:
+        serializedVersion: 2
+        x: 932
+        y: 65
+        width: 24
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b86abc639cdb9ba70800000000000000
+      internalID: 8843308015224071819
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: plano metro no fondo_26
+      rect:
+        serializedVersion: 2
+        x: 956
+        y: 64
+        width: 25
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cad4b32388c2bdf60800000000000000
+      internalID: 8060084921579556268
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: plano metro no fondo_27
+      rect:
+        serializedVersion: 2
+        x: 981
+        y: 66
+        width: 32
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 74485583134667b90800000000000000
+      internalID: -7244492788017560505
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: plano metro no fondo_28
+      rect:
+        serializedVersion: 2
+        x: 1014
+        y: 66
+        width: 22
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3844af4d40b18ea30800000000000000
+      internalID: 4244672356363682947
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: plano metro no fondo_29
+      rect:
+        serializedVersion: 2
+        x: 1095
+        y: 65
+        width: 23
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7a8efec9d18878650800000000000000
+      internalID: 6235101869886138535
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: plano metro no fondo_30
+      rect:
+        serializedVersion: 2
+        x: 1118
+        y: 65
+        width: 23
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f5882477298c31e00800000000000000
+      internalID: 1014374872480122975
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: plano metro no fondo_31
+      rect:
+        serializedVersion: 2
+        x: 1230
+        y: 78
+        width: 33
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cf97fd2f083510c30800000000000000
+      internalID: 4323828930548038140
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      plano metro no fondo_0: 3750898681075091589
+      plano metro no fondo_1: -7880833124403293181
+      plano metro no fondo_10: 6685619986226414873
+      plano metro no fondo_11: -6624753602260005573
+      plano metro no fondo_12: 8471990850829340033
+      plano metro no fondo_13: 3238999673556661602
+      plano metro no fondo_14: -2971039399665306421
+      plano metro no fondo_15: -933079969426621083
+      plano metro no fondo_16: 1393186059781468953
+      plano metro no fondo_17: -7891710310633561130
+      plano metro no fondo_18: -2790908766512665437
+      plano metro no fondo_19: 7374154241381486789
+      plano metro no fondo_2: 5477893714923598130
+      plano metro no fondo_20: 959360108315192081
+      plano metro no fondo_21: 3313757308411064381
+      plano metro no fondo_22: -2875906637456171562
+      plano metro no fondo_23: 8584468317107345198
+      plano metro no fondo_24: -5848851025683175796
+      plano metro no fondo_25: 8843308015224071819
+      plano metro no fondo_26: 8060084921579556268
+      plano metro no fondo_27: -7244492788017560505
+      plano metro no fondo_28: 4244672356363682947
+      plano metro no fondo_29: 6235101869886138535
+      plano metro no fondo_3: 7582554381494618178
+      plano metro no fondo_30: 1014374872480122975
+      plano metro no fondo_31: 4323828930548038140
+      plano metro no fondo_4: 6277569889691358526
+      plano metro no fondo_5: 4060559297277519286
+      plano metro no fondo_6: -2427375666308178439
+      plano metro no fondo_7: -1596671568314577623
+      plano metro no fondo_8: 8574666325989975200
+      plano metro no fondo_9: -272844628864192532
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
