@@ -4,6 +4,7 @@ public class goBack : MonoBehaviour
 {
     public GameObject main;
     public GameObject metro;
+    public GameObject renfe;
     public GameObject bus;
     public GameObject tutorial;
     public GameObject mapas;
@@ -13,6 +14,9 @@ public class goBack : MonoBehaviour
 
     public GameObject m_mapa;
     public GameObject m_all;
+
+    public GameObject r_mapa;
+    public GameObject r_all;
 
     public GameObject b_mapa;
     public GameObject b_280;
@@ -43,10 +47,19 @@ public class goBack : MonoBehaviour
 
     void GoBack()
     {
+        if (main.activeInHierarchy == true)
+        {
+            Application.Quit();
+        }
         if (metro.activeInHierarchy == true)
         {
             main.SetActive(true);
             metro.SetActive(false);
+        }
+        if (renfe.activeInHierarchy == true)
+        {
+            main.SetActive(true);
+            renfe.SetActive(false);
         }
         if (bus.activeInHierarchy == true)
         {
@@ -74,6 +87,18 @@ public class goBack : MonoBehaviour
         {
             metro.SetActive(true);
             m_all.SetActive(false);
+        }
+
+
+        if (r_mapa.activeInHierarchy == true)
+        {
+            mapas.SetActive(true);
+            r_mapa.SetActive(false);
+        }
+        if (r_all.activeInHierarchy == true)
+        {
+            renfe.SetActive(true);
+            r_all.SetActive(false);
         }
 
 

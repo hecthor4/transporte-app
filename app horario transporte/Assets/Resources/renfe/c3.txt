@@ -1,0 +1,13 @@
+Aranjuez
+Ciempozuelos
+Valdemoro
+Pinto
+Getafe-Industrial
+El Casar
+San Cristóbal Industrial
+San Cristóbal de los Ángeles
+Villaverde Bajo [C4] [C4a] [C4b]
+Madrid Atocha Cercanías [C2] [C4] [C4a] [C4b] [C5] [C7] [C8] [C8a] [C8b] [C10]
+Sol [C4] [C4a] [C4b]
+Nuevos Ministerios [C2] [C4] [C4a] [C4b] [C5] [C7] [C8] [C8a] [C8b]
+Madrid Chamartín - Clara Campoamor [C1] [C2] [C4] [C4a] [C4b] [C7] [C8] [C8a] [C8b]
