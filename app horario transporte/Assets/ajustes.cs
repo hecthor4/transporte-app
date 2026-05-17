@@ -4,28 +4,12 @@ using UnityEngine.UI;
 
 public class ajustes : MonoBehaviour
 {
+    public Slider tamaño;
     public Slider espaciado;
-    public TMP_Text m_l1;
-    public TMP_Text m_l2;
-    public TMP_Text m_l3;
-    public TMP_Text m_l4;
-    public TMP_Text m_l5;
-    public TMP_Text m_l6;
-    public TMP_Text m_l7;
-    public TMP_Text m_l8;
-    public TMP_Text m_l9;
-    public TMP_Text m_l10;
-    public TMP_Text m_l11;
-    public TMP_Text m_l12;
 
+    public VerticalLayoutGroup metroLayout;
 
     public Slider espaciadoBus;
-    public TMP_Text b_280;
-    public TMP_Text b_282;
-    public TMP_Text b_284;
-    public TMP_Text b_285;
-    public TMP_Text b_341;
-    public TMP_Text b_n203;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -42,24 +26,9 @@ public class ajustes : MonoBehaviour
 
     public void RefreshSettings()
     {
-        m_l1.lineSpacing = espaciado.value;
-        m_l2.lineSpacing = espaciado.value;
-        m_l3.lineSpacing = espaciado.value;
-        m_l4.lineSpacing = espaciado.value;
-        m_l5.lineSpacing = espaciado.value;
-        m_l6.lineSpacing = espaciado.value;
-        m_l7.lineSpacing = espaciado.value;
-        m_l8.lineSpacing = espaciado.value;
-        m_l9.lineSpacing = espaciado.value;
-        m_l10.lineSpacing = espaciado.value;
-        m_l11.lineSpacing = espaciado.value;
-        m_l12.lineSpacing = espaciado.value;
+        metro metro = FindFirstObjectByType<metro>();
+        metro.ModifyButtonHeight(Mathf.RoundToInt(tamaño.value));
 
-        b_280.lineSpacing = espaciadoBus.value;
-        b_282.lineSpacing = espaciadoBus.value;
-        b_284.lineSpacing = espaciadoBus.value;
-        b_285.lineSpacing = espaciadoBus.value;
-        b_341.lineSpacing = espaciadoBus.value;
-        b_n203.lineSpacing = espaciadoBus.value;
+        metroLayout.spacing = espaciado.value;
     }
 }

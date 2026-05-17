@@ -1,9 +1,20 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class bus : MonoBehaviour
 {
+    //iterar lista
+    public GameObject bus_info;
+    public GameObject bus_info_emt;
+    public GameObject iteratedParent;
+
+    public TMP_InputField search;
+    private List<GameObject> elementsInList = new List<GameObject>();
+
+
+    //iterar paradas
     public TMP_Text busLinea;
 
     public GameObject ciudadPrefab;
@@ -20,7 +31,7 @@ public class bus : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        IterateList();
     }
 
     // Update is called once per frame
@@ -32,6 +43,68 @@ public class bus : MonoBehaviour
     public void OpenLink(string link)
     {
         Application.OpenURL(link);
+    }
+
+    public void Search()
+    {
+        string searchText = search.text.ToString();
+
+        foreach (GameObject item in elementsInList)
+        {
+            TMP_Text itemText = item.GetComponentInChildren<TMP_Text>();
+
+            bool matches = itemText.text.ToLower().Contains(searchText);
+            item.SetActive(matches);
+        }
+    }
+
+    void IterateList()
+    {
+        //buses emt
+        TextAsset todosLosNumerosDeLineas_emt = Resources.Load<TextAsset>("buses/iterar/bus11_emt");
+        string[] numerosLineas_emt = todosLosNumerosDeLineas_emt.text.Trim().Split('\n');
+
+        TextAsset todasLasParadasDeLineas_emt = Resources.Load<TextAsset>("buses/iterar/bus12_emt");
+        string[] paradasLineas_emt = todasLasParadasDeLineas_emt.text.Trim().Split('\n');
+
+        for (int i = 0; i < numerosLineas_emt.Length; i++)
+        {
+            GameObject iterated = Instantiate(bus_info_emt, new Vector3(0, 0, 0), Quaternion.identity, iteratedParent.transform);
+            iterated.name = "emt_" + numerosLineas_emt[i];
+
+            TMP_Text nombreLinea = iterated.transform.Find("nombre").GetComponent<TMP_Text>();
+            TMP_Text infoLinea = iterated.transform.Find("info").GetComponent<TMP_Text>();
+
+            nombreLinea.text = "EMT " + numerosLineas_emt[i];
+            infoLinea.text = paradasLineas_emt[i];
+        }
+
+
+
+        //buses interurbanos
+        TextAsset todosLosNumerosDeLineas = Resources.Load<TextAsset>("buses/iterar/bus11");
+        string[] numerosLineas = todosLosNumerosDeLineas.text.Trim().Split('\n');
+
+        TextAsset todasLasParadasDeLineas = Resources.Load<TextAsset>("buses/iterar/bus12");
+        string[] paradasLineas = todasLasParadasDeLineas.text.Trim().Split('\n');
+
+        for (int i = 0; i < numerosLineas.Length; i++)
+        {
+            GameObject iterated = Instantiate(bus_info, new Vector3(0, 0, 0), Quaternion.identity, iteratedParent.transform);
+            iterated.name = numerosLineas[i];
+
+            TMP_Text nombreLinea = iterated.transform.Find("nombre").GetComponent<TMP_Text>();
+            TMP_Text infoLinea = iterated.transform.Find("info").GetComponent<TMP_Text>();
+
+            nombreLinea.text = numerosLineas[i];
+            infoLinea.text = paradasLineas[i];
+        }
+
+        //añadir a la lista para buscar
+        foreach (Transform child in iteratedParent.transform)
+        {
+            elementsInList.Add(child.gameObject);
+        }
     }
 
     public void Iterate(int linea)

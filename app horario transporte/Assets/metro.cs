@@ -1,3 +1,4 @@
+using NUnit.Framework.Internal.Builders;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -6,6 +7,7 @@ public class metro : MonoBehaviour
 {
     public TMP_Text metroLinea;
 
+    public int metroButtonHeight;
     public GameObject parada1;
     public GameObject parada2;
     public GameObject parada3;
@@ -145,7 +147,7 @@ public class metro : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
+        metroButtonHeight = 85;
     }
 
     // Update is called once per frame
@@ -420,11 +422,20 @@ public class metro : MonoBehaviour
         for (int i = 0; i < paradas.Length; i++)
         {
             paradasObj[i].SetActive(true);
+
+            RectTransform rt = paradasObj[i].GetComponent<RectTransform>();
+            rt.sizeDelta = new Vector2(rt.sizeDelta.x, metroButtonHeight);
+
             paradasTexts[i].text = paradas[i].Trim();
         }
         for (int i = paradas.Length; i < 40; i++)
         {
             paradasObj[i].SetActive(false);
         }
+    }
+
+    public void ModifyButtonHeight(int newHeight)
+    {
+        metroButtonHeight = newHeight;
     }
 }

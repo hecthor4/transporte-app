@@ -19,12 +19,7 @@ public class goBack : MonoBehaviour
     public GameObject r_all;
 
     public GameObject b_mapa;
-    public GameObject b_280;
-    public GameObject b_282;
-    public GameObject b_284;
-    public GameObject b_285;
-    public GameObject b_341;
-    public GameObject b_n203;
+    public GameObject b_all;
 
     public GameObject ma_mapa;
 
@@ -107,35 +102,10 @@ public class goBack : MonoBehaviour
             mapas.SetActive(true);
             b_mapa.SetActive(false);
         }
-        if (b_280.activeInHierarchy == true)
+        if (b_all.activeInHierarchy == true)
         {
             bus.SetActive(true);
-            b_280.SetActive(false);
-        }
-        if (b_282.activeInHierarchy == true)
-        {
-            bus.SetActive(true);
-            b_282.SetActive(false);
-        }
-        if (b_284.activeInHierarchy == true)
-        {
-            bus.SetActive(true);
-            b_284.SetActive(false);
-        }
-        if (b_285.activeInHierarchy == true)
-        {
-            bus.SetActive(true);
-            b_285.SetActive(false);
-        }
-        if (b_341.activeInHierarchy == true)
-        {
-            bus.SetActive(true);
-            b_341.SetActive(false);
-        }
-        if (b_n203.activeInHierarchy == true)
-        {
-            bus.SetActive(true);
-            b_n203.SetActive(false);
+            b_all.SetActive(false);
         }
 
 
