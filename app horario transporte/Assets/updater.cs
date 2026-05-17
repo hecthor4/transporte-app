@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class updater : MonoBehaviour
 {
+    public TMP_Text licenciaInfo;
+
     public GameObject updateMenu;
     public TMP_InputField input;
 
@@ -30,6 +32,16 @@ public class updater : MonoBehaviour
         {
 
         }
+
+        Refresh();
+    }
+
+    void Refresh()
+    {
+        DateTime now = DateTime.Now;
+        DateTime caduca = new DateTime(now.Year, now.Month, 1).AddMonths(1);
+
+        licenciaInfo.text = "Esta licencia caduca en " + (caduca - now).Days + " días.";
     }
 
     public void Check()

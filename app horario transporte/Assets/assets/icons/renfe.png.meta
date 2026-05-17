@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: ed47c99453dde204b9cab3e342b1ce73
+guid: cb5a3da5e91dae54cb695ba23ad8abca
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6996865049558708783
-    second: paper bin icon_0
+      213: 5764264711223102188
+    second: renfe_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -109,17 +109,43 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: paper bin icon_0
+      name: renfe_0
       rect:
         serializedVersion: 2
-        x: 55
+        x: 0
         y: 0
-        width: 402
-        height: 512
+        width: 200
+        height: 200
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +154,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f22fa4c01bbd91160800000000000000
-      internalID: 6996865049558708783
+      spriteID: ceac5c7e638ceff40800000000000000
+      internalID: 5764264711223102188
       vertices: []
       indices: 
       edges: []
@@ -148,7 +174,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      paper bin icon_0: 6996865049558708783
+      renfe_0: 5764264711223102188
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
