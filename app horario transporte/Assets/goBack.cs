@@ -46,89 +46,89 @@ public class goBack : MonoBehaviour
         {
             Application.Quit();
         }
-        if (metro.activeInHierarchy == true)
+        else if (metro.activeInHierarchy == true)
         {
             main.SetActive(true);
             metro.SetActive(false);
         }
-        if (renfe.activeInHierarchy == true)
+        else if (renfe.activeInHierarchy == true)
         {
             main.SetActive(true);
             renfe.SetActive(false);
         }
-        if (bus.activeInHierarchy == true)
+        else if (bus.activeInHierarchy == true)
         {
             main.SetActive(true);
             bus.SetActive(false);
         }
-        if (tutorial.activeInHierarchy == true)
+        else if (tutorial.activeInHierarchy == true)
         {
             main.SetActive(true);
             tutorial.SetActive(false);
         }
-        if (mapas.activeInHierarchy == true)
+        else if (mapas.activeInHierarchy == true)
         {
             main.SetActive(true);
             mapas.SetActive(false);
         }
 
 
-        if (m_mapa.activeInHierarchy == true)
+        else if (m_mapa.activeInHierarchy == true)
         {
             mapas.SetActive(true);
             m_mapa.SetActive(false);
         }
-        if (m_all.activeInHierarchy == true)
+        else if (m_all.activeInHierarchy == true)
         {
             metro.SetActive(true);
             m_all.SetActive(false);
         }
 
 
-        if (r_mapa.activeInHierarchy == true)
+        else if (r_mapa.activeInHierarchy == true)
         {
             mapas.SetActive(true);
             r_mapa.SetActive(false);
         }
-        if (r_all.activeInHierarchy == true)
+        else if (r_all.activeInHierarchy == true)
         {
             renfe.SetActive(true);
             r_all.SetActive(false);
         }
 
 
-        if (b_mapa.activeInHierarchy == true)
+        else if (b_mapa.activeInHierarchy == true)
         {
             mapas.SetActive(true);
             b_mapa.SetActive(false);
         }
-        if (b_all.activeInHierarchy == true)
+        else if (b_all.activeInHierarchy == true)
         {
             bus.SetActive(true);
             b_all.SetActive(false);
         }
 
 
-        if (r_favs.activeInHierarchy == true)
+        else if (r_favs.activeInHierarchy == true)
         {
             main.SetActive(true);
             r_favs.SetActive(false);
         }
-        if (r_nuevo.activeInHierarchy == true)
+        else if (r_nuevo.activeInHierarchy == true)
         {
             main.SetActive(true);
             r_nuevo.SetActive(false);
         }
 
 
-        if (ma_mapa.activeInHierarchy == true)
+        else if (ma_mapa.activeInHierarchy == true)
         {
             mapas.SetActive(true);
             ma_mapa.SetActive(false);
         }
 
 
-        if (changelog.activeInHierarchy == true)
+        else if (changelog.activeInHierarchy == true)
         {
             main.SetActive(true);
             changelog.SetActive(false);
