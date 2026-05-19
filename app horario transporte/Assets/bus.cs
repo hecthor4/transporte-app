@@ -5,6 +5,11 @@ using UnityEngine.UI;
 
 public class bus : MonoBehaviour
 {
+    //escena
+    public GameObject busParent;
+    public GameObject busLineParent;
+
+
     //iterar lista
     public GameObject bus_info;
     public GameObject bus_info_emt;
@@ -58,6 +63,22 @@ public class bus : MonoBehaviour
         }
     }
 
+    void OpenLineInfo(string line)
+    {
+        busParent.SetActive(false);
+        busLineParent.SetActive(true);
+
+        string cleanText(string texto) => texto.Replace("emt_", "").Trim();
+        if (line.Contains("_"))
+        {
+            busLinea.text = "EMT " + cleanText(line);
+        }
+        else
+        {
+            busLinea.text = cleanText(line);
+        }
+    }
+
     void IterateList()
     {
         //buses emt
@@ -74,6 +95,11 @@ public class bus : MonoBehaviour
 
             TMP_Text nombreLinea = iterated.transform.Find("nombre").GetComponent<TMP_Text>();
             TMP_Text infoLinea = iterated.transform.Find("info").GetComponent<TMP_Text>();
+
+            Button button = iterated.transform.GetComponent<Button>();
+            button.onClick.RemoveAllListeners();
+            string lineName = iterated.name;
+            button.onClick.AddListener(() => OpenLineInfo(lineName));
 
             nombreLinea.text = "EMT " + numerosLineas_emt[i];
             infoLinea.text = paradasLineas_emt[i];
@@ -95,6 +121,11 @@ public class bus : MonoBehaviour
 
             TMP_Text nombreLinea = iterated.transform.Find("nombre").GetComponent<TMP_Text>();
             TMP_Text infoLinea = iterated.transform.Find("info").GetComponent<TMP_Text>();
+
+            Button button = iterated.transform.GetComponent<Button>();
+            button.onClick.RemoveAllListeners();
+            string lineName = iterated.name;
+            button.onClick.AddListener(() => OpenLineInfo(lineName));
 
             nombreLinea.text = numerosLineas[i];
             infoLinea.text = paradasLineas[i];

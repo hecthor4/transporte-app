@@ -103008,6 +103008,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f6f77a4ff04ac54c8ee10531b4177fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::bus
+  busParent: {fileID: 208665449}
+  busLineParent: {fileID: 1462631123}
   bus_info: {fileID: 6202030094841721681, guid: 3a84c16b7d6d36b45b1c1685019c1264, type: 3}
   bus_info_emt: {fileID: 6202030094841721681, guid: fc6c427e33ca92e4e956d3d1e3d316ad, type: 3}
   iteratedParent: {fileID: 301194554}
