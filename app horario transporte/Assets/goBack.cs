@@ -13,6 +13,7 @@ public class goBack : MonoBehaviour
     public GameObject r_favs;
 
     public GameObject m_mapa;
+    public GameObject m_settings;
     public GameObject m_all;
 
     public GameObject r_mapa;
@@ -82,6 +83,11 @@ public class goBack : MonoBehaviour
         {
             metro.SetActive(true);
             m_all.SetActive(false);
+        }
+        else if (m_settings.activeInHierarchy == true)
+        {
+            metro.SetActive(true);
+            m_settings.SetActive(false);
         }
 
 
