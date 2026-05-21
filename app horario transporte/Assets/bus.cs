@@ -9,6 +9,9 @@ public class bus : MonoBehaviour
     public GameObject busParent;
     public GameObject busLineParent;
 
+    public GameObject d1_parent;
+    public GameObject d2_parent;
+
 
     //iterar lista
     public GameObject bus_info;
@@ -67,7 +70,10 @@ public class bus : MonoBehaviour
     {
         busParent.SetActive(false);
         busLineParent.SetActive(true);
+        Debug.Log(line);
 
+
+        //info nombre texto arriba
         string cleanText(string texto) => texto.Replace("emt_", "").Trim();
         if (line.Contains("_"))
         {
@@ -76,6 +82,60 @@ public class bus : MonoBehaviour
         else
         {
             busLinea.text = cleanText(line);
+        }
+
+        OpenAndLoadDirection(line, "1", d1_parent.transform);
+        OpenAndLoadDirection(line, "2", d2_parent.transform);
+    }
+
+    void OpenAndLoadDirection(string line, string dir, Transform parentTransform) //esto antes no estaba
+    {
+        //coger paradas iterar
+        string dir = "1";
+
+        TextAsset lineaSentido1Codigo_raw = Resources.Load<TextAsset>("buses/paradas/" + line + "/" + line + "_dir" + dir + "_co");
+        string[] lineaSentido1Codigo = lineaSentido1Codigo_raw.text.Trim().Split('\n');
+
+        TextAsset lineaSentido1Municipio_raw = Resources.Load<TextAsset>("buses/paradas/" + line + "/" + line + "_dir" + dir + "_mu");
+        string[] lineaSentido1Municipio = lineaSentido1Municipio_raw.text.Trim().Split('\n');
+
+        TextAsset lineaSentido1Paradas_raw = Resources.Load<TextAsset>("buses/paradas/" + line + "/" + line + "_dir" + dir + "_pa");
+        string[] lineaSentido1Paradas = lineaSentido1Paradas_raw.text.Trim().Split('\n');
+
+        TextAsset lineaSentido1Conexion_raw = Resources.Load<TextAsset>("buses/paradas/" + line + "/" + line + "_dir" + dir + "_tr");     //"tr" por transbordo,
+        string[] lineaSentido1Conexion = lineaSentido1Conexion_raw.text.Trim().Split('\n');                                               //"co" estaba pillado.
+
+
+        dir = "2";
+
+        TextAsset lineaSentido2Codigo_raw = Resources.Load<TextAsset>("buses/paradas/" + line + "/" + line + "_dir" + dir + "_co");
+        string[] lineaSentido2Codigo = lineaSentido2Codigo_raw.text.Trim().Split('\n');
+
+        TextAsset lineaSentido2Municipio_raw = Resources.Load<TextAsset>("buses/paradas/" + line + "/" + line + "_dir" + dir + "_mu");
+        string[] lineaSentido2Municipio = lineaSentido2Municipio_raw.text.Trim().Split('\n');
+
+        TextAsset lineaSentido2Paradas_raw = Resources.Load<TextAsset>("buses/paradas/" + line + "/" + line + "_dir" + dir + "_pa");
+        string[] lineaSentido2Paradas = lineaSentido2Paradas_raw.text.Trim().Split('\n');
+
+        TextAsset lineaSentido2Conexion_raw = Resources.Load<TextAsset>("buses/paradas/" + line + "/" + line + "_dir" + dir + "_tr");
+        string[] lineaSentido2Conexion = lineaSentido2Conexion_raw.text.Trim().Split('\n');
+
+
+        //paradas iterar en texto
+        for (int i = 0; i < lineaSentido2Municipio.Length - 1; i++)
+        {
+            if (lineaSentido2Municipio[i + 1] != lineaSentido2Municipio[i])
+            {
+                GameObject iterated = Instantiate(ciudadPrefab, new Vector3(0, 0, 0), Quaternion.identity, d2_parent.transform);
+                TMP_Text nombreParada = iterated.transform.Find("nombre").GetComponent<TMP_Text>();
+                nombreParada.text = lineaSentido2Municipio[i - 1];
+            }
+            if (lineaSentido2Municipio.Length > 0)
+            {
+                GameObject iterated = Instantiate(ciudadPrefab, new Vector3(0, 0, 0), Quaternion.identity, d2_parent.transform);
+                TMP_Text nombreParada = iterated.transform.Find("nombre").GetComponent<TMP_Text>();
+                nombreParada.text = lineaSentido2Municipio[i - 1];
+            }
         }
     }
 
@@ -138,7 +198,11 @@ public class bus : MonoBehaviour
         }
     }
 
-    public void Iterate(int linea)
+
+
+
+    //depricado. usar OpenLineInfo
+    public void Iterate76767676767676(int linea)
     {
         busLinea.text = "Línea " + linea;
 
