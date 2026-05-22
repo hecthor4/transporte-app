@@ -9,8 +9,11 @@ public class bus : MonoBehaviour
     public GameObject busParent;
     public GameObject busLineParent;
 
-    public GameObject d1_parent;
-    public GameObject d2_parent;
+    public TMP_Text direccion1;
+    public TMP_Text direccion2;
+
+    public RectTransform d1_parent;
+    public RectTransform d2_parent;
 
 
     //iterar lista
@@ -35,6 +38,8 @@ public class bus : MonoBehaviour
     public Button linea_enlace_button;
 
     public GameObject ciudadParent;
+    public GameObject paradaButton;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -84,59 +89,87 @@ public class bus : MonoBehaviour
             busLinea.text = cleanText(line);
         }
 
-        OpenAndLoadDirection(line, "1", d1_parent.transform);
-        OpenAndLoadDirection(line, "2", d2_parent.transform);
+        OpenAndLoadDirection(line, "1", d1_parent);
+        OpenAndLoadDirection(line, "2", d2_parent);
     }
 
-    void OpenAndLoadDirection(string line, string dir, Transform parentTransform) //esto antes no estaba
+    void OpenAndLoadDirection(string line, string dir, RectTransform parentTransform)
     {
+        string basePath = "buses/paradas/" + line.Trim() + "/" + line.Trim() + "_dir" + dir.Trim();
+        Debug.Log(basePath);
+
         //coger paradas iterar
-        string dir = "1";
+        TextAsset codigoRaw = Resources.Load<TextAsset>(basePath + "_co");
+        if (codigoRaw == null) { Debug.Log("no hay"); }
+        string[] codigos = codigoRaw.text.Trim().Split('\n');
 
-        TextAsset lineaSentido1Codigo_raw = Resources.Load<TextAsset>("buses/paradas/" + line + "/" + line + "_dir" + dir + "_co");
-        string[] lineaSentido1Codigo = lineaSentido1Codigo_raw.text.Trim().Split('\n');
+        TextAsset municipioRaw = Resources.Load<TextAsset>(basePath + "_mu");
+        if (municipioRaw == null) { Debug.Log("no hay"); }
+        string[] municipios = municipioRaw.text.Trim().Split('\n');
 
-        TextAsset lineaSentido1Municipio_raw = Resources.Load<TextAsset>("buses/paradas/" + line + "/" + line + "_dir" + dir + "_mu");
-        string[] lineaSentido1Municipio = lineaSentido1Municipio_raw.text.Trim().Split('\n');
+        TextAsset paradaRaw = Resources.Load<TextAsset>(basePath + "_pa");
+        if (paradaRaw == null) { Debug.Log("no hay"); }
+        string[] paradas = paradaRaw.text.Trim().Split('\n');
 
-        TextAsset lineaSentido1Paradas_raw = Resources.Load<TextAsset>("buses/paradas/" + line + "/" + line + "_dir" + dir + "_pa");
-        string[] lineaSentido1Paradas = lineaSentido1Paradas_raw.text.Trim().Split('\n');
+        TextAsset conexionRaw = Resources.Load<TextAsset>(basePath + "_tr");     //"tr" por transbordo,
+        if (conexionRaw == null) { Debug.Log("no hay"); }
+        string[] lineaSentido1Conexion = conexionRaw.text.Trim().Split('\n');    //"co" estaba pillado.
 
-        TextAsset lineaSentido1Conexion_raw = Resources.Load<TextAsset>("buses/paradas/" + line + "/" + line + "_dir" + dir + "_tr");     //"tr" por transbordo,
-        string[] lineaSentido1Conexion = lineaSentido1Conexion_raw.text.Trim().Split('\n');                                               //"co" estaba pillado.
-
-
-        dir = "2";
-
-        TextAsset lineaSentido2Codigo_raw = Resources.Load<TextAsset>("buses/paradas/" + line + "/" + line + "_dir" + dir + "_co");
-        string[] lineaSentido2Codigo = lineaSentido2Codigo_raw.text.Trim().Split('\n');
-
-        TextAsset lineaSentido2Municipio_raw = Resources.Load<TextAsset>("buses/paradas/" + line + "/" + line + "_dir" + dir + "_mu");
-        string[] lineaSentido2Municipio = lineaSentido2Municipio_raw.text.Trim().Split('\n');
-
-        TextAsset lineaSentido2Paradas_raw = Resources.Load<TextAsset>("buses/paradas/" + line + "/" + line + "_dir" + dir + "_pa");
-        string[] lineaSentido2Paradas = lineaSentido2Paradas_raw.text.Trim().Split('\n');
-
-        TextAsset lineaSentido2Conexion_raw = Resources.Load<TextAsset>("buses/paradas/" + line + "/" + line + "_dir" + dir + "_tr");
-        string[] lineaSentido2Conexion = lineaSentido2Conexion_raw.text.Trim().Split('\n');
-
+        //direccion texto
+        if (dir == "1") { direccion1.text = municipios[municipios.Length - 1]; }
+        if (dir == "2") { direccion2.text = municipios[municipios.Length - 1]; }
 
         //paradas iterar en texto
-        for (int i = 0; i < lineaSentido2Municipio.Length - 1; i++)
+        string currentMunicipio = null;
+        GameObject currentCiudadObj = null;
+
+        for (int i = 0; i < municipios.Length; i++)
         {
-            if (lineaSentido2Municipio[i + 1] != lineaSentido2Municipio[i])
+            string municipio = municipios[i];
+            string parada = paradas[i];
+
+            if (municipio != currentMunicipio)
             {
-                GameObject iterated = Instantiate(ciudadPrefab, new Vector3(0, 0, 0), Quaternion.identity, d2_parent.transform);
-                TMP_Text nombreParada = iterated.transform.Find("nombre").GetComponent<TMP_Text>();
-                nombreParada.text = lineaSentido2Municipio[i - 1];
+                currentMunicipio = municipio;
+                currentCiudadObj = Instantiate(ciudadPrefab, new Vector3(0, 0, 0), Quaternion.identity, parentTransform);
+                TMP_Text nombreCiudad = currentCiudadObj.transform.Find("nombre").GetComponent<TMP_Text>();
+                nombreCiudad.text = municipio;
             }
-            if (lineaSentido2Municipio.Length > 0)
+
+            GameObject buttonParent = currentCiudadObj.transform.Find("box").gameObject;
+
+            GameObject iteratedButton = Instantiate(paradaButton, new Vector3(0, 0, 0), Quaternion.identity, buttonParent.transform);
+            TMP_Text nombreParada = iteratedButton.GetComponent<TMP_Text>();
+            nombreParada.text = parada;
+        }
+
+
+        /*
+        for (int i = 0; i < municipios.Length - 1; i++)
+        {
+            if (i == 0 || municipios[i] != municipios[i - 1])
             {
-                GameObject iterated = Instantiate(ciudadPrefab, new Vector3(0, 0, 0), Quaternion.identity, d2_parent.transform);
-                TMP_Text nombreParada = iterated.transform.Find("nombre").GetComponent<TMP_Text>();
-                nombreParada.text = lineaSentido2Municipio[i - 1];
+                GameObject iterated = Instantiate(ciudadPrefab, new Vector3(0, 0, 0), Quaternion.identity, parentTransform);
+                TMP_Text nombreCiudad = iterated.transform.Find("nombre").GetComponent<TMP_Text>();
+                nombreCiudad.text = municipios[i];
+
+                for (int j = 0; j < paradas.Length; j++)
+                {
+                    if (j == 0 || municipios[j] == municipios[j - 1])
+                    {
+                        if (municipios[j] == municipios[i])
+                        {
+                            GameObject buttonParent = iterated.transform.Find("box").gameObject;
+
+                            GameObject iteratedButton = Instantiate(paradaButton, new Vector3(0, 0, 0), Quaternion.identity, buttonParent.transform);
+                            TMP_Text nombreParada = iteratedButton.transform.Find("box").GetComponent<TMP_Text>();
+                            nombreParada.text = paradas[j];
+                        }
+                    }
+                }
             }
         }
+        */
     }
 
     void IterateList()
