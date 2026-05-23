@@ -9,11 +9,18 @@ public class bus : MonoBehaviour
     public GameObject busParent;
     public GameObject busLineParent;
 
+
     public TMP_Text direccion1;
     public TMP_Text direccion2;
 
     public RectTransform d1_parent;
     public RectTransform d2_parent;
+
+    public bool isDir1Shown;
+    public bool isDir2Shown;
+
+    public GameObject dir1Obj;
+    public GameObject dir2Obj;
 
 
     //iterar lista
@@ -41,10 +48,23 @@ public class bus : MonoBehaviour
     public GameObject paradaButton;
 
 
+    //selection
+    public GameObject selection;
+    public TMP_Text se_paradaName;
+    public GameObject se_corresObj;
+    public TMP_Text se_corresText;
+    public GameObject se_trObj;
+    public TMP_Text se_trText;
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         IterateList();
+
+
+        //debug
+        //OpenLineInfo("284");
     }
 
     // Update is called once per frame
@@ -56,6 +76,35 @@ public class bus : MonoBehaviour
     public void OpenLink(string link)
     {
         Application.OpenURL(link);
+    }
+
+    public void ToggleDirectionVisibility(string dir)
+    {
+        if (dir == "1")
+        {
+            isDir1Shown = !isDir1Shown;
+            dir1Obj.SetActive(isDir1Shown);
+        }
+        if (dir == "2")
+        {
+            isDir2Shown = !isDir2Shown;
+            dir2Obj.SetActive(isDir2Shown);
+        }
+    }
+
+    public void GoBack()
+    {
+        //borrar paradas de antes
+        for (int i = 0; i < d1_parent.childCount; i++)
+        {
+            GameObject child = d1_parent.GetChild(i).gameObject;
+            Destroy(child);
+        }
+        for (int i = 0; i < d2_parent.childCount; i++)
+        {
+            GameObject child = d2_parent.GetChild(i).gameObject;
+            Destroy(child);
+        }
     }
 
     public void Search()
@@ -116,13 +165,44 @@ public class bus : MonoBehaviour
         string[] lineaSentido1Conexion = conexionRaw.text.Trim().Split('\n');    //"co" estaba pillado.
 
         //direccion texto
-        if (dir == "1") { direccion1.text = municipios[municipios.Length - 1]; }
-        if (dir == "2") { direccion2.text = municipios[municipios.Length - 1]; }
+        if (dir == "1") { direccion1.text = "Dirección " + municipios[municipios.Length - 1]; }
+        if (dir == "2") { direccion2.text = "Dirección " + municipios[municipios.Length - 1]; }
 
         //paradas iterar en texto
         string currentMunicipio = null;
         GameObject currentCiudadObj = null;
 
+        for (int i = 0; i < municipios.Length; i++)
+        {
+            string municipio = municipios[i].Trim();
+            string parada = paradas[i].Trim();
+
+            if (municipio != currentMunicipio)
+            {
+                currentMunicipio = municipio;
+                currentCiudadObj = Instantiate(ciudadPrefab, parentTransform);
+
+                TMP_Text nombreCiudad = currentCiudadObj.transform.Find("nombre").GetComponent<TMP_Text>();
+                nombreCiudad.text = municipio;
+            }
+
+            Transform buttonParent = currentCiudadObj.transform.Find("box");
+
+            if (buttonParent != null)
+            {
+                GameObject iteratedButton = Instantiate(paradaButton, buttonParent);
+
+                TMP_Text nombreParada = iteratedButton.GetComponentInChildren<TMP_Text>();
+
+                if (nombreParada != null)
+                {
+                    nombreParada.text = parada;
+                }
+            }
+        }
+
+
+        /*
         for (int i = 0; i < municipios.Length; i++)
         {
             string municipio = municipios[i];
@@ -142,6 +222,7 @@ public class bus : MonoBehaviour
             TMP_Text nombreParada = iteratedButton.GetComponent<TMP_Text>();
             nombreParada.text = parada;
         }
+        */
 
 
         /*
@@ -170,6 +251,34 @@ public class bus : MonoBehaviour
             }
         }
         */
+    }
+
+    public void OnParadaButtonClick(string paradaID, string dir)
+    {
+        string line = busLinea.text;
+        string basePath = "buses/paradas/" + line.Trim() + "/" + line.Trim() + "_dir" + dir.Trim();
+
+        TextAsset paradaRaw = Resources.Load<TextAsset>(basePath + "_pa");
+        if (paradaRaw == null) { Debug.Log("no hay"); }
+        string[] paradas = paradaRaw.text.Trim().Split('\n');
+
+        TextAsset conexionRaw = Resources.Load<TextAsset>(basePath + "_tr");
+        if (conexionRaw == null) { Debug.Log("no hay"); }
+        string[] conexion = conexionRaw.text.Trim().Split('\n');
+
+
+        se_paradaName.text = paradas[int.Parse(paradaID)];
+
+
+        if (conexion[int.Parse(paradaID)] != "" || conexion[int.Parse(paradaID)] != null)
+        {
+            se_corresObj.SetActive(true);
+            se_corresText.text = conexion[int.Parse(paradaID)];
+        }
+        else
+        {
+            se_corresObj.SetActive(false);
+        }
     }
 
     void IterateList()
