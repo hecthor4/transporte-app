@@ -1,0 +1,44 @@
+Bronce - Platino
+Bronce - Pol. Ind. Gestesa
+Roa - Pol. Ind. Prado Concejil
+Derbi - Roa
+Ctra. M-206 - Pol. Ind. El Caballo
+Pza. Villa - Ayuntamiento
+Av. Constitución - Virgen de las Angustias
+Av. Constitución - Pza. Fuente Amarga
+Roma - Ámsterdam
+Ctra. M-217 - Subestación Eléctrica
+Ctra. M-217 - Centro de Evangelización
+Ctra. M-217 - Finca La Linde
+Dr. Enrique Alcorta - Belmonte
+Antonio Palacios - Mayor
+Olivar - Instituto
+Av. Ilustración - Paz Camacho
+Av. Ilustración - Parque Doña Catalina
+Federico García Lorca - Olivar
+Federico García Lorca - Mirlos
+Ctra. M-208 - La Raya
+Duero - Portugal
+Duero - Castilla
+Castilla - Polígono Industrial
+Av. Juan Gris - Pirineos
+Av. Juan Gris - Francisco de Goya
+Av. Juan Gris - Miguel Hernández
+Av. Concordia - Ciudad de Atenas
+Av. Concordia - Trébol
+Ctra. M-203 - Lavandería
+Ctra. M-203 - Viveros
+Ctra. M-206 - Palacio El Negralejo
+Av. Martin Luther King - Igualdad
+Ctra. Mejorada - Est. Henares
+Ctra. Mejorada - Av. San Sebastián
+Av. Enrique Tierno Galván - P.º Oria
+Av. José Hierro - Urgencias
+Av. Marie Curie - Hospital del Henares
+Av. Isabel Torres - Cañada
+Honduras - Comisaría
+Honduras - Centro Comercial
+Méjico - Est. La Rambla
+Av. España - Centro de Salud
+Av. España - Las Conejeras
+Av. España - Zoco Coslada

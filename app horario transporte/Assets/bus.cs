@@ -1,6 +1,8 @@
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 
 public class bus : MonoBehaviour
@@ -262,24 +264,71 @@ public class bus : MonoBehaviour
         if (paradaRaw == null) { Debug.Log("no hay"); }
         string[] paradas = paradaRaw.text.Trim().Split('\n');
 
+        TextAsset codigoRaw = Resources.Load<TextAsset>(basePath + "_co");
+        if (codigoRaw == null) { Debug.Log("no hay"); }
+        string[] codigos = codigoRaw.text.Trim().Split('\n');
+
         TextAsset conexionRaw = Resources.Load<TextAsset>(basePath + "_tr");
         if (conexionRaw == null) { Debug.Log("no hay"); }
         string[] conexion = conexionRaw.text.Trim().Split('\n');
 
+        int index = int.Parse(paradaID);
+        string codigoParada = codigos[index].Trim();
 
-        se_paradaName.text = paradas[int.Parse(paradaID)];
+
+        se_paradaName.text = paradas[index];
 
 
-        if (conexion[int.Parse(paradaID)] != "" || conexion[int.Parse(paradaID)] != null)
+        if (conexion[index] != "" || conexion[index] != null)
         {
             se_corresObj.SetActive(true);
-            se_corresText.text = conexion[int.Parse(paradaID)];
+            se_corresText.text = conexion[index];
         }
         else
         {
             se_corresObj.SetActive(false);
         }
+
+        StartCoroutine(GetRealTimeBusArrival(codigoParada, line));
     }
+
+    IEnumerator GetRealTimeBusArrival(string codigoParada, string lineID)
+    {
+        string url = "https://openapi.emtmadrid.es/v2/transport/buses/stations/" + codigoParada + "/arrivals";
+
+        string jsonBody = "{\"line\":\"" + lineID + "\",\"timeDate\":\"\"}";
+        byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(jsonBody);
+
+        using (UnityWebRequest webRequest = new UnityWebRequest(url))
+        { 
+            webRequest.uploadHandler = new UploadHandlerRaw(bodyRaw);
+            webRequest.downloadHandler = new DownloadHandlerBuffer();
+
+            webRequest.SetRequestHeader("Content-Type", "application/json");
+            webRequest.SetRequestHeader("accessToken", "");
+
+            se_trText.text = "Cargando...";
+
+            yield return webRequest.SendWebRequest();
+
+            if (webRequest.result == UnityWebRequest.Result.ConnectionError || webRequest.result == UnityWebRequest.Result.ProtocolError)
+            {
+                se_trText.text = "Error.";
+            }
+            else
+            {
+                string jsonResult = webRequest.downloadHandler.text;
+                ParseBusResponse(jsonResult);
+            }
+
+        }
+    }
+
+    void ParseBusResponse(string json)
+    {
+
+    }
+
 
     void IterateList()
     {
