@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -113,12 +114,26 @@ public class bus : MonoBehaviour
     {
         string searchText = search.text.ToString();
 
-        foreach (GameObject item in elementsInList)
+        if (search.text.Length < 4 && search.text.All(char.IsDigit))
         {
-            TMP_Text itemText = item.GetComponentInChildren<TMP_Text>();
+            foreach (GameObject item in elementsInList)
+            {
+                //TMP_Text itemText = item.GetComponentInChildren<TMP_Text>();
+                TMP_Text nombreLinea = item.transform.Find("nombre").GetComponent<TMP_Text>();
 
-            bool matches = itemText.text.ToLower().Contains(searchText);
-            item.SetActive(matches);
+                bool matches = nombreLinea.text.ToLower().Contains(searchText);
+                item.SetActive(matches);
+            }
+        }
+        if (search.text.All(char.IsLetter))
+        {
+            foreach (GameObject item in elementsInList)
+            {
+                TMP_Text nombreLinea = item.transform.Find("info").GetComponent<TMP_Text>();
+
+                bool matches = nombreLinea.text.ToLower().Contains(searchText);
+                item.SetActive(matches);
+            }
         }
     }
 
