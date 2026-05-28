@@ -23,7 +23,7 @@ public class updater : MonoBehaviour
         //
 
         int month = DateTime.Now.Month;
-        if (month > 5 && isCodeCorrect == 0)
+        if (month > 6 && isCodeCorrect == 0)
         {
             Debug.Log("error. actualiza app");
             updateMenu.SetActive(true);
@@ -46,7 +46,7 @@ public class updater : MonoBehaviour
 
     public void Check()
     {
-        if (input.text == "cp")
+        if (input.text == "codigocp")
         {
             updateMenu.SetActive(false);
 
