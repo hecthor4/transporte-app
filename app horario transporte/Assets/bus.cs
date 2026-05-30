@@ -136,6 +136,18 @@ public class bus : MonoBehaviour
             }
         }
     }
+    public void SortBy(string type)
+    {
+        foreach (GameObject item in elementsInList)
+        {
+            //TMP_Text itemText = item.GetComponentInChildren<TMP_Text>();
+            TMP_Text nombreLinea = item.transform.Find("nombre").GetComponent<TMP_Text>();
+
+            bool matches = nombreLinea.text.ToLower().StartsWith(type);
+            item.SetActive(matches);
+        }
+    }
+
 
     void OpenLineInfo(string line)
     {
