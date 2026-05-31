@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
@@ -60,6 +61,19 @@ public class bus : MonoBehaviour
     public TMP_Text se_trText;
 
 
+    //info para enviar
+    public int lineaNumb;
+    public int ParadaNumb;
+
+    public int lineaInicial;
+    public int paradaInicial;
+    public int lineaFinal;
+    public int paradaFinal;
+
+    public bool isContarParadas = false;
+    public bool readyToSendInfo = false;
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -75,6 +89,16 @@ public class bus : MonoBehaviour
     {
         
     }
+
+    public void SaveInfo()
+    {
+        if (readyToSendInfo == true)
+        {
+            trayecto trayecto = FindFirstObjectByType<trayecto>();
+            trayecto.FetchInfo(paradaInicial, lineaInicial, paradaFinal, lineaFinal, "bus");
+        }
+    }
+
 
     public void OpenLink(string link)
     {
@@ -219,7 +243,14 @@ public class bus : MonoBehaviour
 
             if (buttonParent != null)
             {
+                int indexForButton = i;
+
                 GameObject iteratedButton = Instantiate(paradaButton, buttonParent);
+                iteratedButton.name = indexForButton + "," + dir;
+
+                UnityEngine.UI.Button button = iteratedButton.GetComponent<UnityEngine.UI.Button>();
+                button.onClick.RemoveAllListeners();
+                button.onClick.AddListener(() => OnParadaButtonClick(indexForButton, dir));
 
                 TMP_Text nombreParada = iteratedButton.GetComponentInChildren<TMP_Text>();
 
@@ -282,8 +313,10 @@ public class bus : MonoBehaviour
         */
     }
 
-    public void OnParadaButtonClick(string paradaID, string dir)
+    public void OnParadaButtonClick(int paradaID, string dir)
     {
+        selection.SetActive(true);
+
         string line = busLinea.text;
         string basePath = "buses/paradas/" + line.Trim() + "/" + line.Trim() + "_dir" + dir.Trim();
 
@@ -299,14 +332,14 @@ public class bus : MonoBehaviour
         if (conexionRaw == null) { Debug.Log("no hay"); }
         string[] conexion = conexionRaw.text.Trim().Split('\n');
 
-        int index = int.Parse(paradaID);
+        int index = paradaID;
         string codigoParada = codigos[index].Trim();
 
 
         se_paradaName.text = paradas[index];
 
 
-        if (conexion[index] != "" || conexion[index] != null)
+        if (!string.IsNullOrEmpty(conexion[index].Trim()))
         {
             se_corresObj.SetActive(true);
             se_corresText.text = conexion[index];
@@ -317,6 +350,21 @@ public class bus : MonoBehaviour
         }
 
         StartCoroutine(GetRealTimeBusArrival(codigoParada, line));
+
+
+        if (isContarParadas == false)
+        {
+            isContarParadas = true;
+            paradaInicial = paradaID;
+            lineaInicial = int.Parse(busLinea.text);
+        }
+        else if (isContarParadas == true)
+        {
+            paradaFinal = paradaID;
+            lineaFinal = int.Parse(busLinea.text);
+            readyToSendInfo = true;
+            //SaveInfo();
+        }
     }
 
     IEnumerator GetRealTimeBusArrival(string codigoParada, string lineID)
@@ -353,7 +401,40 @@ public class bus : MonoBehaviour
 
     void ParseBusResponse(string json)
     {
+        try
+        {
+            EmtResponse response = JsonUtility.FromJson<EmtResponse>(json);
 
+            if (response != null && response.data != null && response.data.Length > 0)
+            {
+                EmtArriveData proximoBus = response.data[0];
+
+                int segundosRestantes = proximoBus.estimateArrive;
+
+                if (segundosRestantes == 999999)
+                {
+                    se_trText.text = "Sin previsión (Bus parado o fin de servicio)";
+                }
+                else if (segundosRestantes < 30)
+                {
+                    se_trText.text = "Inminente / En parada";
+                }
+                else
+                {
+                    int minutos = segundosRestantes / 60;
+                    se_trText.text = "Próximo bus: " + minutos + " min (" + proximoBus.destination + ")";
+                }
+            }
+            else
+            {
+                se_trText.text = "No hay autobuses programados.";
+            }
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError("Error al procesar el JSON: " + e.Message);
+            se_trText.text = "Error de formato.";
+        }
     }
 
 
@@ -468,4 +549,37 @@ public class bus : MonoBehaviour
             */
         }
     }
+}
+
+
+
+
+[System.Serializable]
+public class EmtResponse
+{
+    public string code;
+    public string description;
+    public EmtData datetime;
+    public EmtArriveData[] data; // Aquí vienen los autobuses
+}
+
+
+
+[System.Serializable]
+public class EmtData
+{
+    public string date;
+}
+
+
+
+[System.Serializable]
+public class EmtArriveData
+{
+    public string line;
+    public string stop;
+    public int estimateArrive; // Tiempo restante en segundos
+    public int DistanceBus;    // Distancia en metros
+    public string destination; // Destino del autobús
+    public string bus;         // Número identificador del vehículo
 }
