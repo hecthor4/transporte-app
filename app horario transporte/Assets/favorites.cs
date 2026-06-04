@@ -212,12 +212,39 @@ public class favorites : MonoBehaviour
             fav3_text1.text = cleanText(_3_paradasPrimera[_3_paradInici - 1].Trim()) + " <color=#BCBCBC>(línea " + _3_lineaInici + ")";
             fav3_text2.text = cleanText(_3_paradasFinal[_3_paradFinal - 1].Trim()) + " <color=#BCBCBC>(línea " + _3_lineaFinal + ")";
         }
+
+        if (is4thEmpty == false)
+        {
+            TextAsset _4_paradasEnLineaPrimera = Resources.Load<TextAsset>("lineas/" + _4_lineaInici);
+            string[] _4_paradasPrimera = _4_paradasEnLineaPrimera.text.Split('\n');
+
+            TextAsset _4_paradasEnLineaFinal = Resources.Load<TextAsset>("lineas/" + _4_lineaFinal);
+            string[] _4_paradasFinal = _4_paradasEnLineaFinal.text.Split('\n');
+
+            fav4_name.text = _4_name;
+            fav4_text1.text = cleanText(_4_paradasPrimera[_4_paradInici - 1].Trim()) + " <color=#BCBCBC>(línea " + _4_lineaInici + ")";
+            fav4_text2.text = cleanText(_4_paradasFinal[_4_paradFinal - 1].Trim()) + " <color=#BCBCBC>(línea " + _4_lineaFinal + ")";
+        }
+
+        if (is5thEmpty == false)
+        {
+            TextAsset _5_paradasEnLineaPrimera = Resources.Load<TextAsset>("lineas/" + _5_lineaInici);
+            string[] _5_paradasPrimera = _5_paradasEnLineaPrimera.text.Split('\n');
+
+            TextAsset _5_paradasEnLineaFinal = Resources.Load<TextAsset>("lineas/" + _5_lineaFinal);
+            string[] _5_paradasFinal = _5_paradasEnLineaFinal.text.Split('\n');
+
+            fav5_name.text = _5_name;
+            fav5_text1.text = cleanText(_5_paradasPrimera[_4_paradInici - 1].Trim()) + " <color=#BCBCBC>(línea " + _5_lineaInici + ")";
+            fav5_text2.text = cleanText(_5_paradasFinal[_4_paradFinal - 1].Trim()) + " <color=#BCBCBC>(línea " + _5_lineaFinal + ")";
+        }
     }
 
     public void SaveRoute(int paradaInicial, int lineaInicial, int paradaFinal, int lineaFinal)
     {
         if (is1stEmpty == true)
         {
+            _1_name = "Default name";
             _1_paradInici = paradaInicial;
             _1_lineaInici = lineaInicial;
             _1_paradFinal = paradaFinal;
@@ -225,53 +252,45 @@ public class favorites : MonoBehaviour
 
             is1stEmpty = false;
         }
-        else
+        else if (is2ndEmpty == true)
         {
-            if (is2ndEmpty == true)
-            {
-                _2_paradInici = paradaInicial;
-                _2_lineaInici = lineaInicial;
-                _2_paradFinal = paradaFinal;
-                _2_lineaFinal = lineaFinal;
+            _2_name = "Default name";
+            _2_paradInici = paradaInicial;
+            _2_lineaInici = lineaInicial;
+            _2_paradFinal = paradaFinal;
+            _2_lineaFinal = lineaFinal;
 
-                is2ndEmpty = false;
-            }
-            else
-            {
-                if (is3rdEmpty == true)
-                {
-                    _3_paradInici = paradaInicial;
-                    _3_lineaInici = lineaInicial;
-                    _3_paradFinal = paradaFinal;
-                    _3_lineaFinal = lineaFinal;
+            is2ndEmpty = false;
+        }
+        else if (is3rdEmpty == true)
+        {
+            _3_name = "Default name";
+            _3_paradInici = paradaInicial;
+            _3_lineaInici = lineaInicial;
+            _3_paradFinal = paradaFinal;
+            _3_lineaFinal = lineaFinal;
 
-                    is3rdEmpty = false;
-                }
-                else
-                {
-                    if (is4thEmpty == true)
-                    {
-                        _4_paradInici = paradaInicial;
-                        _4_lineaInici = lineaInicial;
-                        _4_paradFinal = paradaFinal;
-                        _4_lineaFinal = lineaFinal;
+            is3rdEmpty = false;
+        }
+        else if (is4thEmpty == true)
+        {
+            _4_name = "Default name";
+            _4_paradInici = paradaInicial;
+            _4_lineaInici = lineaInicial;
+            _4_paradFinal = paradaFinal;
+            _4_lineaFinal = lineaFinal;
 
-                        is4thEmpty = false;
-                    }
-                    else
-                    {
-                        if (is5thEmpty == true)
-                        {
-                            _5_paradInici = paradaInicial;
-                            _5_lineaInici = lineaInicial;
-                            _5_paradFinal = paradaFinal;
-                            _5_lineaFinal = lineaFinal;
+            is4thEmpty = false;
+        }
+        else if (is5thEmpty == true)
+        {
+            _5_name = "Default name";
+            _5_paradInici = paradaInicial;
+            _5_lineaInici = lineaInicial;
+            _5_paradFinal = paradaFinal;
+            _5_lineaFinal = lineaFinal;
 
-                            is5thEmpty = false;
-                        }
-                    }
-                }
-            }
+            is5thEmpty = false;
         }
 
         GetEmptySlots();
@@ -354,26 +373,27 @@ public class favorites : MonoBehaviour
     public void OnClick(int favNumber)
     {
         metro metro = FindFirstObjectByType<metro>();
+        trayecto trayecto = FindFirstObjectByType<trayecto>();
 
         if (favNumber == 1)
         {
-            metro.GetRouteFromFavs(_1_paradInici, _1_lineaInici, _1_paradFinal, _1_lineaFinal);
+            trayecto.GetRouteFromFavs(_1_paradInici, _1_lineaInici, _1_paradFinal, _1_lineaFinal);
         }
         if (favNumber == 2)
         {
-            metro.GetRouteFromFavs(_2_paradInici, _2_lineaInici, _2_paradFinal, _2_lineaFinal);
+            trayecto.GetRouteFromFavs(_2_paradInici, _2_lineaInici, _2_paradFinal, _2_lineaFinal);
         }
         if (favNumber == 3)
         {
-            metro.GetRouteFromFavs(_3_paradInici, _3_lineaInici, _3_paradFinal, _3_lineaFinal);
+            trayecto.GetRouteFromFavs(_3_paradInici, _3_lineaInici, _3_paradFinal, _3_lineaFinal);
         }
         if (favNumber == 4)
         {
-            metro.GetRouteFromFavs(_4_paradInici, _4_lineaInici, _4_paradFinal, _4_lineaFinal);
+            trayecto.GetRouteFromFavs(_4_paradInici, _4_lineaInici, _4_paradFinal, _4_lineaFinal);
         }
         if (favNumber == 5)
         {
-            metro.GetRouteFromFavs(_5_paradInici, _5_lineaInici, _5_paradFinal, _5_lineaFinal);
+            trayecto.GetRouteFromFavs(_5_paradInici, _5_lineaInici, _5_paradFinal, _5_lineaFinal);
         }
     }
 

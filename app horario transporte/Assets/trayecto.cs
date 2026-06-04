@@ -170,11 +170,11 @@ public class trayecto : MonoBehaviour
                         continue;
                     }
 
-                    if (paradaPrimera > i + 1) { paso1_direccion.text = "Dirección " + cleanText(paradasPrimera[0]); }
+                    if (paradaPrimera > i + 1) { paso1_direccion.text = "Dirección " + cleanText(paradasPrimera[0]); direccion = "negative"; }
                     else { paso1_direccion.text = "Dirección " + cleanText(paradasPrimera[paradasPrimera.Length - 1]); direccion = "positive"; }
 
                     if ((indexEnLineaFinal + 1) > paradaFinal) { paso2_direccion.text = "Dirección " + cleanText(paradasFinal[0]); }
-                    else { paso2_direccion.text = "Dirección " + cleanText(paradasFinal[paradasFinal.Length - 1]); direccion = "negative"; }
+                    else { paso2_direccion.text = "Dirección " + cleanText(paradasFinal[paradasFinal.Length - 1]); }
 
 
                     int dif1 = Mathf.Abs(paradaPrimera - (i + 1));
@@ -323,7 +323,7 @@ public class trayecto : MonoBehaviour
             {
                 if (paso2_paradaInicial.text == cleanText(paradas[i]))
                 {
-                    paradaPrimera = i;
+                    paradaPrimera = i + 1;
                     ContarParadas();
                     break;
                 }
@@ -335,7 +335,7 @@ public class trayecto : MonoBehaviour
             {
                 paradaPrimera = paradaPrimera + 1;
             }
-            if (direccion == "negative")
+            else if (direccion == "negative")
             {
                 paradaPrimera = paradaPrimera - 1;
             }

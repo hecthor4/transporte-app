@@ -1,3 +1,4 @@
+using NUnit.Framework.Internal.Builders;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,6 +51,8 @@ public class bus : MonoBehaviour
 
     public GameObject ciudadParent;
     public GameObject paradaButton;
+    public GameObject paradaButton_corresMetro;
+    public GameObject paradaButton_corresRenfe;
 
 
     //selection
@@ -74,15 +77,77 @@ public class bus : MonoBehaviour
     public bool readyToSendInfo = false;
 
 
+    //credenciales emt
+    private string clientId = "a9da16a1-e6ee-4226-a4c0-19956b36c3b4";
+    private string passKey = "989D85EC811654F83FB0F4F08DFBAA6FF6EC156C6B47F0A41432832B3A56E223837BE0D113795567D673C321BFA1A189F3D8C5C26CF6C46215880000CB4B1666";
+    private string currentAccessToken = "";
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        IterateList();
+        StartCoroutine(InitEmtAuthentication());
 
+        //credenciales emt
+        clientId = "a9da16a1-e6ee-4226-a4c0-19956b36c3b4";
+        passKey = "989D85EC811654F83FB0F4F08DFBAA6FF6EC156C6B47F0A41432832B3A56E223837BE0D113795567D673C321BFA1A189F3D8C5C26CF6C46215880000CB4B1666";
+        currentAccessToken = "";
 
-        //debug
-        //OpenLineInfo("284");
     }
+
+    IEnumerator InitEmtAuthentication()
+    {
+        yield return StartCoroutine(LoginEmt());
+        IterateList();
+    }
+
+    IEnumerator LoginEmt()
+    {
+        // FIX: Cambiada la ruta 404 por el endpoint de autenticación oficial de la EMT
+        string url = "https://emtmadrid.es";
+
+        // FIX: El login de MobilityLabs requiere obligatoriamente un método GET
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
+        {
+            // Pasamos las credenciales fijas únicamente por las cabeceras HTTP de la llamada
+            webRequest.SetRequestHeader("X-ClientId", clientId);
+            webRequest.SetRequestHeader("passKey", passKey);
+
+            if (se_trText != null) se_trText.text = "Autenticando EMT...";
+
+            yield return webRequest.SendWebRequest();
+
+            Debug.Log("Status Code: " + webRequest.responseCode);
+
+            if (webRequest.result == UnityWebRequest.Result.ConnectionError ||
+                webRequest.result == UnityWebRequest.Result.ProtocolError)
+            {
+                Debug.LogError("Error en Login EMT: " + webRequest.error + " | Código: " + webRequest.responseCode);
+                if (se_trText != null) se_trText.text = "Error de autenticación.";
+            }
+            else
+            {
+                string jsonResult = webRequest.downloadHandler.text;
+                Debug.Log("RESPUESTA REAL DE LA API: " + jsonResult);
+
+                LoginResponse response = JsonUtility.FromJson<LoginResponse>(jsonResult);
+
+                // Accedemos a response.data directamente ya que mapea la colección del JSON de la EMT
+                if (response != null && response.data != null)
+                {
+                    currentAccessToken = response.data[0].accessToken;
+                    Debug.Log("¡Token EMT obtenido con éxito!: " + currentAccessToken);
+                }
+                else
+                {
+                    Debug.LogError("El JSON se leyó pero la estructura 'data' del token venía vacía.");
+                }
+            }
+        }
+    }
+
+
+
 
     // Update is called once per frame
     void Update()
@@ -215,7 +280,7 @@ public class bus : MonoBehaviour
 
         TextAsset conexionRaw = Resources.Load<TextAsset>(basePath + "_tr");     //"tr" por transbordo,
         if (conexionRaw == null) { Debug.Log("no hay"); }
-        string[] lineaSentido1Conexion = conexionRaw.text.Trim().Split('\n');    //"co" estaba pillado.
+        string[] conexion = conexionRaw.text.Split('\n');    //"co" estaba pillado.
 
         //direccion texto
         if (dir == "1") { direccion1.text = "Dirección " + municipios[municipios.Length - 1]; }
@@ -229,6 +294,12 @@ public class bus : MonoBehaviour
         {
             string municipio = municipios[i].Trim();
             string parada = paradas[i].Trim();
+            string conexionActual = "";
+
+            if (i < conexion.Length && conexion[i] != null)
+            {
+                conexionActual = conexion[i].Trim();
+            }
 
             if (municipio != currentMunicipio)
             {
@@ -245,7 +316,21 @@ public class bus : MonoBehaviour
             {
                 int indexForButton = i;
 
-                GameObject iteratedButton = Instantiate(paradaButton, buttonParent);
+                GameObject instantiateButtonPrefab = paradaButton;
+
+                if (string.IsNullOrEmpty(conexionActual))
+                {
+                    instantiateButtonPrefab = paradaButton;
+                }
+                else if (conexionActual.Contains("Metro"))
+                {
+                    instantiateButtonPrefab = paradaButton_corresMetro;
+                }
+                else if (conexionActual.Contains("Renfe"))
+                {
+                    instantiateButtonPrefab = paradaButton_corresRenfe;
+                }
+                GameObject iteratedButton = Instantiate(instantiateButtonPrefab, buttonParent);
                 iteratedButton.name = indexForButton + "," + dir;
 
                 UnityEngine.UI.Button button = iteratedButton.GetComponent<UnityEngine.UI.Button>();
@@ -330,7 +415,7 @@ public class bus : MonoBehaviour
 
         TextAsset conexionRaw = Resources.Load<TextAsset>(basePath + "_tr");
         if (conexionRaw == null) { Debug.Log("no hay"); }
-        string[] conexion = conexionRaw.text.Trim().Split('\n');
+        string[] conexion = conexionRaw.text.Split('\n');
 
         int index = paradaID;
         string codigoParada = codigos[index].Trim();
@@ -374,13 +459,13 @@ public class bus : MonoBehaviour
         string jsonBody = "{\"line\":\"" + lineID + "\",\"timeDate\":\"\"}";
         byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(jsonBody);
 
-        using (UnityWebRequest webRequest = new UnityWebRequest(url))
+        using (UnityWebRequest webRequest = new UnityWebRequest(url, "POST"))
         { 
             webRequest.uploadHandler = new UploadHandlerRaw(bodyRaw);
             webRequest.downloadHandler = new DownloadHandlerBuffer();
 
             webRequest.SetRequestHeader("Content-Type", "application/json");
-            webRequest.SetRequestHeader("accessToken", "");
+            webRequest.SetRequestHeader("accessToken", currentAccessToken);
 
             se_trText.text = "Cargando...";
 
@@ -583,3 +668,12 @@ public class EmtArriveData
     public string destination; // Destino del autobús
     public string bus;         // Número identificador del vehículo
 }
+
+
+[System.Serializable]
+public class TokenData
+{
+    public string accessToken;
+    public string tokenSecuencial;
+}
+

@@ -37736,7 +37736,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "L\xEDneas 1 y 2"
+  m_text: Error.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1b4c553049064704ca3bfaae9af8a9eb, type: 2}
   m_sharedMaterial: {fileID: 213905704386277544, guid: 1b4c553049064704ca3bfaae9af8a9eb, type: 2}
@@ -112008,6 +112008,8 @@ MonoBehaviour:
   linea_enlace_button: {fileID: 791881247}
   ciudadParent: {fileID: 447224153}
   paradaButton: {fileID: 8889124427687808860, guid: 4a6031ed4497f1f48ae4ab6e410ef0b9, type: 3}
+  paradaButton_corresMetro: {fileID: 8889124427687808860, guid: ccf1dcb9552940e45ac7185f9e458c5d, type: 3}
+  paradaButton_corresRenfe: {fileID: 8889124427687808860, guid: 5cd2b6b00be9b0a46b9c69cb1279971d, type: 3}
   selection: {fileID: 209763539}
   se_paradaName: {fileID: 111439120}
   se_corresObj: {fileID: 647152774}
@@ -112022,6 +112024,9 @@ MonoBehaviour:
   paradaFinal: 0
   isContarParadas: 0
   readyToSendInfo: 0
+  clientId: a9da16a1-e6ee-4226-a4c0-19956b36c3b4
+  passKey: 989D85EC811654F83FB0F4F08DFBAA6FF6EC156C6B47F0A41432832B3A56E223837BE0D113795567D673C321BFA1A189F3D8C5C26CF6C46215880000CB4B1666
+  currentAccessToken: 
 --- !u!1 &2019055964
 GameObject:
   m_ObjectHideFlags: 0
