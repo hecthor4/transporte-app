@@ -5,6 +5,7 @@ using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Experimental.AI;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
@@ -97,7 +98,7 @@ public class bus : MonoBehaviour
 
     IEnumerator InitEmtAuthentication()
     {
-        yield return StartCoroutine(LoginEmt());
+        yield return new WaitForEndOfFrame(); //StartCoroutine(LoginEmt());
         IterateList();
     }
 

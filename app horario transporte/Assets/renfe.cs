@@ -68,9 +68,10 @@ public class renfe : MonoBehaviour
     public TMP_Text parada30_text;
 
     public string lineaNumb;
-    public int ParadaNumb;
+    public int paradaNumb;
 
     public bool isContarParadas = false;
+    public bool readyToSendInfo = false;
     public GameObject selection;
     public TMP_Text selection_parada;
     public GameObject selection_corresObj;
@@ -82,43 +83,10 @@ public class renfe : MonoBehaviour
     public int lineaFinal;
     public int paradaFinal;
 
-    public GameObject m_all;
-    public GameObject m_metroLineas;
+    public GameObject r_all;
+    public GameObject r_renfeLineas;
     public GameObject recorridoViajes;
 
-    public GameObject paso1;
-    public TMP_Text paso1_currentLinea;
-    public TMP_Text paso1_paradaInicial;
-    public TMP_Text paso1_paradaFinal;
-    public TMP_Text paso1_direccion;
-    public TMP_Text paso1_paradasDiferencia;
-
-    public GameObject paso1_5;
-    public TMP_Text paso1_5_text;
-
-    public GameObject paso2;
-    public TMP_Text paso2_currentLinea;
-    public TMP_Text paso2_paradaInicial;
-    public TMP_Text paso2_paradaFinal;
-    public TMP_Text paso2_direccion;
-    public TMP_Text paso2_paradasDiferencia;
-
-    public GameObject paso2_5;
-    public TMP_Text paso2_5_text;
-
-    public GameObject paso3;
-    public TMP_Text paso3_currentLinea;
-    public TMP_Text paso3_paradaInicial;
-    public TMP_Text paso3_paradaFinal;
-    public TMP_Text paso3_direccion;
-    public TMP_Text paso3_paradasDiferencia;
-
-    public GameObject datos;
-    public TMP_Text tiempoEstimado;
-    public TMP_Text paradasTotales;
-
-    public GameObject pasoError;
-    public bool isWayPossible = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -132,22 +100,47 @@ public class renfe : MonoBehaviour
         
     }
 
+    public void ContarParadasReset()
+    {
+        lineaNumb = "0";
+        paradaNumb = 0;
+
+        lineaPrimera = 0;
+        paradaPrimera = 0;
+        lineaFinal = 0;
+        paradaFinal = 0;
+
+        isContarParadas = false;
+        readyToSendInfo = false;
+    }
+
+    public void SaveInfo()
+    {
+        if (readyToSendInfo == true)
+        {
+            trayecto trayecto = FindFirstObjectByType<trayecto>();
+            trayecto.FetchInfo(paradaPrimera, lineaPrimera, paradaFinal, lineaFinal, "renfe");
+        }
+        /*
+        else if (isContarParadas == false)
+        {
+            isContarParadas = true;
+        }
+        */
+    }
+
     public void Selection(int paradaNumb2)
     {
-        //renfeLinea.text = "C" + lineaNumb;
+        renfeLinea.text = "Línea " + lineaNumb;
 
         TextAsset paradasEnLinea = Resources.Load<TextAsset>("renfe/c" + lineaNumb);
         string[] paradas = paradasEnLinea.text.Split('\n');
 
-        string cleanText(string texto) => texto.Split('[')[0].Trim();
 
-        selection_parada.text = cleanText(paradas[paradaNumb2 - 1]);
-
-        ParadaNumb = paradaNumb2;
+        paradaNumb = paradaNumb2;
         selection.SetActive(true);
 
-        /*
-        int indice = -1; //paradas[paradaNumb2 - 1].IndexOf('[');
+        int indice = paradas[paradaNumb2 - 1].IndexOf('[');
         string parada_texto;
         string corres_texto;
 
@@ -166,20 +159,30 @@ public class renfe : MonoBehaviour
             selection_corres.text = "";
             selection_corresObj.SetActive(false);
         }
-        */
 
-        /*
+        selection_parada.text = parada_texto;
+
+
         if (isContarParadas == false)
         {
+            isContarParadas = true;
+
             selection_contarParadas.text = "Viajar desde aquí hasta...";
-            lineaPrimera = lineaNumb;
+
+            lineaPrimera = int.Parse(lineaNumb);
             paradaPrimera = paradaNumb2;
         }
-        if (isContarParadas == true)
+        else if (isContarParadas == true)
         {
+            readyToSendInfo = true;
+
             selection_contarParadas.text = "Viajar hasta aquí";
+
+            lineaFinal = int.Parse(lineaNumb);
+            paradaFinal = paradaNumb2;
         }
-        */
+
+        //SaveInfo();
     }
 
     public void Iterate(string lineaNumb1)

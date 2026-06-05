@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class trayecto : MonoBehaviour
 {
+    public TMP_Text transportType;
+
     public GameObject siguienteButton;
     public TMP_Text siguienteText;
     public GameObject cantContinueNextButton;
@@ -17,6 +19,7 @@ public class trayecto : MonoBehaviour
     public string direccion;
 
     public GameObject m_all;
+    public GameObject r_all;
     public GameObject m_metroLineas;
     public GameObject recorridoViajes;
 
@@ -68,7 +71,7 @@ public class trayecto : MonoBehaviour
 
     public void FetchInfo(int par1, int lin1, int par2, int lin2, string infoType)
     {
-
+        transportType.text = infoType;
 
         paradaPrimera = par1;
         lineaPrimera = lin1;
@@ -89,6 +92,7 @@ public class trayecto : MonoBehaviour
 
 
         m_all.SetActive(false);
+        r_all.SetActive(false);
         m_metroLineas.SetActive(false);
         recorridoViajes.SetActive(true);
 
@@ -96,14 +100,19 @@ public class trayecto : MonoBehaviour
         //el principio y el final están en la misma línea
         if (lineaPrimera == lineaFinal)
         {
-            TextAsset paradasEnLinea = Resources.Load<TextAsset>("lineas/" + lineaPrimera);
+            string location = "";
+            if (transportType.text == "metro") { location = "lineas/"; }
+            if (transportType.text == "renfe") { location = "renfe/c"; }
+
+            TextAsset paradasEnLinea = Resources.Load<TextAsset>(location + lineaPrimera);
             string[] paradas = paradasEnLinea.text.Split('\n');
 
             string cleanText(string texto) => texto.Split('[')[0].Trim();
 
             paso1.SetActive(true);
 
-            paso1_currentLinea.text = "Línea " + lineaPrimera;
+            if (transportType.text == "metro") { paso1_currentLinea.text = "Línea " + lineaPrimera; }
+            if (transportType.text == "renfe") { paso1_currentLinea.text = "C" + lineaPrimera; }
             paso1_paradaInicial.text = cleanText(paradas[paradaPrimera - 1]);
             paso1_paradaFinal.text = cleanText(paradas[paradaFinal - 1]);
             paso1_paradasDiferencia.text = Mathf.Abs(paradaPrimera - paradaFinal) + " paradas";
@@ -127,7 +136,7 @@ public class trayecto : MonoBehaviour
         }
 
         //hay que hacer transbordos
-        else
+        else if (transportType.text != "renfe")
         {
             TextAsset paradasEnLineaPrimera = Resources.Load<TextAsset>("lineas/" + lineaPrimera);
             string[] paradasPrimera = paradasEnLineaPrimera.text.Split('\n');
@@ -290,6 +299,9 @@ public class trayecto : MonoBehaviour
 
         metro metro = FindFirstObjectByType<metro>();
         metro.ContarParadasReset();
+
+        renfe renfe = FindFirstObjectByType<renfe>();
+        renfe.ContarParadasReset();
     }
 
 
