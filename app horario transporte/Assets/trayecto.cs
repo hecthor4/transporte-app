@@ -20,6 +20,7 @@ public class trayecto : MonoBehaviour
 
     public GameObject m_all;
     public GameObject r_all;
+    public GameObject b_all;
     public GameObject m_metroLineas;
     public GameObject recorridoViajes;
 
@@ -103,6 +104,7 @@ public class trayecto : MonoBehaviour
             string location = "";
             if (transportType.text == "metro") { location = "lineas/"; }
             if (transportType.text == "renfe") { location = "renfe/c"; }
+            if (transportType.text == "bus") { location = "buses/paradas/"; }
 
             TextAsset paradasEnLinea = Resources.Load<TextAsset>(location + lineaPrimera);
             string[] paradas = paradasEnLinea.text.Split('\n');
@@ -271,10 +273,10 @@ public class trayecto : MonoBehaviour
     public void SaveRouteToFavs()
     {
         favorites favorites = FindFirstObjectByType<favorites>();
-        favorites.SaveRoute(paradaPrimera, lineaPrimera, paradaFinal, lineaFinal);
+        favorites.SaveRoute(paradaPrimera, lineaPrimera, paradaFinal, lineaFinal, transportType.text);
     }
 
-    public void GetRouteFromFavs(int paradaInicial, int lineaInicial, int paradaFinal2, int lineaFinal2)
+    public void GetRouteFromFavs(int paradaInicial, int lineaInicial, int paradaFinal2, int lineaFinal2, string type)
     {
         paradaPrimera = paradaInicial;
         lineaPrimera = lineaInicial;
@@ -285,6 +287,8 @@ public class trayecto : MonoBehaviour
         //ParadaNumb = paradaFinal2;
 
         //isContarParadas = true;
+
+        transportType.text = type;
         ContarParadas();
     }
 

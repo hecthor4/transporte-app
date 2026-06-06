@@ -164,6 +164,11 @@ public class bus : MonoBehaviour
             trayecto.FetchInfo(paradaInicial, lineaInicial, paradaFinal, lineaFinal, "bus");
         }
     }
+    public void SaveLineaToFavs()
+    {
+        favorites favorites = FindFirstObjectByType<favorites>();
+        favorites.SaveLinea(busLinea.text, "bus");
+    }
 
 
     public void OpenLink(string link)
@@ -239,7 +244,7 @@ public class bus : MonoBehaviour
     }
 
 
-    void OpenLineInfo(string line)
+    public void OpenLineInfo(string line)
     {
         busParent.SetActive(false);
         busLineParent.SetActive(true);
