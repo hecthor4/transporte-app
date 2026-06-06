@@ -128,6 +128,11 @@ public class renfe : MonoBehaviour
         }
         */
     }
+    public void SaveLineaToFavs()
+    {
+        favorites favorites = FindFirstObjectByType<favorites>();
+        favorites.SaveLinea(lineaNumb + "", "renfe");
+    }
 
     public void Selection(int paradaNumb2)
     {
@@ -189,6 +194,9 @@ public class renfe : MonoBehaviour
     {
         renfeLinea.text = "C" + lineaNumb1;
         lineaNumb = lineaNumb1;
+
+        goBack goback = FindFirstObjectByType<goBack>();
+        goback.OpenScreen();
 
         TextAsset paradasEnLinea = Resources.Load<TextAsset>("renfe/c" + lineaNumb);
         string[] paradas = paradasEnLinea.text.Split('\n');

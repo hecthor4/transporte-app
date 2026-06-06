@@ -97,6 +97,9 @@ public class trayecto : MonoBehaviour
         m_metroLineas.SetActive(false);
         recorridoViajes.SetActive(true);
 
+        goBack goback = FindFirstObjectByType<goBack>();
+        goback.OpenScreen();
+
 
         //el principio y el final están en la misma línea
         if (lineaPrimera == lineaFinal)
@@ -159,7 +162,7 @@ public class trayecto : MonoBehaviour
             for (int i = 0; i < paradasPrimera.Length; i++)
             {
                 //si en la linea final hay parada de la linea inicial
-                if (paradasPrimera[i].Contains("[" + lineaFinal))
+                if (paradasPrimera[i].Contains("[" + lineaFinal + "]"))
                 {
                     paso1_paradaFinal.text = cleanText(paradasPrimera[i]);
                     isWayPossible = true;

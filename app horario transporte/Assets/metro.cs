@@ -146,6 +146,11 @@ public class metro : MonoBehaviour
         }
         */
     }
+    public void SaveLineaToFavs()
+    {
+        favorites favorites = FindFirstObjectByType<favorites>();
+        favorites.SaveLinea(lineaNumb + "", "metro");
+    }
 
 
     public void Selection(int paradaNumb2)
@@ -208,6 +213,9 @@ public class metro : MonoBehaviour
     {
         metroLinea.text = "Línea " + lineaNumb1;
         lineaNumb = lineaNumb1;
+
+        goBack goback = FindFirstObjectByType<goBack>();
+        goback.OpenScreen();
 
         TextAsset paradasEnLinea = Resources.Load<TextAsset>("lineas/" + lineaNumb);
         string[] paradas = paradasEnLinea.text.Split('\n');

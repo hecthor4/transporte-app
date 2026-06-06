@@ -250,6 +250,9 @@ public class bus : MonoBehaviour
         busLineParent.SetActive(true);
         Debug.Log(line);
 
+        goBack goback = FindFirstObjectByType<goBack>();
+        goback.OpenScreen();
+
 
         //info nombre texto arriba
         string cleanText(string texto) => texto.Replace("emt_", "").Trim();

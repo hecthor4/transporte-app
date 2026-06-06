@@ -129,6 +129,11 @@ public class favorites : MonoBehaviour
 
     public GameObject noRoutesError;
 
+
+    public GameObject r_all;
+    public GameObject m_all;
+    public GameObject b_all;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -374,9 +379,9 @@ public class favorites : MonoBehaviour
         {
             string lineaNomenclatura = "[error]";
 
-            if (_f_l1_type == "metro") { lineaNomenclatura = "línea "; }
-            if (_f_l1_type == "renfe") { lineaNomenclatura = "C"; }
-            if (_f_l1_type == "bus") { lineaNomenclatura = "Interurbano "; }
+            if (_f_l1_type == "metro") { lineaNomenclatura = "Metro: línea "; }
+            if (_f_l1_type == "renfe") { lineaNomenclatura = "Cercanías: C"; }
+            if (_f_l1_type == "bus") { lineaNomenclatura = "Interurbano: "; }
 
             f_l1_name.text = _f_l1_name;
             f_l1_text1.text = lineaNomenclatura + _f_l1_linea;
@@ -385,7 +390,7 @@ public class favorites : MonoBehaviour
         {
             string lineaNomenclatura = "[error]";
 
-            if (_f_l2_type == "metro") { lineaNomenclatura = "línea "; }
+            if (_f_l2_type == "metro") { lineaNomenclatura = "Metro: línea "; }
             if (_f_l2_type == "renfe") { lineaNomenclatura = "C"; }
             if (_f_l2_type == "bus") { lineaNomenclatura = "Interurbano "; }
 
@@ -396,7 +401,7 @@ public class favorites : MonoBehaviour
         {
             string lineaNomenclatura = "[error]";
 
-            if (_f_l3_type == "metro") { lineaNomenclatura = "línea "; }
+            if (_f_l3_type == "metro") { lineaNomenclatura = "Metro: línea "; }
             if (_f_l3_type == "renfe") { lineaNomenclatura = "C"; }
             if (_f_l3_type == "bus") { lineaNomenclatura = "Interurbano "; }
 
@@ -407,7 +412,7 @@ public class favorites : MonoBehaviour
         {
             string lineaNomenclatura = "[error]";
 
-            if (_f_l4_type == "metro") { lineaNomenclatura = "línea "; }
+            if (_f_l4_type == "metro") { lineaNomenclatura = "Metro: línea "; }
             if (_f_l4_type == "renfe") { lineaNomenclatura = "C"; }
             if (_f_l4_type == "bus") { lineaNomenclatura = "Interurbano "; }
 
@@ -418,7 +423,7 @@ public class favorites : MonoBehaviour
         {
             string lineaNomenclatura = "[error]";
 
-            if (_f_l5_type == "metro") { lineaNomenclatura = "línea "; }
+            if (_f_l5_type == "metro") { lineaNomenclatura = "Metro: línea "; }
             if (_f_l5_type == "renfe") { lineaNomenclatura = "C"; }
             if (_f_l5_type == "bus") { lineaNomenclatura = "Interurbano "; }
 
@@ -582,25 +587,25 @@ public class favorites : MonoBehaviour
         PlayerPrefs.SetInt("_5_paradFinal", _5_paradFinal);
 
 
-        PlayerPrefs.SetString("f_l1_name", f_l1_name.text);
-        PlayerPrefs.SetString("f_l1_type", _f_l1_type);
-        PlayerPrefs.SetString("f_l1_text1", _f_l1_linea);
+        PlayerPrefs.SetString("_f_l1_name", f_l1_name.text);
+        PlayerPrefs.SetString("_f_l1_type", _f_l1_type);
+        PlayerPrefs.SetString("_f_l1_linea", _f_l1_linea);
 
-        PlayerPrefs.SetString("f_l2_name", f_l2_name.text);
-        PlayerPrefs.SetString("f_l2_type", _f_l2_type);
-        PlayerPrefs.SetString("f_l2_text1", _f_l2_linea);
+        PlayerPrefs.SetString("_f_l2_name", f_l2_name.text);
+        PlayerPrefs.SetString("_f_l2_type", _f_l2_type);
+        PlayerPrefs.SetString("_f_l2_linea", _f_l2_linea);
 
-        PlayerPrefs.SetString("f_l3_name", f_l3_name.text);
-        PlayerPrefs.SetString("f_l3_type", _f_l3_type);
-        PlayerPrefs.SetString("f_l3_text1", _f_l3_linea);
+        PlayerPrefs.SetString("_f_l3_name", f_l3_name.text);
+        PlayerPrefs.SetString("_f_l3_type", _f_l3_type);
+        PlayerPrefs.SetString("_f_l3_linea", _f_l3_linea);
 
-        PlayerPrefs.SetString("f_l4_name", f_l4_name.text);
-        PlayerPrefs.SetString("f_l4_type", _f_l4_type);
-        PlayerPrefs.SetString("f_l4_text1", _f_l4_linea);
+        PlayerPrefs.SetString("_f_l4_name", f_l4_name.text);
+        PlayerPrefs.SetString("_f_l4_type", _f_l4_type);
+        PlayerPrefs.SetString("_f_l4_linea", _f_l4_linea);
 
-        PlayerPrefs.SetString("f_l5_name", f_l5_name.text);
-        PlayerPrefs.SetString("f_l5_type", _f_l5_type);
-        PlayerPrefs.SetString("f_l5_text1", _f_l5_linea);
+        PlayerPrefs.SetString("_f_l5_name", f_l5_name.text);
+        PlayerPrefs.SetString("_f_l5_type", _f_l5_type);
+        PlayerPrefs.SetString("_f_l5_linea", _f_l5_linea);
 
 
         PlayerPrefs.Save();
@@ -637,45 +642,45 @@ public class favorites : MonoBehaviour
             renfe renfe = FindFirstObjectByType<renfe>();
             bus bus = FindFirstObjectByType<bus>();
 
-            if (_f_l1_type == "metro") { metro.Iterate(int.Parse(_f_l1_linea)); }
-            if (_f_l1_type == "renfe") { renfe.Iterate("C" + _f_l1_linea); }
-            if (_f_l1_type == "bus") { bus.OpenLineInfo(_f_l1_linea + ""); }
+            if (_f_l1_type == "metro") { metro.Iterate(int.Parse(_f_l1_linea)); m_all.SetActive(true); }
+            if (_f_l1_type == "renfe") { renfe.Iterate(_f_l1_linea); r_all.SetActive(true); }
+            if (_f_l1_type == "bus") { bus.OpenLineInfo(_f_l1_linea + ""); b_all.SetActive(true); }
         }
         if (favNumber == 102)
         {
             renfe renfe = FindFirstObjectByType<renfe>();
             bus bus = FindFirstObjectByType<bus>();
 
-            if (_f_l2_type == "metro") { metro.Iterate(int.Parse(_f_l2_linea)); }
-            if (_f_l2_type == "renfe") { renfe.Iterate("C" + _f_l2_linea); }
-            if (_f_l2_type == "bus") { bus.OpenLineInfo(_f_l2_linea + ""); }
+            if (_f_l2_type == "metro") { metro.Iterate(int.Parse(_f_l2_linea)); m_all.SetActive(true); }
+            if (_f_l2_type == "renfe") { renfe.Iterate(_f_l2_linea); r_all.SetActive(true); }
+            if (_f_l2_type == "bus") { bus.OpenLineInfo(_f_l2_linea + ""); b_all.SetActive(true); }
         }
         if (favNumber == 103)
         {
             renfe renfe = FindFirstObjectByType<renfe>();
             bus bus = FindFirstObjectByType<bus>();
 
-            if (_f_l3_type == "metro") { metro.Iterate(int.Parse(_f_l3_linea)); }
-            if (_f_l3_type == "renfe") { renfe.Iterate("C" + _f_l3_linea); }
-            if (_f_l3_type == "bus") { bus.OpenLineInfo(_f_l3_linea + ""); }
+            if (_f_l3_type == "metro") { metro.Iterate(int.Parse(_f_l3_linea)); m_all.SetActive(true); }
+            if (_f_l3_type == "renfe") { renfe.Iterate(_f_l3_linea); r_all.SetActive(true); }
+            if (_f_l3_type == "bus") { bus.OpenLineInfo(_f_l3_linea + ""); b_all.SetActive(true); }
         }
         if (favNumber == 104)
         {
             renfe renfe = FindFirstObjectByType<renfe>();
             bus bus = FindFirstObjectByType<bus>();
 
-            if (_f_l4_type == "metro") { metro.Iterate(int.Parse(_f_l4_linea)); }
-            if (_f_l4_type == "renfe") { renfe.Iterate("C" + _f_l4_linea); }
-            if (_f_l4_type == "bus") { bus.OpenLineInfo(_f_l4_linea + ""); }
+            if (_f_l4_type == "metro") { metro.Iterate(int.Parse(_f_l4_linea)); m_all.SetActive(true); }
+            if (_f_l4_type == "renfe") { renfe.Iterate(_f_l4_linea); r_all.SetActive(true); }
+            if (_f_l4_type == "bus") { bus.OpenLineInfo(_f_l4_linea + ""); b_all.SetActive(true); }
         }
         if (favNumber == 105)
         {
             renfe renfe = FindFirstObjectByType<renfe>();
             bus bus = FindFirstObjectByType<bus>();
 
-            if (_f_l5_type == "metro") { metro.Iterate(int.Parse(_f_l5_linea)); }
-            if (_f_l5_type == "renfe") { renfe.Iterate("C" + _f_l5_linea); }
-            if (_f_l5_type == "bus") { bus.OpenLineInfo(_f_l5_linea + ""); }
+            if (_f_l5_type == "metro") { metro.Iterate(int.Parse(_f_l5_linea)); m_all.SetActive(true); }
+            if (_f_l5_type == "renfe") { renfe.Iterate(_f_l5_linea); r_all.SetActive(true); }
+            if (_f_l5_type == "bus") { bus.OpenLineInfo(_f_l5_linea + ""); b_all.SetActive(true); }
         }
     }
 
