@@ -57,12 +57,14 @@ public class bus : MonoBehaviour
 
 
     //selection
+    public string selection_direction;
     public GameObject selection;
     public TMP_Text se_paradaName;
     public GameObject se_corresObj;
     public TMP_Text se_corresText;
     public GameObject se_trObj;
     public TMP_Text se_trText;
+    public TMP_Text selection_contarParadas;
 
 
     //info para enviar
@@ -161,7 +163,8 @@ public class bus : MonoBehaviour
         if (readyToSendInfo == true)
         {
             trayecto trayecto = FindFirstObjectByType<trayecto>();
-            trayecto.FetchInfo(paradaInicial, lineaInicial, paradaFinal, lineaFinal, "bus");
+            Debug.LogWarning("bus_dir" + selection_direction);
+            trayecto.FetchInfo(paradaInicial, lineaInicial, paradaFinal, lineaFinal, "bus_dir" + selection_direction);
         }
     }
     public void SaveLineaToFavs()
@@ -411,6 +414,7 @@ public class bus : MonoBehaviour
     {
         selection.SetActive(true);
 
+        selection_direction = dir;
         string line = busLinea.text;
         string basePath = "buses/paradas/" + line.Trim() + "/" + line.Trim() + "_dir" + dir.Trim();
 
@@ -451,6 +455,8 @@ public class bus : MonoBehaviour
             isContarParadas = true;
             paradaInicial = paradaID;
             lineaInicial = int.Parse(busLinea.text);
+
+            selection_contarParadas.text = "Viajar desde aquí hasta...";
         }
         else if (isContarParadas == true)
         {
@@ -458,6 +464,8 @@ public class bus : MonoBehaviour
             lineaFinal = int.Parse(busLinea.text);
             readyToSendInfo = true;
             //SaveInfo();
+
+            selection_contarParadas.text = "Viajar hasta aquí";
         }
     }
 

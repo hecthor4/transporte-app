@@ -1,3 +1,4 @@
+using NUnit.Framework.Internal.Builders;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -93,6 +94,7 @@ public class trayecto : MonoBehaviour
 
 
         m_all.SetActive(false);
+        b_all.SetActive(false);
         r_all.SetActive(false);
         m_metroLineas.SetActive(false);
         recorridoViajes.SetActive(true);
@@ -105,11 +107,13 @@ public class trayecto : MonoBehaviour
         if (lineaPrimera == lineaFinal)
         {
             string location = "";
+            string location_extra = "";
             if (transportType.text == "metro") { location = "lineas/"; }
             if (transportType.text == "renfe") { location = "renfe/c"; }
-            if (transportType.text == "bus") { location = "buses/paradas/"; }
+            if (transportType.text == "bus_dir1") { transportType.text = "bus"; location = "buses/paradas/"; location_extra = "/" + lineaPrimera + "_dir1_pa"; }
+            if (transportType.text == "bus_dir2") { transportType.text = "bus"; location = "buses/paradas/"; location_extra = "/" + lineaPrimera + "_dir2_pa"; }
 
-            TextAsset paradasEnLinea = Resources.Load<TextAsset>(location + lineaPrimera);
+            TextAsset paradasEnLinea = Resources.Load<TextAsset>(location + lineaPrimera + location_extra);
             string[] paradas = paradasEnLinea.text.Split('\n');
 
             string cleanText(string texto) => texto.Split('[')[0].Trim();
@@ -118,6 +122,7 @@ public class trayecto : MonoBehaviour
 
             if (transportType.text == "metro") { paso1_currentLinea.text = "Línea " + lineaPrimera; }
             if (transportType.text == "renfe") { paso1_currentLinea.text = "C" + lineaPrimera; }
+            if (transportType.text.Contains("bus")) { paso1_currentLinea.text = "Bus " + lineaPrimera; }
             paso1_paradaInicial.text = cleanText(paradas[paradaPrimera - 1]);
             paso1_paradaFinal.text = cleanText(paradas[paradaFinal - 1]);
             paso1_paradasDiferencia.text = Mathf.Abs(paradaPrimera - paradaFinal) + " paradas";
@@ -127,13 +132,39 @@ public class trayecto : MonoBehaviour
 
             if (paradaPrimera > paradaFinal)
             {
-                paso1_direccion.text = "Dirección " + cleanText(paradas[0]);
-                direccion = "negative";
+                if (transportType.text != "bus")
+                {
+                    paso1_direccion.text = "Dirección " + cleanText(paradas[0]);
+                    direccion = "negative";
+                }
+                else //buses solo
+                {
+                    string municipiosPath = location_extra.Substring(0, location_extra.Length - 2); //quitar ultimas 2 letras
+
+                    TextAsset municipiosRaw = Resources.Load<TextAsset>(location + lineaPrimera + municipiosPath + "mu");
+                    string[] municipios = municipiosRaw.text.Split('\n');
+
+                    paso1_direccion.text = "Dirección " + cleanText(municipios[0]);
+                    direccion = "negative";
+                }
             }
             else
             {
-                paso1_direccion.text = "Dirección " + cleanText(paradas[paradas.Length - 1]);
-                direccion = "positive";
+                if (transportType.text != "bus")
+                {
+                    paso1_direccion.text = "Dirección " + cleanText(paradas[paradas.Length - 1]);
+                    direccion = "positive";
+                }
+                else //buses solo
+                {
+                    string municipiosPath = location_extra.Substring(0, location_extra.Length - 2); //quitar ultimas 2 letras
+
+                    TextAsset municipiosRaw = Resources.Load<TextAsset>(location + lineaPrimera + municipiosPath + "mu");
+                    string[] municipios = municipiosRaw.text.Split('\n');
+
+                    paso1_direccion.text = "Dirección " + cleanText(municipios[municipios.Length - 1]);
+                    direccion = "positive";
+                }
             }
 
 

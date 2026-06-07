@@ -6,6 +6,7 @@ public class updater : MonoBehaviour
 {
     public TMP_Text licenciaInfo;
 
+    public GameObject timeUntilUpdateMenu;
     public GameObject updateMenu;
     public TMP_InputField input;
 
@@ -22,7 +23,17 @@ public class updater : MonoBehaviour
         //PlayerPrefs.Save();
         //
 
-        int month = DateTime.Now.Month;
+        if (isCodeCorrect == 1)
+        {
+            timeUntilUpdateMenu.SetActive(false);
+        }
+        else
+        {
+            timeUntilUpdateMenu.SetActive(true);
+        }
+
+
+            int month = DateTime.Now.Month;
         if (month > 6 && isCodeCorrect == 0)
         {
             Debug.Log("error. actualiza app");
@@ -30,7 +41,7 @@ public class updater : MonoBehaviour
         }
         else
         {
-
+            
         }
 
         Refresh();
@@ -46,7 +57,7 @@ public class updater : MonoBehaviour
 
     public void Check()
     {
-        if (input.text == "codigocp")
+        if (input.text == "codigocp" || input.text == "felaciones124")
         {
             updateMenu.SetActive(false);
 

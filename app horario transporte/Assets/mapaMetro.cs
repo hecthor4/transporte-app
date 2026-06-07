@@ -40,9 +40,19 @@ public class mapaMetro : MonoBehaviour
                 float deltaMagDiff = touchDeltaMag - prevTouchDeltaMag;
 
 
-                float newScaleX = rect.localScale.x + (deltaMagDiff * zoomSpeed);
-                newScaleX = Mathf.Clamp(newScaleX, minZoom, maxZoom);
-                rect.localScale = new Vector3(newScaleX, newScaleX, 1);
+                Vector2 touchPointScreen = (touchZero.position + touchOne.position) / 2f;
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(rect, touchPointScreen, null, out Vector2 localPivotBeforeZoom);
+
+                float currentScale = rect.localScale.x;
+                float newScale = currentScale + (deltaMagDiff * zoomSpeed);
+                newScale = Mathf.Clamp(newScale, minZoom, maxZoom);
+
+                rect.localScale = new Vector3(newScale, newScale, 1);
+
+                float scaleRatio = newScale / currentScale;
+                Vector3 displacement = (Vector3)localPivotBeforeZoom * (scaleRatio - 1f);
+
+                rect.localPosition -= displacement;
             }
         }
     }
