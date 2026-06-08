@@ -5,6 +5,7 @@ public class renfe : MonoBehaviour
 {
     public TMP_Text renfeLinea;
 
+    public int renfeButtonHeight;
     public GameObject parada1;
     public GameObject parada2;
     public GameObject parada3;
@@ -136,8 +137,6 @@ public class renfe : MonoBehaviour
 
     public void Selection(int paradaNumb2)
     {
-        renfeLinea.text = "Línea " + lineaNumb;
-
         TextAsset paradasEnLinea = Resources.Load<TextAsset>("renfe/c" + lineaNumb);
         string[] paradas = paradasEnLinea.text.Split('\n');
 
@@ -210,11 +209,20 @@ public class renfe : MonoBehaviour
         for (int i = 0; i < paradas.Length; i++)
         {
             paradasObj[i].SetActive(true);
+
+            RectTransform rt = paradasObj[i].GetComponent<RectTransform>();
+            rt.sizeDelta = new Vector2(rt.sizeDelta.x, renfeButtonHeight);
+
             paradasTexts[i].text = cleanText(paradas[i].Trim());
         }
         for (int i = paradas.Length; i < 30; i++)
         {
             paradasObj[i].SetActive(false);
         }
+    }
+
+    public void ModifyButtonHeight(int newHeight)
+    {
+        renfeButtonHeight = newHeight;
     }
 }

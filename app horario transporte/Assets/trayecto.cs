@@ -74,6 +74,7 @@ public class trayecto : MonoBehaviour
     public void FetchInfo(int par1, int lin1, int par2, int lin2, string infoType)
     {
         transportType.text = infoType;
+        infoTransportType = infoType;
 
         paradaPrimera = par1;
         lineaPrimera = lin1;
@@ -108,10 +109,10 @@ public class trayecto : MonoBehaviour
         {
             string location = "";
             string location_extra = "";
-            if (transportType.text == "metro") { location = "lineas/"; }
-            if (transportType.text == "renfe") { location = "renfe/c"; }
-            if (transportType.text == "bus_dir1") { transportType.text = "bus"; location = "buses/paradas/"; location_extra = "/" + lineaPrimera + "_dir1_pa"; }
-            if (transportType.text == "bus_dir2") { transportType.text = "bus"; location = "buses/paradas/"; location_extra = "/" + lineaPrimera + "_dir2_pa"; }
+            if (infoTransportType == "metro") { location = "lineas/"; }
+            if (infoTransportType == "renfe") { location = "renfe/c"; }
+            if (infoTransportType == "bus_dir1") { transportType.text = "bus"; location = "buses/paradas/"; location_extra = "/" + lineaPrimera + "_dir1_pa"; }
+            if (infoTransportType == "bus_dir2") { transportType.text = "bus"; location = "buses/paradas/"; location_extra = "/" + lineaPrimera + "_dir2_pa"; }
 
             TextAsset paradasEnLinea = Resources.Load<TextAsset>(location + lineaPrimera + location_extra);
             string[] paradas = paradasEnLinea.text.Split('\n');
@@ -120,15 +121,22 @@ public class trayecto : MonoBehaviour
 
             paso1.SetActive(true);
 
-            if (transportType.text == "metro") { paso1_currentLinea.text = "Línea " + lineaPrimera; }
-            if (transportType.text == "renfe") { paso1_currentLinea.text = "C" + lineaPrimera; }
-            if (transportType.text.Contains("bus")) { paso1_currentLinea.text = "Bus " + lineaPrimera; }
+            if (infoTransportType == "metro") { paso1_currentLinea.text = "Línea " + lineaPrimera; }
+            if (infoTransportType == "renfe") { paso1_currentLinea.text = "C" + lineaPrimera; }
+            if (infoTransportType.Contains("bus")) { paso1_currentLinea.text = "Bus " + lineaPrimera; }
             paso1_paradaInicial.text = cleanText(paradas[paradaPrimera - 1]);
             paso1_paradaFinal.text = cleanText(paradas[paradaFinal - 1]);
             paso1_paradasDiferencia.text = Mathf.Abs(paradaPrimera - paradaFinal) + " paradas";
 
+
             paradasTotales.text = "Paradas totales: " + Mathf.Abs(paradaPrimera - paradaFinal);
-            tiempoEstimado.text = "Tiempo estimado: " + Mathf.Abs(paradaPrimera - paradaFinal) * 3 + "''";
+            //tiempoEstimado.text = "Tiempo estimado: " + Mathf.Abs(paradaPrimera - paradaFinal) * 3 + "''";
+
+            if ((Mathf.Abs(paradaPrimera - paradaFinal) * 3) > 60) {
+                tiempoEstimado.text = "Tiempo estimado: 1h y " + ((Mathf.Abs(paradaPrimera - paradaFinal) * 3) - 60) + "''"; }
+            else {
+                tiempoEstimado.text = "Tiempo estimado: " + (Mathf.Abs(paradaPrimera - paradaFinal) * 3) + "''"; }
+
 
             if (paradaPrimera > paradaFinal)
             {
@@ -172,7 +180,7 @@ public class trayecto : MonoBehaviour
         }
 
         //hay que hacer transbordos
-        else if (transportType.text != "renfe")
+        else if (infoTransportType != "renfe")
         {
             TextAsset paradasEnLineaPrimera = Resources.Load<TextAsset>("lineas/" + lineaPrimera);
             string[] paradasPrimera = paradasEnLineaPrimera.text.Split('\n');
@@ -307,7 +315,7 @@ public class trayecto : MonoBehaviour
     public void SaveRouteToFavs()
     {
         favorites favorites = FindFirstObjectByType<favorites>();
-        favorites.SaveRoute(paradaPrimera, lineaPrimera, paradaFinal, lineaFinal, transportType.text);
+        favorites.SaveRoute(paradaPrimera, lineaPrimera, paradaFinal, lineaFinal, infoTransportType);
     }
 
     public void GetRouteFromFavs(int paradaInicial, int lineaInicial, int paradaFinal2, int lineaFinal2, string type)
@@ -323,6 +331,7 @@ public class trayecto : MonoBehaviour
         //isContarParadas = true;
 
         transportType.text = type;
+        infoTransportType = type;
         ContarParadas();
     }
 
@@ -340,6 +349,9 @@ public class trayecto : MonoBehaviour
 
         renfe renfe = FindFirstObjectByType<renfe>();
         renfe.ContarParadasReset();
+
+        bus bus = FindFirstObjectByType<bus>();
+        bus.ContarParadasReset();
     }
 
 

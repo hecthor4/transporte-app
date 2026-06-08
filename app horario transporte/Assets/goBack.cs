@@ -24,6 +24,7 @@ public class goBack : MonoBehaviour
     public GameObject m_all;
 
     public GameObject r_mapa;
+    public GameObject r_settings;
     public GameObject r_all;
 
     public GameObject b_mapa;
@@ -33,11 +34,19 @@ public class goBack : MonoBehaviour
 
     public GameObject changelog;
 
+    bus bus_ins;
+    trayecto trayecto_ins;
+    ajustes ajustes_ins;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         lastScreen.Add(main);
         currentScreen = main;
+
+        bus_ins = FindFirstObjectByType<bus>();
+        trayecto_ins = FindFirstObjectByType<trayecto>();
+        ajustes_ins = FindFirstObjectByType<ajustes>();
     }
 
     // Update is called once per frame
@@ -76,7 +85,7 @@ public class goBack : MonoBehaviour
         screenHistory.Add(currentScreen);
         FetchCurrentScreen();
 
-        Debug.Log("screen opened - current screen:" + currentScreen);
+        //Debug.Log("screen opened - current screen:" + currentScreen);
     }
     public void CloseScreen()
     {
@@ -97,6 +106,7 @@ public class goBack : MonoBehaviour
         last.SetActive(false);
         currentScreen.SetActive(true);
 
+
         //close app
         if (lastScreen.Count < 0 || lastScreen.Count == 0)
         {
@@ -104,144 +114,72 @@ public class goBack : MonoBehaviour
             Debug.Log("closing app...");
         }
 
+
         //other neccesary math
+        bus_ins.GoBack();
+        ajustes_ins.RefreshSettings();
+
         if (currentScreen == main || currentScreen == r_favs || currentScreen == r_nuevo)
         {
-            trayecto trayecto = FindFirstObjectByType<trayecto>();
-            trayecto.ContarParadasReset();
+            trayecto_ins.ContarParadasReset();
 
             Debug.Log("contar paradas reset - case 1 (impossible) - by goback");
         }
         if (screenHistory[screenHistory.Count - 1] == m_all || screenHistory[screenHistory.Count - 1] == r_all || screenHistory[screenHistory.Count - 1] == b_all)
         {
-            trayecto trayecto = FindFirstObjectByType<trayecto>();
-            trayecto.ContarParadasReset();
+            trayecto_ins.ContarParadasReset();
 
             Debug.Log("contar paradas reset - case 2 - by goback");
         }
 
-        Debug.Log("screen closed - current screen:" + currentScreen);
+        //Debug.Log("screen closed - current screen:" + currentScreen);
     }
 
 
     public void HardcodeValues(string caseNumber)
     {
-        if (caseNumber == "1_m")
-        {
-            currentScreen = m_all;
-            lastScreen.RemoveAt(lastScreen.Count - 1);
-        }
-        if (caseNumber == "1_r")
-        {
-            currentScreen = r_all;
-            lastScreen.RemoveAt(lastScreen.Count - 1);
-        }
-        if (caseNumber == "1_b")
-        {
-            currentScreen = b_all;
-            lastScreen.RemoveAt(lastScreen.Count - 1);
-        }
+        if (caseNumber == "1_m") { currentScreen = m_all; lastScreen.RemoveAt(lastScreen.Count - 1); }
+        if (caseNumber == "1_r") { currentScreen = r_all; lastScreen.RemoveAt(lastScreen.Count - 1); }
+        if (caseNumber == "1_b") { currentScreen = b_all; lastScreen.RemoveAt(lastScreen.Count - 1); }
 
 
-        if (caseNumber == "2_m")
-        {
-            currentScreen = m_all;
-            lastScreen.RemoveAt(lastScreen.Count - 1);
-        }
-        if (caseNumber == "2_r")
-        {
-            currentScreen = r_all;
-            lastScreen.RemoveAt(lastScreen.Count - 1);
-        }
-        if (caseNumber == "2_b")
-        {
-            currentScreen = b_all;
-            lastScreen.RemoveAt(lastScreen.Count - 1);
-        }
+        if (caseNumber == "2_m") { currentScreen = m_all; lastScreen.RemoveAt(lastScreen.Count - 1); }
+        if (caseNumber == "2_r") { currentScreen = r_all; lastScreen.RemoveAt(lastScreen.Count - 1); }
+        if (caseNumber == "2_b") { currentScreen = b_all; lastScreen.RemoveAt(lastScreen.Count - 1); }
     }
 
 
     void FetchCurrentScreen()
     {
-        if (main.activeInHierarchy == true)
-        {
-            currentScreen = main;
-        }
-        else if (metro.activeInHierarchy == true)
-        {
-            currentScreen = metro;
-        }
-        else if (renfe.activeInHierarchy == true)
-        {
-            currentScreen = renfe;
-        }
-        else if (bus.activeInHierarchy == true)
-        {
-            currentScreen = bus;
-        }
-        else if (tutorial.activeInHierarchy == true)
-        {
-            currentScreen = tutorial;
-        }
-        else if (mapas.activeInHierarchy == true)
-        {
-            currentScreen = mapas;
-        }
+        if (main.activeInHierarchy == true)             { currentScreen = main; }
+        else if (metro.activeInHierarchy == true)       { currentScreen = metro; }
+        else if (renfe.activeInHierarchy == true)       { currentScreen = renfe; }
+        else if (bus.activeInHierarchy == true)         { currentScreen = bus; }
+        else if (tutorial.activeInHierarchy == true)    { currentScreen = tutorial; }
+        else if (mapas.activeInHierarchy == true)       { currentScreen = mapas; }
 
 
-        else if (m_mapa.activeInHierarchy == true)
-        {
-            currentScreen = m_mapa;
-        }
-        else if (m_all.activeInHierarchy == true)
-        {
-            currentScreen = m_all;
-        }
-        else if (m_settings.activeInHierarchy == true)
-        {
-            currentScreen = m_settings;
-        }
+        else if (m_mapa.activeInHierarchy == true)      { currentScreen = m_mapa; }
+        else if (m_all.activeInHierarchy == true)       { currentScreen = m_all; }
+        else if (m_settings.activeInHierarchy == true)  { currentScreen = m_settings; }
 
 
-        else if (r_mapa.activeInHierarchy == true)
-        {
-            currentScreen = r_mapa;
-        }
-        else if (r_all.activeInHierarchy == true)
-        {
-            currentScreen = r_all;
-        }
+        else if (r_mapa.activeInHierarchy == true)      { currentScreen = r_mapa; }
+        else if (r_all.activeInHierarchy == true)       { currentScreen = r_all; }
+        else if (r_settings.activeInHierarchy == true)  { currentScreen = r_settings; }
 
 
-        else if (b_mapa.activeInHierarchy == true)
-        {
-            currentScreen = b_mapa;
-        }
-        else if (b_all.activeInHierarchy == true)
-        {
-            currentScreen = b_all;
-        }
+        else if (b_mapa.activeInHierarchy == true)      { currentScreen = b_mapa; }
+        else if (b_all.activeInHierarchy == true)       { currentScreen = b_all; }
 
 
-        else if (r_favs.activeInHierarchy == true)
-        {
-            currentScreen = r_favs;
-        }
-        else if (r_nuevo.activeInHierarchy == true)
-        {
-            currentScreen = r_nuevo;
-        }
+        else if (r_favs.activeInHierarchy == true)      { currentScreen = r_favs; }
+        else if (r_nuevo.activeInHierarchy == true)     { currentScreen = r_nuevo; }
 
 
-        else if (ma_mapa.activeInHierarchy == true)
-        {
-            currentScreen = ma_mapa;
-        }
+        else if (ma_mapa.activeInHierarchy == true)     { currentScreen = ma_mapa; }
 
 
-        else if (changelog.activeInHierarchy == true)
-        {
-            currentScreen = changelog;
-        }
+        else if (changelog.activeInHierarchy == true)   { currentScreen = changelog; }
     }
 }

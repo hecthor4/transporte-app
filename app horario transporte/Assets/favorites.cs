@@ -277,16 +277,18 @@ public class favorites : MonoBehaviour
         if (is1stEmpty == false)
         {
             string location = "";
+            string location_extra = "";
             string lineaNomenclatura = "[error]";
 
-            if (_1_type == "metro") { location = "lineas/"; lineaNomenclatura = "línea "; }
+            if (_1_type == "metro") { location = "lineas/"; lineaNomenclatura = "Metro: línea "; }
             if (_1_type == "renfe") { location = "renfe/c"; lineaNomenclatura = "C";  }
-            if (_1_type == "bus") { location = "buses/paradas/"; lineaNomenclatura = "Interurbano "; }
+            if (_1_type == "bus_dir1") { location = "buses/paradas/"; location_extra = "/" + _1_lineaInici + "_dir1_pa"; lineaNomenclatura = "Interurbano "; }
+            if (_1_type == "bus_dir2") { location = "buses/paradas/"; location_extra = "/" + _1_lineaInici + "_dir2_pa"; lineaNomenclatura = "Interurbano "; }
 
-            TextAsset _1_paradasEnLineaPrimera = Resources.Load<TextAsset>(location + _1_lineaInici);
+            TextAsset _1_paradasEnLineaPrimera = Resources.Load<TextAsset>(location + _1_lineaInici + location_extra);
             string[] _1_paradasPrimera = _1_paradasEnLineaPrimera.text.Split('\n');
 
-            TextAsset _1_paradasEnLineaFinal = Resources.Load<TextAsset>(location + _1_lineaFinal);
+            TextAsset _1_paradasEnLineaFinal = Resources.Load<TextAsset>(location + _1_lineaFinal + location_extra);
             string[] _1_paradasFinal = _1_paradasEnLineaFinal.text.Split('\n');
 
             fav1_name.text = _1_name;

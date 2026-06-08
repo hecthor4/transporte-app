@@ -65,6 +65,16 @@ public class updater : MonoBehaviour
             PlayerPrefs.SetInt("isCodeCorrect", isCodeCorrect);
             PlayerPrefs.Save();
         }
+
+
+        if (isCodeCorrect == 1)
+        {
+            timeUntilUpdateMenu.SetActive(false);
+        }
+        else
+        {
+            timeUntilUpdateMenu.SetActive(true);
+        }
     }
 
     // Update is called once per frame

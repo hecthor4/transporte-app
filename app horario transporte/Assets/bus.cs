@@ -410,6 +410,20 @@ public class bus : MonoBehaviour
         */
     }
 
+    public void ContarParadasReset()
+    {
+        lineaNumb = 0;
+        ParadaNumb = 0;
+
+        lineaInicial = 0;
+        paradaInicial = 0;
+        lineaFinal = 0;
+        paradaFinal = 0;
+
+        isContarParadas = false;
+        readyToSendInfo = false;
+    }
+
     public void OnParadaButtonClick(int paradaID, string dir)
     {
         selection.SetActive(true);
