@@ -88,12 +88,12 @@ public class metro : MonoBehaviour
     public TMP_Text parada39_text;
     public TMP_Text parada40_text;
 
-    public int lineaNumb;
+    public string lineaNumb;
     public int ParadaNumb;
 
-    public int lineaInicial;
+    public string lineaInicial;
     public int ParadaInicial;
-    public int LineaFinal;
+    public string LineaFinal;
     public int ParadaFinal;
 
     public bool isContarParadas = false;
@@ -119,12 +119,12 @@ public class metro : MonoBehaviour
 
     public void ContarParadasReset()
     {
-        lineaNumb = 0;
+        lineaNumb = "0";
         ParadaNumb = 0;
 
-        lineaInicial = 0;
+        lineaInicial = "0";
         ParadaInicial = 0;
-        LineaFinal = 0;
+        LineaFinal = "0";
         ParadaFinal = 0;
 
         isContarParadas = false;
@@ -209,7 +209,7 @@ public class metro : MonoBehaviour
         //SaveInfo();
     }
 
-    public void Iterate(int lineaNumb1)
+    public void Iterate(string lineaNumb1)
     {
         metroLinea.text = "Línea " + lineaNumb1;
         lineaNumb = lineaNumb1;

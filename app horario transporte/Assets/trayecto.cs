@@ -13,9 +13,9 @@ public class trayecto : MonoBehaviour
     public TMP_Text cantContinueText;
 
     public string infoTransportType;
-    public int lineaPrimera;
+    public string lineaPrimera;
     public int paradaPrimera;
-    public int lineaFinal;
+    public string lineaFinal;
     public int paradaFinal;
     public string direccion;
 
@@ -71,7 +71,7 @@ public class trayecto : MonoBehaviour
         
     }
 
-    public void FetchInfo(int par1, int lin1, int par2, int lin2, string infoType)
+    public void FetchInfo(int par1, string lin1, int par2, string lin2, string infoType)
     {
         transportType.text = infoType;
         infoTransportType = infoType;
@@ -318,7 +318,7 @@ public class trayecto : MonoBehaviour
         favorites.SaveRoute(paradaPrimera, lineaPrimera, paradaFinal, lineaFinal, infoTransportType);
     }
 
-    public void GetRouteFromFavs(int paradaInicial, int lineaInicial, int paradaFinal2, int lineaFinal2, string type)
+    public void GetRouteFromFavs(int paradaInicial, string lineaInicial, int paradaFinal2, string lineaFinal2, string type)
     {
         paradaPrimera = paradaInicial;
         lineaPrimera = lineaInicial;
@@ -339,9 +339,9 @@ public class trayecto : MonoBehaviour
     public void ContarParadasReset()
     {
         //isContarParadas = false;
-        lineaPrimera = 0;
+        lineaPrimera = "0";
         paradaPrimera = 0;
-        lineaFinal = 0;
+        lineaFinal = "0";
         paradaFinal = 0;
 
         metro metro = FindFirstObjectByType<metro>();

@@ -6,37 +6,37 @@ public class favorites : MonoBehaviour
 {
     public string _1_name;
     public string _1_type;
-    public int _1_lineaInici;
+    public string _1_lineaInici;
     public int _1_paradInici;
-    public int _1_lineaFinal;
+    public string _1_lineaFinal;
     public int _1_paradFinal;
 
     public string _2_name;
     public string _2_type;
-    public int _2_lineaInici;
+    public string _2_lineaInici;
     public int _2_paradInici;
-    public int _2_lineaFinal;
+    public string _2_lineaFinal;
     public int _2_paradFinal;
 
     public string _3_name;
     public string _3_type;
-    public int _3_lineaInici;
+    public string _3_lineaInici;
     public int _3_paradInici;
-    public int _3_lineaFinal;
+    public string _3_lineaFinal;
     public int _3_paradFinal;
 
     public string _4_name;
     public string _4_type;
-    public int _4_lineaInici;
+    public string _4_lineaInici;
     public int _4_paradInici;
-    public int _4_lineaFinal;
+    public string _4_lineaFinal;
     public int _4_paradFinal;
 
     public string _5_name;
     public string _5_type;
-    public int _5_lineaInici;
+    public string _5_lineaInici;
     public int _5_paradInici;
-    public int _5_lineaFinal;
+    public string _5_lineaFinal;
     public int _5_paradFinal;
 
     public string _f_l1_name;
@@ -139,37 +139,37 @@ public class favorites : MonoBehaviour
     {
         _1_name = PlayerPrefs.GetString("_1_name", "Default name");
         _1_type = PlayerPrefs.GetString("_1_type", "metro");
-        _1_lineaInici = PlayerPrefs.GetInt("_1_lineaInici", 0);
+        _1_lineaInici = PlayerPrefs.GetString("_1_lineaInici", "0");
         _1_paradInici = PlayerPrefs.GetInt("_1_paradInici", 0);
-        _1_lineaFinal = PlayerPrefs.GetInt("_1_lineaFinal", 0);
+        _1_lineaFinal = PlayerPrefs.GetString("_1_lineaFinal", "0");
         _1_paradFinal = PlayerPrefs.GetInt("_1_paradFinal", 0);
 
         _2_name = PlayerPrefs.GetString("_2_name", "Default name");
         _2_type = PlayerPrefs.GetString("_2_type", "metro");
-        _2_lineaInici = PlayerPrefs.GetInt("_2_lineaInici", 0);
+        _2_lineaInici = PlayerPrefs.GetString("_2_lineaInici", "0");
         _2_paradInici = PlayerPrefs.GetInt("_2_paradInici", 0);
-        _2_lineaFinal = PlayerPrefs.GetInt("_2_lineaFinal", 0);
+        _2_lineaFinal = PlayerPrefs.GetString("_2_lineaFinal", "0");
         _2_paradFinal = PlayerPrefs.GetInt("_2_paradFinal", 0);
 
         _3_name = PlayerPrefs.GetString("_3_name", "Default name");
         _3_type = PlayerPrefs.GetString("_3_type", "metro");
-        _3_lineaInici = PlayerPrefs.GetInt("_3_lineaInici", 0);
+        _3_lineaInici = PlayerPrefs.GetString("_3_lineaInici", "0");
         _3_paradInici = PlayerPrefs.GetInt("_3_paradInici", 0);
-        _3_lineaFinal = PlayerPrefs.GetInt("_3_lineaFinal", 0);
+        _3_lineaFinal = PlayerPrefs.GetString("_3_lineaFinal", "0");
         _3_paradFinal = PlayerPrefs.GetInt("_3_paradFinal", 0);
 
         _4_name = PlayerPrefs.GetString("_4_name", "Default name");
         _4_type = PlayerPrefs.GetString("_4_type", "metro");
-        _4_lineaInici = PlayerPrefs.GetInt("_4_lineaInici", 0);
+        _4_lineaInici = PlayerPrefs.GetString("_4_lineaInici", "0");
         _4_paradInici = PlayerPrefs.GetInt("_4_paradInici", 0);
-        _4_lineaFinal = PlayerPrefs.GetInt("_4_lineaFinal", 0);
+        _4_lineaFinal = PlayerPrefs.GetString("_4_lineaFinal", "0");
         _4_paradFinal = PlayerPrefs.GetInt("_4_paradFinal", 0);
 
         _5_name = PlayerPrefs.GetString("_5_name", "Default name");
         _5_type = PlayerPrefs.GetString("_5_type", "metro");
-        _5_lineaInici = PlayerPrefs.GetInt("_5_lineaInici", 0);
+        _5_lineaInici = PlayerPrefs.GetString("_5_lineaInici", "0");
         _5_paradInici = PlayerPrefs.GetInt("_5_paradInici", 0);
-        _5_lineaFinal = PlayerPrefs.GetInt("_5_lineaFinal", 0);
+        _5_lineaFinal = PlayerPrefs.GetString("_5_lineaFinal", "0");
         _5_paradFinal = PlayerPrefs.GetInt("_5_paradFinal", 0);
 
 
@@ -201,31 +201,31 @@ public class favorites : MonoBehaviour
 
     void GetEmptySlots()
     {
-        if (_1_lineaFinal == 0 && _1_lineaFinal == 0 && _1_paradFinal == 0 && _1_paradFinal == 0) { 
+        if (_1_lineaFinal == "0" && _1_lineaFinal == "0" && _1_paradFinal == 0 && _1_paradFinal == 0) { 
             is1stEmpty = true; fav1.SetActive(false); }
         else {
             is1stEmpty = false; fav1.SetActive(true); }
 
 
-        if (_2_lineaFinal == 0 && _2_lineaFinal == 0 && _2_paradFinal == 0 && _2_paradFinal == 0) { 
+        if (_2_lineaFinal == "0" && _2_lineaFinal == "0" && _2_paradFinal == 0 && _2_paradFinal == 0) { 
             is2ndEmpty = true; fav2.SetActive(false); }
         else {
             is2ndEmpty = false; fav2.SetActive(true); }
 
 
-        if (_3_lineaFinal == 0 && _3_lineaFinal == 0 && _3_paradFinal == 0 && _3_paradFinal == 0) { 
+        if (_3_lineaFinal == "0" && _3_lineaFinal == "0" && _3_paradFinal == 0 && _3_paradFinal == 0) { 
             is3rdEmpty = true; fav3.SetActive(false); }
         else {
             is3rdEmpty = false; fav3.SetActive(true); }
 
 
-        if (_4_lineaFinal == 0 && _4_lineaFinal == 0 && _4_paradFinal == 0 && _4_paradFinal == 0) { 
+        if (_4_lineaFinal == "0" && _4_lineaFinal == "0" && _4_paradFinal == 0 && _4_paradFinal == 0) { 
             is4thEmpty = true; fav4.SetActive(false); }
         else {
             is4thEmpty = false; fav4.SetActive(true); }
 
 
-        if (_5_lineaFinal == 0 && _5_lineaFinal == 0 && _5_paradFinal == 0 && _5_paradFinal == 0) { 
+        if (_5_lineaFinal == "0" && _5_lineaFinal == "0" && _5_paradFinal == 0 && _5_paradFinal == 0) { 
             is5thEmpty = true; fav5.SetActive(false); }
         else {
             is5thEmpty = false; fav5.SetActive(true); }
@@ -434,7 +434,7 @@ public class favorites : MonoBehaviour
         }
     }
 
-    public void SaveRoute(int paradaInicial, int lineaInicial, int paradaFinal, int lineaFinal, string type)
+    public void SaveRoute(int paradaInicial, string lineaInicial, int paradaFinal, string lineaFinal, string type)
     {
         if (is1stEmpty == true)
         {
@@ -555,37 +555,37 @@ public class favorites : MonoBehaviour
     {
         PlayerPrefs.SetString("_1_name", fav1_name.text);
         PlayerPrefs.SetString("_1_type", _1_type);
-        PlayerPrefs.SetInt("_1_lineaInici", _1_lineaInici);
+        PlayerPrefs.SetString("_1_lineaInici", _1_lineaInici);
         PlayerPrefs.SetInt("_1_paradInici", _1_paradInici);
-        PlayerPrefs.SetInt("_1_lineaFinal", _1_lineaFinal);
+        PlayerPrefs.SetString("_1_lineaFinal", _1_lineaFinal);
         PlayerPrefs.SetInt("_1_paradFinal", _1_paradFinal);
 
         PlayerPrefs.SetString("_2_name", fav2_name.text);
         PlayerPrefs.SetString("_2_type", _2_type);
-        PlayerPrefs.SetInt("_2_lineaInici", _2_lineaInici);
+        PlayerPrefs.SetString("_2_lineaInici", _2_lineaInici);
         PlayerPrefs.SetInt("_2_paradInici", _2_paradInici);
-        PlayerPrefs.SetInt("_2_lineaFinal", _2_lineaFinal);
+        PlayerPrefs.SetString("_2_lineaFinal", _2_lineaFinal);
         PlayerPrefs.SetInt("_2_paradFinal", _2_paradFinal);
 
         PlayerPrefs.SetString("_3_name", fav3_name.text);
         PlayerPrefs.SetString("_3_type", _3_type);
-        PlayerPrefs.SetInt("_3_lineaInici", _3_lineaInici);
+        PlayerPrefs.SetString("_3_lineaInici", _3_lineaInici);
         PlayerPrefs.SetInt("_3_paradInici", _3_paradInici);
-        PlayerPrefs.SetInt("_3_lineaFinal", _3_lineaFinal);
+        PlayerPrefs.SetString("_3_lineaFinal", _3_lineaFinal);
         PlayerPrefs.SetInt("_3_paradFinal", _3_paradFinal);
 
         PlayerPrefs.SetString("_4_name", fav4_name.text);
         PlayerPrefs.SetString("_4_type", _4_type);
-        PlayerPrefs.SetInt("_4_lineaInici", _4_lineaInici);
+        PlayerPrefs.SetString("_4_lineaInici", _4_lineaInici);
         PlayerPrefs.SetInt("_4_paradInici", _4_paradInici);
-        PlayerPrefs.SetInt("_4_lineaFinal", _4_lineaFinal);
+        PlayerPrefs.SetString("_4_lineaFinal", _4_lineaFinal);
         PlayerPrefs.SetInt("_4_paradFinal", _4_paradFinal);
 
         PlayerPrefs.SetString("_5_name", fav5_name.text);
         PlayerPrefs.SetString("_5_type", _5_type);
-        PlayerPrefs.SetInt("_5_lineaInici", _5_lineaInici);
+        PlayerPrefs.SetString("_5_lineaInici", _5_lineaInici);
         PlayerPrefs.SetInt("_5_paradInici", _5_paradInici);
-        PlayerPrefs.SetInt("_5_lineaFinal", _5_lineaFinal);
+        PlayerPrefs.SetString("_5_lineaFinal", _5_lineaFinal);
         PlayerPrefs.SetInt("_5_paradFinal", _5_paradFinal);
 
 
@@ -644,7 +644,7 @@ public class favorites : MonoBehaviour
             renfe renfe = FindFirstObjectByType<renfe>();
             bus bus = FindFirstObjectByType<bus>();
 
-            if (_f_l1_type == "metro") { metro.Iterate(int.Parse(_f_l1_linea)); m_all.SetActive(true); }
+            if (_f_l1_type == "metro") { metro.Iterate(_f_l1_linea); m_all.SetActive(true); }
             if (_f_l1_type == "renfe") { renfe.Iterate(_f_l1_linea); r_all.SetActive(true); }
             if (_f_l1_type == "bus") { bus.OpenLineInfo(_f_l1_linea + ""); b_all.SetActive(true); }
         }
@@ -653,7 +653,7 @@ public class favorites : MonoBehaviour
             renfe renfe = FindFirstObjectByType<renfe>();
             bus bus = FindFirstObjectByType<bus>();
 
-            if (_f_l2_type == "metro") { metro.Iterate(int.Parse(_f_l2_linea)); m_all.SetActive(true); }
+            if (_f_l2_type == "metro") { metro.Iterate(_f_l2_linea); m_all.SetActive(true); }
             if (_f_l2_type == "renfe") { renfe.Iterate(_f_l2_linea); r_all.SetActive(true); }
             if (_f_l2_type == "bus") { bus.OpenLineInfo(_f_l2_linea + ""); b_all.SetActive(true); }
         }
@@ -662,7 +662,7 @@ public class favorites : MonoBehaviour
             renfe renfe = FindFirstObjectByType<renfe>();
             bus bus = FindFirstObjectByType<bus>();
 
-            if (_f_l3_type == "metro") { metro.Iterate(int.Parse(_f_l3_linea)); m_all.SetActive(true); }
+            if (_f_l3_type == "metro") { metro.Iterate(_f_l3_linea); m_all.SetActive(true); }
             if (_f_l3_type == "renfe") { renfe.Iterate(_f_l3_linea); r_all.SetActive(true); }
             if (_f_l3_type == "bus") { bus.OpenLineInfo(_f_l3_linea + ""); b_all.SetActive(true); }
         }
@@ -671,7 +671,7 @@ public class favorites : MonoBehaviour
             renfe renfe = FindFirstObjectByType<renfe>();
             bus bus = FindFirstObjectByType<bus>();
 
-            if (_f_l4_type == "metro") { metro.Iterate(int.Parse(_f_l4_linea)); m_all.SetActive(true); }
+            if (_f_l4_type == "metro") { metro.Iterate(_f_l4_linea); m_all.SetActive(true); }
             if (_f_l4_type == "renfe") { renfe.Iterate(_f_l4_linea); r_all.SetActive(true); }
             if (_f_l4_type == "bus") { bus.OpenLineInfo(_f_l4_linea + ""); b_all.SetActive(true); }
         }
@@ -680,7 +680,7 @@ public class favorites : MonoBehaviour
             renfe renfe = FindFirstObjectByType<renfe>();
             bus bus = FindFirstObjectByType<bus>();
 
-            if (_f_l5_type == "metro") { metro.Iterate(int.Parse(_f_l5_linea)); m_all.SetActive(true); }
+            if (_f_l5_type == "metro") { metro.Iterate(_f_l5_linea); m_all.SetActive(true); }
             if (_f_l5_type == "renfe") { renfe.Iterate(_f_l5_linea); r_all.SetActive(true); }
             if (_f_l5_type == "bus") { bus.OpenLineInfo(_f_l5_linea + ""); b_all.SetActive(true); }
         }
@@ -698,45 +698,45 @@ public class favorites : MonoBehaviour
     {
         _1_name = "Default name";
         _1_type = "0";
-        _1_lineaInici = 0;
+        _1_lineaInici = "0";
         _1_paradInici = 0;
-        _1_lineaFinal = 0;
+        _1_lineaFinal = "0";
         _1_paradFinal = 0;
     }
     void Delete2()
     {
         _2_name = "Default name";
         _2_type = "0";
-        _2_lineaInici = 0;
+        _2_lineaInici = "0";
         _2_paradInici = 0;
-        _2_lineaFinal = 0;
+        _2_lineaFinal = "0";
         _2_paradFinal = 0;
     }
     void Delete3()
     {
         _3_name = "Default name";
         _3_type = "0";
-        _3_lineaInici = 0;
+        _3_lineaInici = "0";
         _3_paradInici = 0;
-        _3_lineaFinal = 0;
+        _3_lineaFinal = "0";
         _3_paradFinal = 0;
     }
     void Delete4()
     {
         _4_name = "Default name";
         _4_type = "0";
-        _4_lineaInici = 0;
+        _4_lineaInici = "0";
         _4_paradInici = 0;
-        _4_lineaFinal = 0;
+        _4_lineaFinal = "0";
         _4_paradFinal = 0;
     }
     void Delete5()
     {
         _5_name = "Default name";
         _5_type = "0";
-        _5_lineaInici = 0;
+        _5_lineaInici = "0";
         _5_paradInici = 0;
-        _5_lineaFinal = 0;
+        _5_lineaFinal = "0";
         _5_paradFinal = 0;
     }
     void DeleteFL1()
