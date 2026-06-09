@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class fps : MonoBehaviour
 {
-    public TMP_Text version;
-
     public static int SDK_INT; //get value 0 if I call from another script
     public static int result; //get value 0 if I call from another script
 
@@ -18,9 +16,6 @@ public class fps : MonoBehaviour
         disableFullScreen();
         result = getStatusHeight();
         SDK_INT = getSDKInt();
-
-
-        version.text = "Versión " + Application.version;
     }
 
     static void disableFullScreen()

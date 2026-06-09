@@ -71,9 +71,9 @@ public class bus : MonoBehaviour
     public int lineaNumb;
     public int ParadaNumb;
 
-    public int lineaInicial;
+    public string lineaInicial;
     public int paradaInicial;
-    public int lineaFinal;
+    public string lineaFinal;
     public int paradaFinal;
 
     public bool isContarParadas = false;
@@ -415,9 +415,9 @@ public class bus : MonoBehaviour
         lineaNumb = 0;
         ParadaNumb = 0;
 
-        lineaInicial = 0;
+        lineaInicial = "0";
         paradaInicial = 0;
-        lineaFinal = 0;
+        lineaFinal = "0";
         paradaFinal = 0;
 
         isContarParadas = false;
@@ -468,14 +468,14 @@ public class bus : MonoBehaviour
         {
             isContarParadas = true;
             paradaInicial = paradaID;
-            lineaInicial = int.Parse(busLinea.text);
+            lineaInicial = busLinea.text;
 
             selection_contarParadas.text = "Viajar desde aquí hasta...";
         }
         else if (isContarParadas == true)
         {
             paradaFinal = paradaID;
-            lineaFinal = int.Parse(busLinea.text);
+            lineaFinal = busLinea.text;
             readyToSendInfo = true;
             //SaveInfo();
 

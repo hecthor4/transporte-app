@@ -79,9 +79,9 @@ public class renfe : MonoBehaviour
     public TMP_Text selection_corres;
     public TMP_Text selection_contarParadas;
 
-    public int lineaPrimera;
+    public string lineaPrimera;
     public int paradaPrimera;
-    public int lineaFinal;
+    public string lineaFinal;
     public int paradaFinal;
 
     public GameObject r_all;
@@ -106,9 +106,9 @@ public class renfe : MonoBehaviour
         lineaNumb = "0";
         paradaNumb = 0;
 
-        lineaPrimera = 0;
+        lineaPrimera = "0";
         paradaPrimera = 0;
-        lineaFinal = 0;
+        lineaFinal = "0";
         paradaFinal = 0;
 
         isContarParadas = false;
@@ -173,7 +173,7 @@ public class renfe : MonoBehaviour
 
             selection_contarParadas.text = "Viajar desde aquí hasta...";
 
-            lineaPrimera = int.Parse(lineaNumb);
+            lineaPrimera = lineaNumb;
             paradaPrimera = paradaNumb2;
         }
         else if (isContarParadas == true)
@@ -182,7 +182,7 @@ public class renfe : MonoBehaviour
 
             selection_contarParadas.text = "Viajar hasta aquí";
 
-            lineaFinal = int.Parse(lineaNumb);
+            lineaFinal = lineaNumb;
             paradaFinal = paradaNumb2;
         }
 
