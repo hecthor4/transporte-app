@@ -103,6 +103,9 @@ public class trayecto : MonoBehaviour
         goBack goback = FindFirstObjectByType<goBack>();
         goback.OpenScreen();
 
+        indicators indicators = FindFirstObjectByType<indicators>();
+        indicators.AllToNormal();
+
 
         //el principio y el final están en la misma línea
         if (lineaPrimera == lineaFinal)
@@ -352,6 +355,9 @@ public class trayecto : MonoBehaviour
 
         bus bus = FindFirstObjectByType<bus>();
         bus.ContarParadasReset();
+
+        indicators indicators = FindFirstObjectByType<indicators>();
+        indicators.AllToNormal();
     }
 
 
@@ -359,9 +365,11 @@ public class trayecto : MonoBehaviour
 
     void ButtonMath(int finalLenght)
     {
+        /*   -- comentado porque resuelve el "A-T9" --
         if (paradaFinal == finalLenght - 1) { siguienteButton.SetActive(false); cantContinueNextButton.SetActive(true);
             cantContinueText.text = "No hay más paradas en la línea."; }
         else { siguienteButton.SetActive(true); cantContinueNextButton.SetActive(false); }
+        */
 
         if ((paso1_paradaInicial.text == paso1_paradaFinal.text) && paso1_5.activeInHierarchy == true) { siguienteText.text = "Hacer transbordo"; }
         else { siguienteText.text = "Siguiente parada"; }

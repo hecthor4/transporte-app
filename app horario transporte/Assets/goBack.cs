@@ -119,7 +119,7 @@ public class goBack : MonoBehaviour
         bus_ins.GoBack();
         ajustes_ins.RefreshSettings();
 
-        if (currentScreen == main || currentScreen == r_favs || currentScreen == r_nuevo)
+        if (currentScreen == r_favs || currentScreen == r_nuevo) //currentScreen == main || )
         {
             trayecto_ins.ContarParadasReset();
 

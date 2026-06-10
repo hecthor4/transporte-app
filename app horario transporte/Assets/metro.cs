@@ -138,6 +138,9 @@ public class metro : MonoBehaviour
         {
             trayecto trayecto = FindFirstObjectByType<trayecto>();
             trayecto.FetchInfo(ParadaInicial, lineaInicial, ParadaFinal, LineaFinal, "metro");
+
+            indicators indicators = FindFirstObjectByType<indicators>();
+            indicators.AllToNormal();
         }
         /*
         else if (isContarParadas == false)
@@ -145,6 +148,11 @@ public class metro : MonoBehaviour
             isContarParadas = true;
         }
         */
+        else if (isContarParadas == true)
+        {
+            indicators indicators = FindFirstObjectByType<indicators>();
+            indicators.ShowIndicator(ParadaInicial + "", lineaInicial, "metro");
+        }
     }
     public void SaveLineaToFavs()
     {

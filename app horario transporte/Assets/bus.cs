@@ -165,6 +165,15 @@ public class bus : MonoBehaviour
             trayecto trayecto = FindFirstObjectByType<trayecto>();
             Debug.LogWarning("bus_dir" + selection_direction);
             trayecto.FetchInfo(paradaInicial, lineaInicial, paradaFinal, lineaFinal, "bus_dir" + selection_direction);
+
+            indicators indicators = FindFirstObjectByType<indicators>();
+            indicators.AllToNormal();
+        }
+
+        else if (isContarParadas == true)
+        {
+            indicators indicators = FindFirstObjectByType<indicators>();
+            indicators.ShowIndicator(paradaInicial + "", lineaInicial, "bus_dir" + selection_direction);
         }
     }
     public void SaveLineaToFavs()
