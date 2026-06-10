@@ -1,18 +1,18 @@
-Villalba de Guadarrama
-Galapagar La Navata
-Torrelodones
-Las Matas
-Pinar de las Rozas
-Las Rozas
-Majadahonda
-El Barrial - Centro Comercial Pozuelo
-Pozuelo
-Aravaca
-Príncipe Pío
-Pirámides
-Delicias
-Méndez Álvaro
-Madrid Atocha
-Recoletos
-Nuevos Ministerios
-Madrid Chamartín - Clara Campoamor
+Villalba de Guadarrama [C8]
+Galapagar La Navata [C8]
+Torrelodones [C8]
+Las Matas [C8]
+Pinar de las Rozas [C8]
+Las Rozas [C7]
+Majadahonda [C7]
+El Barrial - Centro Comercial Pozuelo [C7]
+Pozuelo [C7]
+Aravaca [ML] [C7]
+Príncipe Pío [Metro] [C7]
+Pirámides [Metro]
+Delicias [Metro]
+Méndez Álvaro [Metro] [C5]
+Atocha [Metro] [C2] [C3] [C4] [C5] [C7] [C8]
+Recoletos [C2] [C7] [C8]
+Nuevos Ministerios [Metro] [C3] [C4] [C5] [C7] [C8]
+Pinar de Chamartín [Metro] [C1] [C2] [C3] [C4] [C7] [C8]

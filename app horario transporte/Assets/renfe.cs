@@ -1,5 +1,7 @@
+using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class renfe : MonoBehaviour
 {
@@ -68,6 +70,37 @@ public class renfe : MonoBehaviour
     public TMP_Text parada29_text;
     public TMP_Text parada30_text;
 
+    public TMP_Text parada1_corres;
+    public TMP_Text parada2_corres;
+    public TMP_Text parada3_corres;
+    public TMP_Text parada4_corres;
+    public TMP_Text parada5_corres;
+    public TMP_Text parada6_corres;
+    public TMP_Text parada7_corres;
+    public TMP_Text parada8_corres;
+    public TMP_Text parada9_corres;
+    public TMP_Text parada10_corres;
+    public TMP_Text parada11_corres;
+    public TMP_Text parada12_corres;
+    public TMP_Text parada13_corres;
+    public TMP_Text parada14_corres;
+    public TMP_Text parada15_corres;
+    public TMP_Text parada16_corres;
+    public TMP_Text parada17_corres;
+    public TMP_Text parada18_corres;
+    public TMP_Text parada19_corres;
+    public TMP_Text parada20_corres;
+    public TMP_Text parada21_corres;
+    public TMP_Text parada22_corres;
+    public TMP_Text parada23_corres;
+    public TMP_Text parada24_corres;
+    public TMP_Text parada25_corres;
+    public TMP_Text parada26_corres;
+    public TMP_Text parada27_corres;
+    public TMP_Text parada28_corres;
+    public TMP_Text parada29_corres;
+    public TMP_Text parada30_corres;
+
     public string lineaNumb;
     public int paradaNumb;
 
@@ -121,6 +154,9 @@ public class renfe : MonoBehaviour
         {
             trayecto trayecto = FindFirstObjectByType<trayecto>();
             trayecto.FetchInfo(paradaPrimera, lineaPrimera, paradaFinal, lineaFinal, "renfe");
+
+            indicators indicators = FindFirstObjectByType<indicators>();
+            indicators.AllToNormal();
         }
         /*
         else if (isContarParadas == false)
@@ -128,6 +164,11 @@ public class renfe : MonoBehaviour
             isContarParadas = true;
         }
         */
+        else if (isContarParadas == true)
+        {
+            indicators indicators = FindFirstObjectByType<indicators>();
+            indicators.ShowIndicator(paradaPrimera + "", "C" + lineaPrimera, "renfe");
+        }
     }
     public void SaveLineaToFavs()
     {
@@ -201,9 +242,10 @@ public class renfe : MonoBehaviour
         string[] paradas = paradasEnLinea.text.Split('\n');
 
         string cleanText(string texto) => texto.Split('[')[0].Trim();
-
+        string getCorres(string texto) => Regex.Match(texto, @"\[.+\]").Value.Trim();
 
         TMP_Text[] paradasTexts = { parada1_text, parada2_text, parada3_text, parada4_text, parada5_text, parada6_text, parada7_text, parada8_text, parada9_text, parada10_text, parada11_text, parada12_text, parada13_text, parada14_text, parada15_text, parada16_text, parada17_text, parada18_text, parada19_text, parada20_text, parada21_text, parada22_text, parada23_text, parada24_text, parada25_text, parada26_text, parada27_text, parada28_text, parada29_text, parada30_text };
+        TMP_Text[] paradasCorres = { parada1_corres, parada2_corres, parada3_corres, parada4_corres, parada5_corres, parada6_corres, parada7_corres, parada8_corres, parada9_corres, parada10_corres, parada11_corres, parada12_corres, parada13_corres, parada14_corres, parada15_corres, parada16_corres, parada17_corres, parada18_corres, parada19_corres, parada20_corres, parada21_corres, parada22_corres, parada23_corres, parada24_corres, parada25_corres, parada26_corres, parada27_corres, parada28_corres, parada29_corres, parada30_corres };
         GameObject[] paradasObj = { parada1, parada2, parada3, parada4, parada5, parada6, parada7, parada8, parada9, parada10, parada11, parada12, parada13, parada14, parada15, parada16, parada17, parada18, parada19, parada20, parada21, parada22, parada23, parada24, parada25, parada26, parada27, parada28, parada29, parada30 };
 
         for (int i = 0; i < paradas.Length; i++)
@@ -214,6 +256,12 @@ public class renfe : MonoBehaviour
             rt.sizeDelta = new Vector2(rt.sizeDelta.x, renfeButtonHeight);
 
             paradasTexts[i].text = cleanText(paradas[i].Trim());
+            paradasCorres[i].text = getCorres(paradas[i].Trim());
+
+            if (paradasCorres[i].text == "")
+            {
+                paradasCorres[i].text = "<i>Sin correspondencias</i>";
+            }
         }
         for (int i = paradas.Length; i < 30; i++)
         {

@@ -1,4 +1,4 @@
-Madrid Chamartín-Clara Campoamor [C2] [C3] [C4] [C4a] [C4b] [C7] [C8] [C8a] [C8b] [C10]
-Fuente de la Mora
+Chamartín-Clara Campoamor [Metro] [C2] [C3] [C4] [C7] [C8] [C10]
+Fuente de la Mora [ML]
 Valdebebas
-Aeropuerto T4
+Aeropuerto T4 [Metro]

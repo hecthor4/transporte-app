@@ -1,24 +1,24 @@
-Alcalá de Henares
-La Garena
-Soto del Henares
-Torrejón de Ardoz
-San Fernando de Henares
-Coslada
-Vicálvaro
-Santa Eugenia
-Vallecas
-El Pozo
-Asamblea de Madrid - Entrevías
-Madrid Atocha Cercanías
-Recoletos
-Nuevos Ministerios
-Madrid Chamartín - Clara Campoamor
-Ramón y Cajal
-Mirasierra-Paco de Lucía
-Pitis
-Las Rozas
-Majadahonda
-El Barrial - Centro Comercial Pozuelo
-Pozuelo
-Aravaca
-Príncipe Pío
+Alcalá de Henares [C2] [C8]
+La Garena [C2] [C8]
+Soto del Henares [C2] [C8]
+Torrejón de Ardoz [C2] [C8]
+San Fernando de Henares [C2] [C8]
+Coslada Central [Metro] [C2] [C8]
+Vicálvaro [Metro] [C2] [C8]
+Santa Eugenia [C2] [C8]
+Vallecas [Metro] [C2] [C8]
+El Pozo [C2] [C8]
+Asamblea de Madrid - Entrevías [C2] [C8]
+Atocha [Metro] [C2] [C3] [C4] [C5] [C8] [C10]
+Recoletos [C2] [C8] [C10]
+Nuevos Ministerios [Metro] [C3] [C4] [C5] [C7] [C8]
+Pinar de Chamartín [Metro] [C1] [C2] [C3] [C4] [C8] [C10]
+Ramón y Cajal [C8]
+Mirasierra-Paco de Lucía [C8]
+Pitis [Metro] [C8]
+Las Rozas [C10]
+Majadahonda [C10]
+El Barrial - Centro Comercial Pozuelo [C10]
+Pozuelo [C10]
+Aravaca [ML] [C10]
+Príncipe Pío [Metro] [C10]

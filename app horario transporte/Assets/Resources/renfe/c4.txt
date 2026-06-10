@@ -1,12 +1,12 @@
-Parla [C4a] [C4b]
-Getafe Sector 3 [C4a] [C4b]
-Getafe-Centro [C4a] [C4b]
-Las Margaritas [C4a] [C4b]
-Villaverde Alto [C4a] [C4b] [C5]
-Villaverde Bajo [C3] [C4a] [C4b]
-Madrid Atocha Cercanías [C3] [C4a] [C4b] [C5] [C7] [C8] [C8a] [C8b] [C10]
-Sol [C3] [C4a] [C4b]
-Nuevos Ministerios [C2] [C4] [C4a] [C4b] [C5] [C7] [C8] [C8a] [C8b]
-Madrid Chamartín-Clara Campoamor
+Parla
+Getafe Sector 3
+Getafe-Centro [Metro]
+Las Margaritas
+Villaverde Alto [Metro] [C5]
+Villaverde Bajo [C3]
+Atocha [Metro] [C3] [C5] [C7] [C8] [C10]
+Sol [Metro] [C3]
+Nuevos Ministerios [Metro] [C2] [C5] [C7] [C8] [C10]
+Pinar de Chamartín [Metro] [C1] [C2] [C3] [C7] [C8] [C10]
 Fuencarral
 Universidad Cantoblanco

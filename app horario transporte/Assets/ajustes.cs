@@ -32,7 +32,7 @@ public class ajustes : MonoBehaviour
         m_tamañoSave = PlayerPrefs.GetInt("m_tamañoSave", 85);
         m_espaciadoSave = PlayerPrefs.GetInt("m_espaciadoSave", 2);
 
-        r_tamañoSave = PlayerPrefs.GetInt("r_tamañoSave", 85);
+        r_tamañoSave = PlayerPrefs.GetInt("r_tamañoSave", 130);
         r_espaciadoSave = PlayerPrefs.GetInt("r_espaciadoSave", 2);
 
 
@@ -73,10 +73,10 @@ public class ajustes : MonoBehaviour
         RefreshSettings();
 
         PlayerPrefs.SetInt("m_tamañoSave", m_tamañoSave);
-        PlayerPrefs.SetInt("m_espaciadoSave", m_tamañoSave);
+        PlayerPrefs.SetInt("m_espaciadoSave", m_espaciadoSave);
 
         PlayerPrefs.SetInt("r_tamañoSave", r_tamañoSave);
-        PlayerPrefs.SetInt("r_espaciadoSave", r_tamañoSave);
+        PlayerPrefs.SetInt("r_espaciadoSave", r_espaciadoSave);
 
         PlayerPrefs.Save();
     }
@@ -93,7 +93,7 @@ public class ajustes : MonoBehaviour
         }
         if (which == "renfe")
         {
-            r_tamañoSave = 85;
+            r_tamañoSave = 130;
             r_espaciadoSave = 2;
 
             r_tamaño.value = r_tamañoSave;

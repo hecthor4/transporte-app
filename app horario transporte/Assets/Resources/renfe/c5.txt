@@ -1,23 +1,23 @@
 Móstoles-El Soto
-Móstoles
+Móstoles [Metro]
 Las Retamas
-Alcorcón
+Alcorcón [Metro]
 San José de Valderas
-Cuatro Vientos
+Cuatro Vientos [Metro]
 Las Águilas
 Maestra Justa Freire Polideportivo Aluche
-Aluche
-Laguna
-Embajadores
-Madrid Atocha
-Méndez Álvaro
+Aluche [Metro]
+Laguna [Metro]
+Embajadores [Metro]
+Atocha [Metro] [C2] [C3] [C4] [C7] [C8] [C10]
+Méndez Álvaro [Metro] [C10]
 Doce de Octubre
 Orcasitas
 Puente Alcocer
-Villaverde Alto
+Villaverde Alto [Metro] [C4]
 Zarzaquemada
-Leganés
+Leganés [Metro]
 Parque Polvoranca
 La Serna-Fuenlabrada
-Fuenlabrada
+Fuenlabrada [Metro]
 Humanes
