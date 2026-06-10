@@ -112,10 +112,11 @@ public class trayecto : MonoBehaviour
         {
             string location = "";
             string location_extra = "";
-            if (infoTransportType == "metro") { location = "lineas/"; }
-            if (infoTransportType == "renfe") { location = "renfe/c"; }
-            if (infoTransportType == "bus_dir1") { transportType.text = "bus"; location = "buses/paradas/"; location_extra = "/dir1_pa"; }
-            if (infoTransportType == "bus_dir2") { transportType.text = "bus"; location = "buses/paradas/"; location_extra = "/dir2_pa"; }
+            int numbersToSubstract = 1;
+            if (infoTransportType == "metro") { location = "lineas/"; numbersToSubstract = 1; }
+            if (infoTransportType == "renfe") { location = "renfe/c"; numbersToSubstract = 1; }
+            if (infoTransportType == "bus_dir1") { transportType.text = "bus"; location = "buses/paradas/"; location_extra = "/dir1_pa"; numbersToSubstract = 0; }
+            if (infoTransportType == "bus_dir2") { transportType.text = "bus"; location = "buses/paradas/"; location_extra = "/dir2_pa"; numbersToSubstract = 0; }
 
             TextAsset paradasEnLinea = Resources.Load<TextAsset>(location + lineaPrimera + location_extra);
             string[] paradas = paradasEnLinea.text.Split('\n');
@@ -127,8 +128,8 @@ public class trayecto : MonoBehaviour
             if (infoTransportType == "metro") { paso1_currentLinea.text = "Línea " + lineaPrimera; }
             if (infoTransportType == "renfe") { paso1_currentLinea.text = "C" + lineaPrimera; }
             if (infoTransportType.Contains("bus")) { paso1_currentLinea.text = "Bus " + lineaPrimera; }
-            paso1_paradaInicial.text = cleanText(paradas[paradaPrimera - 1]);
-            paso1_paradaFinal.text = cleanText(paradas[paradaFinal - 1]);
+            paso1_paradaInicial.text = cleanText(paradas[paradaPrimera - numbersToSubstract]);
+            paso1_paradaFinal.text = cleanText(paradas[paradaFinal - numbersToSubstract]);
             paso1_paradasDiferencia.text = Mathf.Abs(paradaPrimera - paradaFinal) + " paradas";
 
 
@@ -187,10 +188,11 @@ public class trayecto : MonoBehaviour
         {
             string location = "";
             string location_extra = "";
-            if (infoTransportType == "metro") { location = "lineas/"; }
-            if (infoTransportType == "renfe") { location = "renfe/c"; }
-            if (infoTransportType == "bus_dir1") { transportType.text = "bus"; location = "buses/paradas/"; location_extra = "/dir1_pa"; }
-            if (infoTransportType == "bus_dir2") { transportType.text = "bus"; location = "buses/paradas/"; location_extra = "/dir2_pa"; }
+            int numbersToSubstract = 1;
+            if (infoTransportType == "metro") { location = "lineas/"; numbersToSubstract = 1; }
+            if (infoTransportType == "renfe") { location = "renfe/c"; numbersToSubstract = 1; }
+            if (infoTransportType == "bus_dir1") { transportType.text = "bus"; location = "buses/paradas/"; location_extra = "/dir1_pa"; numbersToSubstract = 0; }
+            if (infoTransportType == "bus_dir2") { transportType.text = "bus"; location = "buses/paradas/"; location_extra = "/dir2_pa"; numbersToSubstract = 0; }
 
 
             TextAsset paradasEnLineaPrimera = Resources.Load<TextAsset>(location + lineaPrimera + location_extra);
@@ -206,7 +208,7 @@ public class trayecto : MonoBehaviour
             string cleanText(string texto) => texto.Split('[')[0].Trim();
 
             paso1_currentLinea.text = "Línea " + lineaPrimera;
-            paso1_paradaInicial.text = cleanText(paradasPrimera[paradaPrimera - 1]);
+            paso1_paradaInicial.text = cleanText(paradasPrimera[paradaPrimera - numbersToSubstract]);
 
             isWayPossible = false;
             for (int i = 0; i < paradasPrimera.Length; i++)
@@ -373,17 +375,22 @@ public class trayecto : MonoBehaviour
 
     void ButtonMath(int finalLenght)
     {
+        cantContinueNextButton.SetActive(false);
+        siguienteButton.SetActive(true);
+
+
         /*   -- comentado porque resuelve el "A-T9" --
         if (paradaFinal == finalLenght - 1) { siguienteButton.SetActive(false); cantContinueNextButton.SetActive(true);
             cantContinueText.text = "No hay más paradas en la línea."; }
         else { siguienteButton.SetActive(true); cantContinueNextButton.SetActive(false); }
         */
 
+
         if ((paso1_paradaInicial.text == paso1_paradaFinal.text) && paso1_5.activeInHierarchy == true) { siguienteText.text = "Hacer transbordo"; }
         else { siguienteText.text = "Siguiente parada"; }
 
         if ((paso1_paradaInicial.text == paso1_paradaFinal.text) && paso1_5.activeInHierarchy == false) { siguienteButton.SetActive(false); 
-            cantContinueNextButton.SetActive(true); cantContinueText.text = "Ha llegado a su destino."; }
+            cantContinueNextButton.SetActive(true); cantContinueText.text = "Ha llegado a su destino."; Debug.Log("trayecto destino"); }
     }
 
     public void NextStop()

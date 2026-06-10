@@ -163,7 +163,9 @@ public class metro : MonoBehaviour
 
     public void Selection(int paradaNumb2)
     {
-        metroLinea.text = "Línea " + lineaNumb;
+        if (!lineaNumb.Contains("r") && !lineaNumb.Contains("ml")) { metroLinea.text = "Línea " + lineaNumb; }
+        else if (lineaNumb.Contains("r")) { metroLinea.text = "Ramal"; }
+        else if (lineaNumb.Contains("ml")) { metroLinea.text = "Metro Ligero " + lineaNumb[2]; }
 
         TextAsset paradasEnLinea = Resources.Load<TextAsset>("lineas/" + lineaNumb);
         string[] paradas = paradasEnLinea.text.Split('\n');
@@ -219,7 +221,11 @@ public class metro : MonoBehaviour
 
     public void Iterate(string lineaNumb1)
     {
-        metroLinea.text = "Línea " + lineaNumb1;
+        if (!lineaNumb1.Contains("r") && !lineaNumb1.Contains("ml")) { metroLinea.text = "Línea " + lineaNumb1; }
+        else if (lineaNumb1.Contains("r")) { metroLinea.text = "Ramal"; }
+        else if (lineaNumb1.Contains("ml")) { metroLinea.text = "Metro Ligero " + lineaNumb1[2]; }
+
+
         lineaNumb = lineaNumb1;
 
         goBack goback = FindFirstObjectByType<goBack>();

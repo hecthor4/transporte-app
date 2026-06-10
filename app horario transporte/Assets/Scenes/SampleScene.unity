@@ -13934,7 +13934,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_TextWrappingMode: 1
+  m_TextWrappingMode: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
@@ -29553,8 +29553,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 506.5, y: -1931.7949}
-  m_SizeDelta: {x: 1013, y: 3703.43}
+  m_AnchoredPosition: {x: 506.5, y: -1974.36}
+  m_SizeDelta: {x: 1013, y: 3788.56}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &449246677
 MonoBehaviour:
@@ -29576,37 +29576,39 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "<b>Versi\xF3n 1.14</b> (09/06/2026)\n\t- Correspondencias en Cecan\xEDas.\n\n\n<b>Versi\xF3n
-    1.13</b> (09/06/2026)\n\t- Ajustes en Cercan\xEDas\n\t- Mejora de los ajustes
-    en metro.\n\t- Soluci\xF3n de errores en l\xEDneas de Cercan\xEDas.\n\t- L\xEDneas
-    R y 1, 2 y 3 de metro ligero a\xF1adidas.\n\t- Indicadores de selecci\xF3n de
-    paradas para trayectos.\n\n\n<b>Versi\xF3n 1.12</b> (07/06/2026)\n\t- Rutas y
-    correspondencias en Renfe Cercan\xEDas.\n\t- Rutas y correspondencias en autobuses.\n\t-
-    Arreglo en zoom de mapas\n\t- La funci\xF3n de ir atr\xE1s funciona correctamente.\n\t-
-    Se pueden a\xF1adir l\xEDneas de cualquier tipo a favoritos.\n\n\n<b>Versi\xF3n
-    1.11</b> (31/05/2026)\n\t- Informaci\xF3n en pesta\xF1a de buses.\n\t- Opciones
-    para ordenar buses.\n\t- Opciones para adelantar o atrasar el trayecto.\n\t-
-    Errores de c\xF3digo solucionados en Favoritos.\n\n\n<b>Versi\xF3n 1.10</b> (22/05/2026)\n\t-
-    Lista de buses completa.\n\t- Soluci\xF3n de errores relacionados con interfaces.\n\n\n<b>Versi\xF3n
-    1.9</b> (16/05/2026)\n\t- Interfaz de usuario actualizada.\n\t- M\xE1s informaci\xF3n
-    sobre las licencias.\n\t- Ajustes de metro disponibles (otra vez).\n\n\n<b>Versi\xF3n
-    1.8</b> (15/05/2026)\n\t- Renfe Cercan\xEDas.\n\t- Zoom manual en vez de con
-    Slider.\n\t- Mapa Madrid.\n\n\n<b>Versi\xF3n 1.7</b> (13/05/2026)\n\t- Favoritos
-    con m\xE1ximo de 5 rutas guardables.\n\t- Nueva interfaz para ver paradas de
-    buses.\n\t- Arreglos a la barra de desplazado en interfaces.\n\n\n<b>Versi\xF3n
-    1.6</b> (03/05/2026)\n\t- Informaci\xF3n sobre la parada de metro seleccionada.\n\t-
-    Tutorial sobre el uso de la aplicaci\xF3n.\n\t- Rutas de metro con transbordos
-    (m\xE1ximo 1).\n\n\n<b>Versi\xF3n 1.5</b> (02/05/2026)\n\t- Interfaces scrolleables
-    se renderizan correctamente.\n\t- Zoom al mapa de metro.\n\t- La informaci\xF3n
-    de la app solo es visible en el inicio.\n\n\n<b>Versi\xF3n 1.4</b> (12/04/2026)\n\t-
-    A\xF1adido correspondencias a l\xEDneas de metro.\n\t- Solucionado errores visuales
-    y de c\xF3digo.\n\t- Interfaz se renderiza correctamente en m\xF3vil\n\n\n<b>Versi\xF3n
-    1.3</b> (12/04/2026)\n\t- A\xF1adido mapa bus (con l\xEDneas y zoom).\n\t- A\xF1adido
-    mapa metro.\n\n\n<b>Versi\xF3n 1.2</b> (12/04/2026)\n\t- A\xF1adido ajustes de
-    accesibilidad a metro.\n\n\n<b>Versi\xF3n 1.1</b> (10/04/2026)\n\t- Interfaz
-    de autobuses arreglada.\n\t- Bus N203 a\xF1adido.\n\t- Favicon actualizado.\n\t-
-    FPS limitados a 90.\n\n\n<b>Versi\xF3n 1.0</b> (09/04/2026)\n\t- Metro: 12 l\xEDneas
-    con todas sus paradas.\n\t- Bus: l\xEDneas 280, 282, 284, 285, 341.\n\n"
+  m_text: "<b>Versi\xF3n 1.14</b> (10/06/2026)\n\t- Correspondencias en Cecan\xEDas.\n\t-
+    Cambios grandes de nomenclatura en la base de datos.\n\t- Soluci\xF3n de errores
+    en trayectos de Cercan\xEDas.\n\n\n<b>Versi\xF3n 1.13</b> (09/06/2026)\n\t- Ajustes
+    en Cercan\xEDas\n\t- Mejora de los ajustes en metro.\n\t- Soluci\xF3n de errores
+    en l\xEDneas de Cercan\xEDas.\n\t- L\xEDneas R y 1, 2 y 3 de metro ligero a\xF1adidas.\n\t-
+    Indicadores de selecci\xF3n de paradas para trayectos.\n\n\n<b>Versi\xF3n 1.12</b>
+    (07/06/2026)\n\t- Rutas y correspondencias en Renfe Cercan\xEDas.\n\t- Rutas
+    y correspondencias en autobuses.\n\t- Arreglo en zoom de mapas\n\t- La funci\xF3n
+    de ir atr\xE1s funciona correctamente.\n\t- Se pueden a\xF1adir l\xEDneas de
+    cualquier tipo a favoritos.\n\n\n<b>Versi\xF3n 1.11</b> (31/05/2026)\n\t- Informaci\xF3n
+    en pesta\xF1a de buses.\n\t- Opciones para ordenar buses.\n\t- Opciones para
+    adelantar o atrasar el trayecto.\n\t- Errores de c\xF3digo solucionados en Favoritos.\n\n\n<b>Versi\xF3n
+    1.10</b> (22/05/2026)\n\t- Lista de buses completa.\n\t- Soluci\xF3n de errores
+    relacionados con interfaces.\n\n\n<b>Versi\xF3n 1.9</b> (16/05/2026)\n\t- Interfaz
+    de usuario actualizada.\n\t- M\xE1s informaci\xF3n sobre las licencias.\n\t-
+    Ajustes de metro disponibles (otra vez).\n\n\n<b>Versi\xF3n 1.8</b> (15/05/2026)\n\t-
+    Renfe Cercan\xEDas.\n\t- Zoom manual en vez de con Slider.\n\t- Mapa Madrid.\n\n\n<b>Versi\xF3n
+    1.7</b> (13/05/2026)\n\t- Favoritos con m\xE1ximo de 5 rutas guardables.\n\t-
+    Nueva interfaz para ver paradas de buses.\n\t- Arreglos a la barra de desplazado
+    en interfaces.\n\n\n<b>Versi\xF3n 1.6</b> (03/05/2026)\n\t- Informaci\xF3n sobre
+    la parada de metro seleccionada.\n\t- Tutorial sobre el uso de la aplicaci\xF3n.\n\t-
+    Rutas de metro con transbordos (m\xE1ximo 1).\n\n\n<b>Versi\xF3n 1.5</b> (02/05/2026)\n\t-
+    Interfaces scrolleables se renderizan correctamente.\n\t- Zoom al mapa de metro.\n\t-
+    La informaci\xF3n de la app solo es visible en el inicio.\n\n\n<b>Versi\xF3n
+    1.4</b> (12/04/2026)\n\t- A\xF1adido correspondencias a l\xEDneas de metro.\n\t-
+    Solucionado errores visuales y de c\xF3digo.\n\t- Interfaz se renderiza correctamente
+    en m\xF3vil\n\n\n<b>Versi\xF3n 1.3</b> (12/04/2026)\n\t- A\xF1adido mapa bus
+    (con l\xEDneas y zoom).\n\t- A\xF1adido mapa metro.\n\n\n<b>Versi\xF3n 1.2</b>
+    (12/04/2026)\n\t- A\xF1adido ajustes de accesibilidad a metro.\n\n\n<b>Versi\xF3n
+    1.1</b> (10/04/2026)\n\t- Interfaz de autobuses arreglada.\n\t- Bus N203 a\xF1adido.\n\t-
+    Favicon actualizado.\n\t- FPS limitados a 90.\n\n\n<b>Versi\xF3n 1.0</b> (09/04/2026)\n\t-
+    Metro: 12 l\xEDneas con todas sus paradas.\n\t- Bus: l\xEDneas 280, 282, 284,
+    285, 341.\n\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1b4c553049064704ca3bfaae9af8a9eb, type: 2}
   m_sharedMaterial: {fileID: 213905704386277544, guid: 1b4c553049064704ca3bfaae9af8a9eb, type: 2}
@@ -39430,8 +39432,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 506.5, y: -2541.755}
-  m_SizeDelta: {x: 1013, y: 3783.51}
+  m_AnchoredPosition: {x: 506.5, y: -2584.32}
+  m_SizeDelta: {x: 1013, y: 3868.6401}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &598826494
 MonoBehaviour:
@@ -65991,7 +65993,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 4433.51}
+  m_SizeDelta: {x: 0, y: 4518.64}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &961985545
 MonoBehaviour:
@@ -105049,10 +105051,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 1681154094}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 1807215565}
+        m_TargetAssemblyTypeName: renfe, Assembly-CSharp
+        m_MethodName: ContarParadasReset
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -105061,17 +105063,29 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 416344491}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 2012867120}
+        m_TargetAssemblyTypeName: bus, Assembly-CSharp
+        m_MethodName: ContarParadasReset
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 1
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 774145530}
+        m_TargetAssemblyTypeName: goBack, Assembly-CSharp
+        m_MethodName: CloseScreen
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1522724110
 MonoBehaviour:
@@ -135284,7 +135298,7 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1795288811}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.634601}
+  m_AnchorMin: {x: 0, y: 0.6414851}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
@@ -145137,7 +145151,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1964180362}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.365399
+  m_Size: 0.35851493
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

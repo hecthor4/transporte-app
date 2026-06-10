@@ -62,11 +62,12 @@ public class indicators : MonoBehaviour
 
         string location = "";
         string location_extra = "";
+        int numbersToSubstract = 1;
 
-        if (type == "metro") { location = "lineas/"; }
-        if (type == "renfe") { location = "renfe/"; } //ya meto el 'C' en 'linea'
-        if (type == "bus_dir1") { location = "buses/paradas/"; location_extra = "/" + linea + "_dir1_pa"; }
-        if (type == "bus_dir2") { location = "buses/paradas/"; location_extra = "/" + linea + "_dir2_pa"; }
+        if (type == "metro") { location = "lineas/"; numbersToSubstract = 1; }
+        if (type == "renfe") { location = "renfe/"; numbersToSubstract = 1; } //ya meto el 'C' en 'linea'
+        if (type == "bus_dir1") { location = "buses/paradas/"; location_extra = "/dir1_pa"; numbersToSubstract = 0; }
+        if (type == "bus_dir2") { location = "buses/paradas/"; location_extra = "/dir2_pa"; numbersToSubstract = 0; }
 
         TextAsset paradasRaw = Resources.Load<TextAsset>(location + linea + location_extra);
         string[] paradasList = paradasRaw.text.Split('\n');
@@ -75,7 +76,7 @@ public class indicators : MonoBehaviour
 
         string cleanText(string texto) => texto.Split('[')[0].Trim();
 
-        fp_text.text = "Parada " + cleanText(paradasList[int.Parse(parada) - 1].Trim()) + " (línea " + linea + ") seleccionada.";
+        fp_text.text = "Parada “" + cleanText(paradasList[int.Parse(parada) - numbersToSubstract].Trim()) + "” (línea " + linea + ") seleccionada.";
 
         for (int i = 0; i < all.Count; i++)
         {
