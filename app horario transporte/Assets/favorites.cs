@@ -282,8 +282,8 @@ public class favorites : MonoBehaviour
 
             if (_1_type == "metro") { location = "lineas/"; lineaNomenclatura = "Metro: línea "; }
             if (_1_type == "renfe") { location = "renfe/c"; lineaNomenclatura = "C";  }
-            if (_1_type == "bus_dir1") { location = "buses/paradas/"; location_extra = "/" + _1_lineaInici + "_dir1_pa"; lineaNomenclatura = "Interurbano "; }
-            if (_1_type == "bus_dir2") { location = "buses/paradas/"; location_extra = "/" + _1_lineaInici + "_dir2_pa"; lineaNomenclatura = "Interurbano "; }
+            if (_1_type == "bus_dir1") { location = "buses/paradas/"; location_extra = "/dir1_pa"; lineaNomenclatura = "Interurbano "; }
+            if (_1_type == "bus_dir2") { location = "buses/paradas/"; location_extra = "/dir2_pa"; lineaNomenclatura = "Interurbano "; }
 
             TextAsset _1_paradasEnLineaPrimera = Resources.Load<TextAsset>(location + _1_lineaInici + location_extra);
             string[] _1_paradasPrimera = _1_paradasEnLineaPrimera.text.Split('\n');
@@ -299,16 +299,18 @@ public class favorites : MonoBehaviour
         if (is2ndEmpty == false)
         {
             string location = "";
+            string location_extra = "";
             string lineaNomenclatura = "[error]";
 
             if (_2_type == "metro") { location = "lineas/"; lineaNomenclatura = "línea "; }
             if (_2_type == "renfe") { location = "renfe/c"; lineaNomenclatura = "C"; }
-            if (_2_type == "bus") { location = "buses/paradas/"; lineaNomenclatura = "Interurbano "; }
+            if (_2_type == "bus_dir1") { location = "buses/paradas/"; location_extra = "/dir1_pa"; lineaNomenclatura = "Interurbano "; }
+            if (_2_type == "bus_dir2") { location = "buses/paradas/"; location_extra = "/dir2_pa"; lineaNomenclatura = "Interurbano "; }
 
-            TextAsset _2_paradasEnLineaPrimera = Resources.Load<TextAsset>(location + _2_lineaInici);
+            TextAsset _2_paradasEnLineaPrimera = Resources.Load<TextAsset>(location + _2_lineaInici + location_extra);
             string[] _2_paradasPrimera = _2_paradasEnLineaPrimera.text.Split('\n');
 
-            TextAsset _2_paradasEnLineaFinal = Resources.Load<TextAsset>(location + _2_lineaFinal);
+            TextAsset _2_paradasEnLineaFinal = Resources.Load<TextAsset>(location + _2_lineaFinal + location_extra);
             string[] _2_paradasFinal = _2_paradasEnLineaFinal.text.Split('\n');
 
             fav2_name.text = _2_name;
@@ -319,16 +321,18 @@ public class favorites : MonoBehaviour
         if (is3rdEmpty == false)
         {
             string location = "";
+            string location_extra = "";
             string lineaNomenclatura = "[error]";
 
             if (_3_type == "metro") { location = "lineas/"; lineaNomenclatura = "línea "; }
             if (_3_type == "renfe") { location = "renfe/c"; lineaNomenclatura = "C"; }
-            if (_3_type == "bus") { location = "buses/paradas/"; lineaNomenclatura = "Interurbano "; }
+            if (_3_type == "bus_dir1") { location = "buses/paradas/"; location_extra = "/dir1_pa"; lineaNomenclatura = "Interurbano "; }
+            if (_3_type == "bus_dir2") { location = "buses/paradas/"; location_extra = "/dir2_pa"; lineaNomenclatura = "Interurbano "; }
 
-            TextAsset _3_paradasEnLineaPrimera = Resources.Load<TextAsset>(location + _3_lineaInici);
+            TextAsset _3_paradasEnLineaPrimera = Resources.Load<TextAsset>(location + _3_lineaInici + location_extra);
             string[] _3_paradasPrimera = _3_paradasEnLineaPrimera.text.Split('\n');
 
-            TextAsset _3_paradasEnLineaFinal = Resources.Load<TextAsset>(location + _3_lineaFinal);
+            TextAsset _3_paradasEnLineaFinal = Resources.Load<TextAsset>(location + _3_lineaFinal + location_extra);
             string[] _3_paradasFinal = _3_paradasEnLineaFinal.text.Split('\n');
 
             fav3_name.text = _3_name;
@@ -339,16 +343,18 @@ public class favorites : MonoBehaviour
         if (is4thEmpty == false)
         {
             string location = "";
+            string location_extra = "";
             string lineaNomenclatura = "[error]";
 
             if (_4_type == "metro") { location = "lineas/"; lineaNomenclatura = "línea "; }
             if (_4_type == "renfe") { location = "renfe/c"; lineaNomenclatura = "C"; }
-            if (_4_type == "bus") { location = "buses/paradas/"; lineaNomenclatura = "Interurbano "; }
+            if (_4_type == "bus_dir1") { location = "buses/paradas/"; location_extra = "/dir1_pa"; lineaNomenclatura = "Interurbano "; }
+            if (_4_type == "bus_dir2") { location = "buses/paradas/"; location_extra = "/dir2_pa"; lineaNomenclatura = "Interurbano "; }
 
-            TextAsset _4_paradasEnLineaPrimera = Resources.Load<TextAsset>(location + _4_lineaInici);
+            TextAsset _4_paradasEnLineaPrimera = Resources.Load<TextAsset>(location + _4_lineaInici + location_extra);
             string[] _4_paradasPrimera = _4_paradasEnLineaPrimera.text.Split('\n');
 
-            TextAsset _4_paradasEnLineaFinal = Resources.Load<TextAsset>(location + _4_lineaFinal);
+            TextAsset _4_paradasEnLineaFinal = Resources.Load<TextAsset>(location + _4_lineaFinal + location_extra);
             string[] _4_paradasFinal = _4_paradasEnLineaFinal.text.Split('\n');
 
             fav4_name.text = _4_name;
@@ -359,21 +365,23 @@ public class favorites : MonoBehaviour
         if (is5thEmpty == false)
         {
             string location = "";
+            string location_extra = "";
             string lineaNomenclatura = "[error]";
 
             if (_5_type == "metro") { location = "lineas/"; lineaNomenclatura = "línea "; }
             if (_5_type == "renfe") { location = "renfe/c"; lineaNomenclatura = "C"; }
-            if (_5_type == "bus") { location = "buses/paradas/"; lineaNomenclatura = "Interurbano "; }
+            if (_5_type == "bus_dir1") { location = "buses/paradas/"; location_extra = "/dir1_pa"; lineaNomenclatura = "Interurbano "; }
+            if (_5_type == "bus_dir2") { location = "buses/paradas/"; location_extra = "/dir2_pa"; lineaNomenclatura = "Interurbano "; }
 
-            TextAsset _5_paradasEnLineaPrimera = Resources.Load<TextAsset>(location + _5_lineaInici);
+            TextAsset _5_paradasEnLineaPrimera = Resources.Load<TextAsset>(location + _5_lineaInici + location_extra);
             string[] _5_paradasPrimera = _5_paradasEnLineaPrimera.text.Split('\n');
 
-            TextAsset _5_paradasEnLineaFinal = Resources.Load<TextAsset>(location + _5_lineaFinal);
+            TextAsset _5_paradasEnLineaFinal = Resources.Load<TextAsset>(location + _5_lineaFinal + location_extra);
             string[] _5_paradasFinal = _5_paradasEnLineaFinal.text.Split('\n');
 
             fav5_name.text = _5_name;
-            fav5_text1.text = cleanText(_5_paradasPrimera[_4_paradInici - 1].Trim()) + " <color=#BCBCBC>(" + lineaNomenclatura + _5_lineaInici + ")";
-            fav5_text2.text = cleanText(_5_paradasFinal[_4_paradFinal - 1].Trim()) + " <color=#BCBCBC>(" + lineaNomenclatura + _5_lineaFinal + ")";
+            fav5_text1.text = cleanText(_5_paradasPrimera[_5_paradInici - 1].Trim()) + " <color=#BCBCBC>(" + lineaNomenclatura + _5_lineaInici + ")";
+            fav5_text2.text = cleanText(_5_paradasFinal[_5_paradFinal - 1].Trim()) + " <color=#BCBCBC>(" + lineaNomenclatura + _5_lineaFinal + ")";
         }
 
 

@@ -283,7 +283,7 @@ public class bus : MonoBehaviour
 
     void OpenAndLoadDirection(string line, string dir, RectTransform parentTransform)
     {
-        string basePath = "buses/paradas/" + line.Trim() + "/" + line.Trim() + "_dir" + dir.Trim();
+        string basePath = "buses/paradas/" + line.Trim() + "/dir" + dir.Trim();
         Debug.Log(basePath);
 
         //coger paradas iterar
@@ -439,7 +439,7 @@ public class bus : MonoBehaviour
 
         selection_direction = dir;
         string line = busLinea.text;
-        string basePath = "buses/paradas/" + line.Trim() + "/" + line.Trim() + "_dir" + dir.Trim();
+        string basePath = "buses/paradas/" + line.Trim() + "/dir" + dir.Trim();
 
         TextAsset paradaRaw = Resources.Load<TextAsset>(basePath + "_pa");
         if (paradaRaw == null) { Debug.Log("no hay"); }

@@ -114,8 +114,8 @@ public class trayecto : MonoBehaviour
             string location_extra = "";
             if (infoTransportType == "metro") { location = "lineas/"; }
             if (infoTransportType == "renfe") { location = "renfe/c"; }
-            if (infoTransportType == "bus_dir1") { transportType.text = "bus"; location = "buses/paradas/"; location_extra = "/" + lineaPrimera + "_dir1_pa"; }
-            if (infoTransportType == "bus_dir2") { transportType.text = "bus"; location = "buses/paradas/"; location_extra = "/" + lineaPrimera + "_dir2_pa"; }
+            if (infoTransportType == "bus_dir1") { transportType.text = "bus"; location = "buses/paradas/"; location_extra = "/dir1_pa"; }
+            if (infoTransportType == "bus_dir2") { transportType.text = "bus"; location = "buses/paradas/"; location_extra = "/dir2_pa"; }
 
             TextAsset paradasEnLinea = Resources.Load<TextAsset>(location + lineaPrimera + location_extra);
             string[] paradas = paradasEnLinea.text.Split('\n');
@@ -183,12 +183,20 @@ public class trayecto : MonoBehaviour
         }
 
         //hay que hacer transbordos
-        else if (infoTransportType != "renfe")
+        else
         {
-            TextAsset paradasEnLineaPrimera = Resources.Load<TextAsset>("lineas/" + lineaPrimera);
+            string location = "";
+            string location_extra = "";
+            if (infoTransportType == "metro") { location = "lineas/"; }
+            if (infoTransportType == "renfe") { location = "renfe/c"; }
+            if (infoTransportType == "bus_dir1") { transportType.text = "bus"; location = "buses/paradas/"; location_extra = "/dir1_pa"; }
+            if (infoTransportType == "bus_dir2") { transportType.text = "bus"; location = "buses/paradas/"; location_extra = "/dir2_pa"; }
+
+
+            TextAsset paradasEnLineaPrimera = Resources.Load<TextAsset>(location + lineaPrimera + location_extra);
             string[] paradasPrimera = paradasEnLineaPrimera.text.Split('\n');
 
-            TextAsset paradasEnLineaFinal = Resources.Load<TextAsset>("lineas/" + lineaFinal);
+            TextAsset paradasEnLineaFinal = Resources.Load<TextAsset>(location + lineaFinal + location_extra);
             string[] paradasFinal = paradasEnLineaFinal.text.Split('\n');
 
             paso1.SetActive(true);
