@@ -119,7 +119,7 @@ public class metro : MonoBehaviour
 
     public void ContarParadasReset()
     {
-        lineaNumb = "0";
+        //lineaNumb = "0";
         ParadaNumb = 0;
 
         lineaInicial = "0";

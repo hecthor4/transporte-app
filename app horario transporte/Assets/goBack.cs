@@ -119,11 +119,11 @@ public class goBack : MonoBehaviour
         bus_ins.GoBack();
         ajustes_ins.RefreshSettings();
 
-        if (currentScreen == r_favs || currentScreen == r_nuevo) //currentScreen == main || )
+        if (screenHistory[screenHistory.Count - 1] == r_favs || screenHistory[screenHistory.Count - 1] == r_nuevo) //currentScreen == main || )
         {
             trayecto_ins.ContarParadasReset();
 
-            Debug.Log("contar paradas reset - case 1 (impossible) - by goback");
+            Debug.Log("contar paradas reset - case 1 - by goback");
         }
         if (screenHistory[screenHistory.Count - 1] == m_all || screenHistory[screenHistory.Count - 1] == r_all || screenHistory[screenHistory.Count - 1] == b_all)
         {

@@ -133,6 +133,7 @@ public class bus : MonoBehaviour
                 string jsonResult = webRequest.downloadHandler.text;
                 Debug.Log("RESPUESTA REAL DE LA API: " + jsonResult);
 
+                /*
                 LoginResponse response = JsonUtility.FromJson<LoginResponse>(jsonResult);
 
                 // Accedemos a response.data directamente ya que mapea la colección del JSON de la EMT
@@ -145,6 +146,7 @@ public class bus : MonoBehaviour
                 {
                     Debug.LogError("El JSON se leyó pero la estructura 'data' del token venía vacía.");
                 }
+                */
             }
         }
     }

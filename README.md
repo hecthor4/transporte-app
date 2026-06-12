@@ -29,7 +29,12 @@ Guíate con todos los mapas disponibles.
 
 ## Ventajas de usar esta aplicación
 Actualmente, y de forma realista, hay 3 competencias que dispersan el tráfico de usuarios a una aplicación fácil y libre de transporte.
+
 **Google Maps** Google LLC es principalmente una compañía de anuncios, no tecnología. Su producto estrella es Google Ads, que usan millones de empresas tanto como para ganar dinero con anuncios como para anunciarse.
+
 **Moovit** Se creó el Tel Aviv (Israel) y ahora tiene su sede en Ness Ziona (Israel). Fue adquirido por Intel en 2020.
+
 **Transporte Madrid (por JSVM)** Solo muestra un mapa con todas las paradas y los tiempos reales. No se pueden hacer trayectos.
+
+
 Estas aplicaciones también comparten que son de código cerrado y, con excepción de la última, son de empresas gigantes que venderían todos los datos recolectados sobre tí por un céntimo y medio si pudieran.

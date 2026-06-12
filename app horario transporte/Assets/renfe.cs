@@ -136,7 +136,7 @@ public class renfe : MonoBehaviour
 
     public void ContarParadasReset()
     {
-        lineaNumb = "0";
+        //lineaNumb = "0";
         paradaNumb = 0;
 
         lineaPrimera = "0";
