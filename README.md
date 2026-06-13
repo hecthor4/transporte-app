@@ -1,5 +1,5 @@
 <div align="center">
-	<img src="app horario transporte/Assets/assets/favicon 3.png" height="100"/>
+	<img src="Assets/assets/favicon 3.png" height="100"/>
 </div>
 
 # Transporte App
