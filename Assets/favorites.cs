@@ -1,4 +1,3 @@
-using System.ComponentModel;
 using TMPro;
 using UnityEngine;
 
@@ -499,6 +498,11 @@ public class favorites : MonoBehaviour
 
             is5thEmpty = false;
         }
+        else
+        {
+            indicators indicators = FindFirstObjectByType<indicators>();
+            indicators.NoMemoryWarning("save_route");
+        }
 
         GetEmptySlots();
         SaveDataToPlayerPrefs();
@@ -534,6 +538,11 @@ public class favorites : MonoBehaviour
             _f_l5_name = "Default name";
             _f_l5_type = type;
             _f_l5_linea = linea;
+        }
+        else
+        {
+            indicators indicators = FindFirstObjectByType<indicators>();
+            indicators.NoMemoryWarning("save_route");
         }
 
         GetEmptySlots();

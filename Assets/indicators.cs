@@ -24,6 +24,9 @@ public class indicators : MonoBehaviour
     public GameObject firstParada;
     public TMP_Text fp_text;
 
+    public GameObject noMemory;
+    public TMP_Text nm_text;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -44,6 +47,7 @@ public class indicators : MonoBehaviour
         Debug.Log("indicator set to normal");
 
         firstParada.SetActive(false);
+        noMemory.SetActive(false);
 
         for (int i = 0; i < all.Count; i++)
         {
@@ -77,6 +81,29 @@ public class indicators : MonoBehaviour
         string cleanText(string texto) => texto.Split('[')[0].Trim();
 
         fp_text.text = "Parada “" + cleanText(paradasList[int.Parse(parada) - numbersToSubstract].Trim()) + "” (línea " + linea + ") seleccionada.";
+
+        for (int i = 0; i < all.Count; i++)
+        {
+            RectTransform rect = all[i].GetComponent<RectTransform>();
+            rect.offsetMin = new Vector2(rect.offsetMin.x, 150);
+        }
+    }
+
+
+    public void NoMemoryWarning(string type)
+    {
+        noMemory.SetActive(true);
+
+
+        if (type == "save_route")
+        {
+            nm_text.text = "No se ha podido guardar la ruta porque intentas exceder el máximo (5).";
+        }
+        if (type == "save_line")
+        {
+            nm_text.text = "No se ha podido guardar la línea porque intentas exceder el máximo (5).";
+        }
+
 
         for (int i = 0; i < all.Count; i++)
         {

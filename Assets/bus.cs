@@ -1,11 +1,9 @@
-using NUnit.Framework.Internal.Builders;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Experimental.AI;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
@@ -80,78 +78,11 @@ public class bus : MonoBehaviour
     public bool readyToSendInfo = false;
 
 
-    //credenciales emt
-    private string clientId = "a9da16a1-e6ee-4226-a4c0-19956b36c3b4";
-    private string passKey = "989D85EC811654F83FB0F4F08DFBAA6FF6EC156C6B47F0A41432832B3A56E223837BE0D113795567D673C321BFA1A189F3D8C5C26CF6C46215880000CB4B1666";
-    private string currentAccessToken = "";
-
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        StartCoroutine(InitEmtAuthentication());
-
-        //credenciales emt
-        clientId = "a9da16a1-e6ee-4226-a4c0-19956b36c3b4";
-        passKey = "989D85EC811654F83FB0F4F08DFBAA6FF6EC156C6B47F0A41432832B3A56E223837BE0D113795567D673C321BFA1A189F3D8C5C26CF6C46215880000CB4B1666";
-        currentAccessToken = "";
-
-    }
-
-    IEnumerator InitEmtAuthentication()
-    {
-        yield return new WaitForEndOfFrame(); //StartCoroutine(LoginEmt());
         IterateList();
     }
-
-    IEnumerator LoginEmt()
-    {
-        // FIX: Cambiada la ruta 404 por el endpoint de autenticación oficial de la EMT
-        string url = "https://emtmadrid.es";
-
-        // FIX: El login de MobilityLabs requiere obligatoriamente un método GET
-        using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
-        {
-            // Pasamos las credenciales fijas únicamente por las cabeceras HTTP de la llamada
-            webRequest.SetRequestHeader("X-ClientId", clientId);
-            webRequest.SetRequestHeader("passKey", passKey);
-
-            if (se_trText != null) se_trText.text = "Autenticando EMT...";
-
-            yield return webRequest.SendWebRequest();
-
-            Debug.Log("Status Code: " + webRequest.responseCode);
-
-            if (webRequest.result == UnityWebRequest.Result.ConnectionError ||
-                webRequest.result == UnityWebRequest.Result.ProtocolError)
-            {
-                Debug.LogError("Error en Login EMT: " + webRequest.error + " | Código: " + webRequest.responseCode);
-                if (se_trText != null) se_trText.text = "Error de autenticación.";
-            }
-            else
-            {
-                string jsonResult = webRequest.downloadHandler.text;
-                Debug.Log("RESPUESTA REAL DE LA API: " + jsonResult);
-
-                /*
-                LoginResponse response = JsonUtility.FromJson<LoginResponse>(jsonResult);
-
-                // Accedemos a response.data directamente ya que mapea la colección del JSON de la EMT
-                if (response != null && response.data != null)
-                {
-                    currentAccessToken = response.data[0].accessToken;
-                    Debug.Log("¡Token EMT obtenido con éxito!: " + currentAccessToken);
-                }
-                else
-                {
-                    Debug.LogError("El JSON se leyó pero la estructura 'data' del token venía vacía.");
-                }
-                */
-            }
-        }
-    }
-
-
 
 
     // Update is called once per frame
@@ -462,6 +393,10 @@ public class bus : MonoBehaviour
         se_paradaName.text = paradas[index];
 
 
+        //conseguir realtimes
+        StartCoroutine(GetRealTimes("https://api.transit.welbits.com/stops/times/" + codigos[paradaID]));
+
+
         if (!string.IsNullOrEmpty(conexion[index].Trim()))
         {
             se_corresObj.SetActive(true);
@@ -471,8 +406,6 @@ public class bus : MonoBehaviour
         {
             se_corresObj.SetActive(false);
         }
-
-        StartCoroutine(GetRealTimeBusArrival(codigoParada, line));
 
 
         if (isContarParadas == false)
@@ -494,75 +427,75 @@ public class bus : MonoBehaviour
         }
     }
 
-    IEnumerator GetRealTimeBusArrival(string codigoParada, string lineID)
+
+    IEnumerator GetRealTimes(string apiURL)
     {
-        string url = "https://openapi.emtmadrid.es/v2/transport/buses/stations/" + codigoParada + "/arrivals";
+        Debug.Log(apiURL);
 
-        string jsonBody = "{\"line\":\"" + lineID + "\",\"timeDate\":\"\"}";
-        byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(jsonBody);
-
-        using (UnityWebRequest webRequest = new UnityWebRequest(url, "POST"))
-        { 
-            webRequest.uploadHandler = new UploadHandlerRaw(bodyRaw);
-            webRequest.downloadHandler = new DownloadHandlerBuffer();
-
-            webRequest.SetRequestHeader("Content-Type", "application/json");
-            webRequest.SetRequestHeader("accessToken", currentAccessToken);
-
-            se_trText.text = "Cargando...";
-
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(apiURL))
+        {
             yield return webRequest.SendWebRequest();
 
-            if (webRequest.result == UnityWebRequest.Result.ConnectionError || webRequest.result == UnityWebRequest.Result.ProtocolError)
-            {
-                se_trText.text = "Error.";
-            }
-            else
+            if (webRequest.result == UnityWebRequest.Result.Success)
             {
                 string jsonResult = webRequest.downloadHandler.text;
-                ParseBusResponse(jsonResult);
-            }
+                Debug.Log("json: " + jsonResult);
 
-        }
-    }
+                Response data = JsonUtility.FromJson<Response>(jsonResult);
 
-    void ParseBusResponse(string json)
-    {
-        try
-        {
-            EmtResponse response = JsonUtility.FromJson<EmtResponse>(json);
-
-            if (response != null && response.data != null && response.data.Length > 0)
-            {
-                EmtArriveData proximoBus = response.data[0];
-
-                int segundosRestantes = proximoBus.estimateArrive;
-
-                if (segundosRestantes == 999999)
-                {
-                    se_trText.text = "Sin previsión (Bus parado o fin de servicio)";
-                }
-                else if (segundosRestantes < 30)
-                {
-                    se_trText.text = "Inminente / En parada";
-                }
-                else
-                {
-                    int minutos = segundosRestantes / 60;
-                    se_trText.text = "Próximo bus: " + minutos + " min (" + proximoBus.destination + ")";
-                }
+                ProcessRealTimes(data);
             }
             else
             {
-                se_trText.text = "No hay autobuses programados.";
+                Debug.Log("error api: " + webRequest.error);
             }
         }
-        catch (System.Exception e)
-        {
-            Debug.LogError("Error al procesar el JSON: " + e.Message);
-            se_trText.text = "Error de formato.";
-        }
     }
+
+    void ProcessRealTimes(Response data)
+    {
+        se_trText.text = "";
+        bool hasFoundRoute = false;
+
+
+        if (data == null || data.routes == null || data.routes.Count == 0)
+        {
+            se_trText.text = "No se encuentran tiempos.";
+            return;
+        }
+
+
+        foreach (BusTrip route in data.routes)
+        {
+            if (route.shortName != lineaNumb + "")
+            {
+                continue;
+            }
+
+            hasFoundRoute = true;
+
+            if (route.times != null && route.times.Count > 0)
+            {
+                foreach (ArrivalTime time in route.times)
+                {
+                    if (DateTime.TryParse(time.arrivalDate, out DateTime convertedDate))
+                    {
+                        string cleanDate = convertedDate.ToLocalTime().ToString("HH:mm");
+
+                        Debug.Log("hora est: " + cleanDate);
+
+                        if (se_trText.text != "") { se_trText.text = se_trText.text + "   /   " + cleanDate; }
+                        else { se_trText.text = cleanDate; }
+                    }
+                }
+            }
+
+            break;
+        }
+
+        if (hasFoundRoute == false || string.IsNullOrEmpty(se_trText.text)) { se_trText.text = "No se encuentran tiempos."; }
+    }
+
 
 
     void IterateList()
@@ -628,7 +561,7 @@ public class bus : MonoBehaviour
 
 
     //depricado. usar OpenLineInfo
-    public void Iterate76767676767676(int linea)
+    void Iterate76767676767676(int linea)
     {
         busLinea.text = "Línea " + linea;
 
@@ -677,45 +610,3 @@ public class bus : MonoBehaviour
         }
     }
 }
-
-
-
-
-[System.Serializable]
-public class EmtResponse
-{
-    public string code;
-    public string description;
-    public EmtData datetime;
-    public EmtArriveData[] data; // Aquí vienen los autobuses
-}
-
-
-
-[System.Serializable]
-public class EmtData
-{
-    public string date;
-}
-
-
-
-[System.Serializable]
-public class EmtArriveData
-{
-    public string line;
-    public string stop;
-    public int estimateArrive; // Tiempo restante en segundos
-    public int DistanceBus;    // Distancia en metros
-    public string destination; // Destino del autobús
-    public string bus;         // Número identificador del vehículo
-}
-
-
-[System.Serializable]
-public class TokenData
-{
-    public string accessToken;
-    public string tokenSecuencial;
-}
-
