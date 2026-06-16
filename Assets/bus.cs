@@ -54,15 +54,23 @@ public class bus : MonoBehaviour
     public GameObject paradaButton_corresRenfe;
 
 
+    public GameObject paradaLineasTiempoReal;
+    public GameObject pltr_parent;
+    public GameObject pltr_linea;
+
+
     //selection
-    public string selection_direction;
-    public GameObject selection;
-    public TMP_Text se_paradaName;
-    public GameObject se_corresObj;
-    public TMP_Text se_corresText;
-    public GameObject se_trObj;
-    public TMP_Text se_trText;
+    public string selection_direction;              //direccion de la parada seleccionada
+    public bool hasFoundRoute;                      //si ha parseado datos de tiempo real bus
+    public GameObject selection;                    //objeto parent seleccion
+    public TMP_Text se_paradaName;                  //nombre parada
+    public GameObject se_corresObj;                 //correspondencia titulo texto
+    public TMP_Text se_corresText;                  //correspondencia texto
+    public GameObject se_trObj;                     //tiempo real objeto parent
+    public TMP_Text se_trText;                      //tiempo real en hh:mm
+    public TMP_Text se_trMinsText;                  //tiempo real restante en minutos
     public TMP_Text selection_contarParadas;
+    public TMP_Text se_codigoParada;
 
 
     //info para enviar
@@ -154,8 +162,24 @@ public class bus : MonoBehaviour
     {
         string searchText = search.text.ToString();
 
-        if (search.text.Length < 4 && search.text.All(char.IsDigit))
+        if (search.text.Length <= 3 && search.text.All(char.IsDigit))
         {
+            foreach (GameObject item in elementsInList)
+            {
+                //TMP_Text itemText = item.GetComponentInChildren<TMP_Text>();
+                TMP_Text nombreLinea = item.transform.Find("nombre").GetComponent<TMP_Text>();
+
+                bool matches = nombreLinea.text.ToLower().Contains(searchText);
+                item.SetActive(matches);
+            }
+        }
+        if (search.text.Length >= 3 && search.text.All(char.IsDigit))
+        {
+            paradaLineasTiempoReal.SetActive(true);
+
+
+
+            //buscar tambien las lineas de bus, por si acaso
             foreach (GameObject item in elementsInList)
             {
                 //TMP_Text itemText = item.GetComponentInChildren<TMP_Text>();
@@ -391,9 +415,12 @@ public class bus : MonoBehaviour
 
 
         se_paradaName.text = paradas[index];
+        se_codigoParada.text = codigos[paradaID];
 
 
         //conseguir realtimes
+        StopAllCoroutines();
+        hasFoundRoute = false;
         StartCoroutine(GetRealTimes("https://api.transit.welbits.com/stops/times/" + codigos[paradaID]));
 
 
@@ -430,16 +457,18 @@ public class bus : MonoBehaviour
 
     IEnumerator GetRealTimes(string apiURL)
     {
-        Debug.Log(apiURL);
+        se_trText.text = "Cargando...";
+        se_trMinsText.text = "";
+        Coroutine anim = StartCoroutine(RealTimeTextAnim());
 
         using (UnityWebRequest webRequest = UnityWebRequest.Get(apiURL))
         {
             yield return webRequest.SendWebRequest();
+            StopCoroutine(anim);
 
             if (webRequest.result == UnityWebRequest.Result.Success)
             {
                 string jsonResult = webRequest.downloadHandler.text;
-                Debug.Log("json: " + jsonResult);
 
                 Response data = JsonUtility.FromJson<Response>(jsonResult);
 
@@ -452,10 +481,27 @@ public class bus : MonoBehaviour
         }
     }
 
+    IEnumerator RealTimeTextAnim()
+    {
+        float time = 0.25f;
+
+        while (hasFoundRoute == false)
+        {
+            se_trText.text = "Cargando...";
+            yield return new WaitForSeconds(time);
+            se_trText.text = "Cargando";
+            yield return new WaitForSeconds(time);
+            se_trText.text = "Cargando.";
+            yield return new WaitForSeconds(time);
+            se_trText.text = "Cargando..";
+            yield return new WaitForSeconds(time);
+        }
+    }
+
+
     void ProcessRealTimes(Response data)
     {
-        se_trText.text = "";
-        bool hasFoundRoute = false;
+        hasFoundRoute = false;
 
 
         if (data == null || data.routes == null || data.routes.Count == 0)
@@ -464,10 +510,12 @@ public class bus : MonoBehaviour
             return;
         }
 
+        System.Collections.Generic.List<string> formattedTimes = new System.Collections.Generic.List<string>();
+        System.Collections.Generic.List<string> substractedTime = new System.Collections.Generic.List<string>();
 
         foreach (BusTrip route in data.routes)
         {
-            if (route.shortName != lineaNumb + "")
+            if (route.shortName != lineaInicial.ToString())
             {
                 continue;
             }
@@ -478,22 +526,55 @@ public class bus : MonoBehaviour
             {
                 foreach (ArrivalTime time in route.times)
                 {
-                    if (DateTime.TryParse(time.arrivalDate, out DateTime convertedDate))
+                    if (System.DateTime.TryParse(time.arrivalDate, null, System.Globalization.DateTimeStyles.AdjustToUniversal, out System.DateTime UTCDateTime))
                     {
-                        string cleanDate = convertedDate.ToLocalTime().ToString("HH:mm");
+                        System.DateTime localDateTime = UTCDateTime.ToLocalTime();
+                        string cleanDate = localDateTime.ToString("HH:mm");
+                        formattedTimes.Add(cleanDate);
+
+                        System.TimeSpan difference = localDateTime - System.DateTime.Now;
+                        int minutesRemaining = (int)difference.TotalMinutes;
+
+                        if (minutesRemaining > 0) { substractedTime.Add(minutesRemaining + "''"); }
+                        else { substractedTime.Add(">>"); }
+                    }
+                    else
+                    {
+                        Debug.Log("no se pudo parsear. " + time.arrivalDate);
+                    }
+
+                    /*
+                    if (string.IsNullOrEmpty(time.arrivalDate) == false && time.arrivalDate.Contains("T"))
+                    {
+                        string[] split = time.arrivalDate.Split('T')[1].Split(':');
+                        int timeUTC = int.Parse(split[0]);
+                        string minutes = split[1];
+
+                        int localTime = (timeUTC + 2) % 24;
+                        string cleanDate = localTime.ToString();
 
                         Debug.Log("hora est: " + cleanDate);
 
                         if (se_trText.text != "") { se_trText.text = se_trText.text + "   /   " + cleanDate; }
                         else { se_trText.text = cleanDate; }
                     }
+                    */
                 }
             }
 
             break;
         }
 
-        if (hasFoundRoute == false || string.IsNullOrEmpty(se_trText.text)) { se_trText.text = "No se encuentran tiempos."; }
+        if (hasFoundRoute == true && formattedTimes.Count > 0)
+        {
+            se_trText.text = string.Join("   /   ", formattedTimes);
+            se_trMinsText.text = string.Join("   /   ", substractedTime);
+        }
+        else
+        {
+            se_trText.text = "No se encuentran tiempos.";
+            se_trMinsText.text = "";
+        }
     }
 
 

@@ -110,8 +110,14 @@ public class goBack : MonoBehaviour
         //close app
         if (lastScreen.Count < 0 || lastScreen.Count == 0)
         {
-            Application.Quit();
+            //Application.Quit();
             Debug.Log("closing app...");
+
+            AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+            AndroidJavaObject activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+            activity.Call<bool>("moveTaskToBack", true);
+
+            lastScreen.Add(main);
         }
 
 
