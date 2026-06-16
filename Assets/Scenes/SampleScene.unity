@@ -142688,8 +142688,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 484, y: -55}
-  m_SizeDelta: {x: 958, y: 100}
+  m_AnchoredPosition: {x: 486.5, y: -55}
+  m_SizeDelta: {x: 963, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1967585638
 MonoBehaviour:
@@ -145926,7 +145926,7 @@ MonoBehaviour:
   dir2Obj: {fileID: 104767644}
   bus_info: {fileID: 6202030094841721681, guid: 3a84c16b7d6d36b45b1c1685019c1264, type: 3}
   bus_info_emt: {fileID: 6202030094841721681, guid: fc6c427e33ca92e4e956d3d1e3d316ad, type: 3}
-  iteratedParent: {fileID: 301194554}
+  iteratedParent: {fileID: 1833804857}
   search: {fileID: 649455560}
   busLinea: {fileID: 788152615}
   ciudadPrefab: {fileID: 7630411777213251469, guid: c8a79471131a1af4dbf0abc291578dc7, type: 3}
@@ -145940,6 +145940,9 @@ MonoBehaviour:
   paradaButton: {fileID: 8889124427687808860, guid: 4a6031ed4497f1f48ae4ab6e410ef0b9, type: 3}
   paradaButton_corresMetro: {fileID: 8889124427687808860, guid: ccf1dcb9552940e45ac7185f9e458c5d, type: 3}
   paradaButton_corresRenfe: {fileID: 8889124427687808860, guid: 5cd2b6b00be9b0a46b9c69cb1279971d, type: 3}
+  paradaLineasTiempoReal: {fileID: 929344584}
+  pltr_parent: {fileID: 1863265319}
+  pltr_linea: {fileID: 30627914256849287, guid: 34b4e144288c5b1408e3113216137669, type: 3}
   selection_direction: 
   hasFoundRoute: 0
   selection: {fileID: 209763539}

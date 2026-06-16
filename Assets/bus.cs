@@ -177,6 +177,9 @@ public class bus : MonoBehaviour
         {
             paradaLineasTiempoReal.SetActive(true);
 
+            StopAllCoroutines();
+            hasFoundRoute = false;
+            StartCoroutine(GetRealTimes("https://api.transit.welbits.com/stops/times/" + searchText, "all"));
 
 
             //buscar tambien las lineas de bus, por si acaso
@@ -421,7 +424,7 @@ public class bus : MonoBehaviour
         //conseguir realtimes
         StopAllCoroutines();
         hasFoundRoute = false;
-        StartCoroutine(GetRealTimes("https://api.transit.welbits.com/stops/times/" + codigos[paradaID]));
+        StartCoroutine(GetRealTimes("https://api.transit.welbits.com/stops/times/" + codigos[paradaID], lineaInicial));
 
 
         if (!string.IsNullOrEmpty(conexion[index].Trim()))
@@ -455,7 +458,7 @@ public class bus : MonoBehaviour
     }
 
 
-    IEnumerator GetRealTimes(string apiURL)
+    IEnumerator GetRealTimes(string apiURL, string targetLine)
     {
         se_trText.text = "Cargando...";
         se_trMinsText.text = "";
@@ -472,7 +475,7 @@ public class bus : MonoBehaviour
 
                 Response data = JsonUtility.FromJson<Response>(jsonResult);
 
-                ProcessRealTimes(data);
+                ProcessRealTimes(data, targetLine);
             }
             else
             {
@@ -499,7 +502,7 @@ public class bus : MonoBehaviour
     }
 
 
-    void ProcessRealTimes(Response data)
+    void ProcessRealTimes(Response data, string targetLine)
     {
         hasFoundRoute = false;
 
@@ -512,69 +515,146 @@ public class bus : MonoBehaviour
 
         System.Collections.Generic.List<string> formattedTimes = new System.Collections.Generic.List<string>();
         System.Collections.Generic.List<string> substractedTime = new System.Collections.Generic.List<string>();
+        
 
-        foreach (BusTrip route in data.routes)
+        //si estas viendo el tiempo de un bus en su respectivo menu, dentro de b all
+        if (targetLine == lineaInicial)
         {
-            if (route.shortName != lineaInicial.ToString())
+            foreach (BusTrip route in data.routes)
             {
-                continue;
+                if (route.shortName != targetLine.ToString())
+                {
+                    continue;
+                }
+
+                hasFoundRoute = true;
+
+                if (route.times != null && route.times.Count > 0)
+                {
+                    foreach (ArrivalTime time in route.times)
+                    {
+                        if (System.DateTime.TryParse(time.arrivalDate, null, System.Globalization.DateTimeStyles.AdjustToUniversal, out System.DateTime UTCDateTime))
+                        {
+                            System.DateTime localDateTime = UTCDateTime.ToLocalTime();
+                            string cleanDate = localDateTime.ToString("HH:mm");
+                            formattedTimes.Add(cleanDate);
+
+                            System.TimeSpan difference = localDateTime - System.DateTime.Now;
+                            int minutesRemaining = (int)difference.TotalMinutes;
+
+                            if (minutesRemaining > 0) { substractedTime.Add(minutesRemaining + "''"); }
+                            else { substractedTime.Add(">>"); }
+                        }
+                        else
+                        {
+                            Debug.Log("no se pudo parsear. " + time.arrivalDate);
+                        }
+
+                        /*
+                        if (string.IsNullOrEmpty(time.arrivalDate) == false && time.arrivalDate.Contains("T"))
+                        {
+                            string[] split = time.arrivalDate.Split('T')[1].Split(':');
+                            int timeUTC = int.Parse(split[0]);
+                            string minutes = split[1];
+
+                            int localTime = (timeUTC + 2) % 24;
+                            string cleanDate = localTime.ToString();
+
+                            Debug.Log("hora est: " + cleanDate);
+
+                            if (se_trText.text != "") { se_trText.text = se_trText.text + "   /   " + cleanDate; }
+                            else { se_trText.text = cleanDate; }
+                        }
+                        */
+                    }
+                }
+
+                break;
             }
 
-            hasFoundRoute = true;
-
-            if (route.times != null && route.times.Count > 0)
+            if (hasFoundRoute == true && formattedTimes.Count > 0)
             {
-                foreach (ArrivalTime time in route.times)
+                se_trText.text = string.Join("   /   ", formattedTimes);
+                se_trMinsText.text = string.Join("   /   ", substractedTime);
+            }
+            else
+            {
+                se_trText.text = "No se encuentran tiempos.";
+                se_trMinsText.text = "";
+            }
+        }
+
+
+        //si estas buscando paradas en el dialogo de busqueda de bus main
+        else if (targetLine == "all")
+        {
+            int linesToIterate = 0;
+            List<string> iteratedLines = new List<string>();
+            List<string> notIteratedLines = new List<string>();
+
+            notIteratedLines.Add(data.routes.ToString());
+            linesToIterate = notIteratedLines.Count;
+
+
+            //borrar lo de antes
+            RectTransform pltr_parent_rt = pltr_parent.GetComponent<RectTransform>();
+            for (int i = 0; i < pltr_parent_rt.childCount; i++)
+            {
+                GameObject child = pltr_parent_rt.GetChild(i).gameObject;
+                Destroy(child);
+            }
+
+
+
+            for (int i = 0; i < linesToIterate; i++)
+            {
+                foreach (BusTrip route in data.routes)
                 {
-                    if (System.DateTime.TryParse(time.arrivalDate, null, System.Globalization.DateTimeStyles.AdjustToUniversal, out System.DateTime UTCDateTime))
+                    hasFoundRoute = true;
+
+                    if (route.times != null && route.times.Count > 0)
                     {
-                        System.DateTime localDateTime = UTCDateTime.ToLocalTime();
-                        string cleanDate = localDateTime.ToString("HH:mm");
-                        formattedTimes.Add(cleanDate);
+                        foreach (ArrivalTime time in route.times)
+                        {
+                            if (System.DateTime.TryParse(time.arrivalDate, null, System.Globalization.DateTimeStyles.AdjustToUniversal, out System.DateTime UTCDateTime))
+                            {
+                                System.DateTime localDateTime = UTCDateTime.ToLocalTime();
+                                string cleanDate = localDateTime.ToString("HH:mm");
+                                formattedTimes.Add(cleanDate);
 
-                        System.TimeSpan difference = localDateTime - System.DateTime.Now;
-                        int minutesRemaining = (int)difference.TotalMinutes;
+                                System.TimeSpan difference = localDateTime - System.DateTime.Now;
+                                int minutesRemaining = (int)difference.TotalMinutes;
 
-                        if (minutesRemaining > 0) { substractedTime.Add(minutesRemaining + "''"); }
-                        else { substractedTime.Add(">>"); }
+                                if (minutesRemaining > 0) { substractedTime.Add(minutesRemaining + "''"); }
+                                else { substractedTime.Add(">>"); }
+                            }
+                            else
+                            {
+                                Debug.Log("no se pudo parsear la linea " + targetLine);
+                            }
+                        }
                     }
-                    else
-                    {
-                        Debug.Log("no se pudo parsear. " + time.arrivalDate);
-                    }
+                }
 
-                    /*
-                    if (string.IsNullOrEmpty(time.arrivalDate) == false && time.arrivalDate.Contains("T"))
-                    {
-                        string[] split = time.arrivalDate.Split('T')[1].Split(':');
-                        int timeUTC = int.Parse(split[0]);
-                        string minutes = split[1];
+                GameObject lineaIterada = Instantiate(pltr_linea, pltr_parent.transform);
+                TMP_Text lineaNombre = lineaIterada.transform.Find("title").GetComponent<TMP_Text>();
 
-                        int localTime = (timeUTC + 2) % 24;
-                        string cleanDate = localTime.ToString();
+                TMP_Text tiempoReal = lineaIterada.transform.Find("time real hh:mm").GetComponent<TMP_Text>();
+                TMP_Text tiempoRestante = lineaIterada.transform.Find("time left mins").GetComponent<TMP_Text>();
 
-                        Debug.Log("hora est: " + cleanDate);
-
-                        if (se_trText.text != "") { se_trText.text = se_trText.text + "   /   " + cleanDate; }
-                        else { se_trText.text = cleanDate; }
-                    }
-                    */
+                if (hasFoundRoute == true && formattedTimes.Count > 0)
+                {
+                    tiempoReal.text = string.Join("   /   ", formattedTimes);
+                    tiempoRestante.text = string.Join("   /   ", substractedTime);
+                }
+                else
+                {
+                    tiempoReal.text = "No se encuentran tiempos.";
+                    tiempoRestante.text = "";
                 }
             }
-
-            break;
         }
 
-        if (hasFoundRoute == true && formattedTimes.Count > 0)
-        {
-            se_trText.text = string.Join("   /   ", formattedTimes);
-            se_trMinsText.text = string.Join("   /   ", substractedTime);
-        }
-        else
-        {
-            se_trText.text = "No se encuentran tiempos.";
-            se_trMinsText.text = "";
-        }
     }
 
 
