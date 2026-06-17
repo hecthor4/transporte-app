@@ -1,3 +1,4 @@
+using Mono.Cecil.Cil;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -57,6 +58,9 @@ public class bus : MonoBehaviour
     public GameObject paradaLineasTiempoReal;
     public GameObject pltr_parent;
     public GameObject pltr_linea;
+    public TMP_Text pltr_parada_code;
+    public TMP_Text pltr_parada_name;
+    public VerticalLayoutGroup pltr_parent_layout; //it bugs sometimes
 
 
     //selection
@@ -90,6 +94,9 @@ public class bus : MonoBehaviour
     void Start()
     {
         IterateList();
+
+
+        paradaLineasTiempoReal.SetActive(false);
     }
 
 
@@ -121,6 +128,11 @@ public class bus : MonoBehaviour
     {
         favorites favorites = FindFirstObjectByType<favorites>();
         favorites.SaveLinea(busLinea.text, "bus");
+    }
+    public void SaveParadaFullToFavs() //guardar parada (entera: con todas las lineas) en favoritos
+    {
+        favorites favorites = FindFirstObjectByType<favorites>();
+        favorites.SaveParada(pltr_parada_code.text);
     }
 
 
@@ -588,6 +600,8 @@ public class bus : MonoBehaviour
         //si estas buscando paradas en el dialogo de busqueda de bus main
         else if (targetLine == "all")
         {
+            paradaLineasTiempoReal.SetActive(true);
+
             int linesToIterate = 0;
             List<string> iteratedLines = new List<string>();
             List<string> notIteratedLines = new List<string>();
@@ -605,12 +619,37 @@ public class bus : MonoBehaviour
             }
 
 
+            //poner nombre de la parada y codigo
+            if (data.stopCode.Contains("_")) { pltr_parada_code.text = data.stopCode.Substring(2); }
+            else { pltr_parada_code.text = data.stopCode; }
 
+            for (int i = 1; i < 3; i++)
+            {
+                string path = "buses/paradas/";
+                TextAsset paradaRaw = Resources.Load<TextAsset>(path + data.routes[0].shortName.Trim() + "/dir" + i + "_pa");
+                if (paradaRaw == null) { Debug.Log("l. 615. no se encuentra el archivo de paradas para el nombre de la parada de bus que se quiere buscar"); }
+                string[] paradas = paradaRaw.text.Trim().Split('\n');
+
+                TextAsset codigoRaw = Resources.Load<TextAsset>(path + data.routes[0].shortName.Trim() + "/dir" + i + "_co");
+                if (codigoRaw == null) { Debug.Log("l. 619. no se encuentra el archivo de codigos para conseguir la linea exacta para el nombre de las paradas"); }
+                string[] codigos = codigoRaw.text.Trim().Split('\n');
+
+                for (int j = 0; j < codigos.Length; j++) {
+                    //Debug.Log("iteration " + j + " / codigo: " + codigos[j].Trim() + " / codigo parada: " + data.stopCode);
+                    if (codigos[j].Trim() == data.stopCode || codigos[j].Trim() == data.stopCode.Substring(2)) { pltr_parada_name.text = paradas[j]; break; } }
+            }
+
+
+
+            //buscar los tiempos de las lineas
             for (int i = 0; i < linesToIterate; i++)
             {
                 foreach (BusTrip route in data.routes)
                 {
                     hasFoundRoute = true;
+
+                    formattedTimes.Clear();
+                    substractedTime.Clear();
 
                     if (route.times != null && route.times.Count > 0)
                     {
@@ -633,25 +672,31 @@ public class bus : MonoBehaviour
                                 Debug.Log("no se pudo parsear la linea " + targetLine);
                             }
                         }
+
+                        GameObject lineaIterada = Instantiate(pltr_linea, pltr_parent.transform);
+                        lineaIterada.transform.localScale = new Vector3(0, 0, 0);
+                        lineaIterada.transform.localScale = Vector3.one;
+
+
+                        TMP_Text lineaNombre = lineaIterada.transform.Find("title").GetComponent<TMP_Text>();
+                        lineaNombre.text = route.shortName;
+
+                        TMP_Text tiempoReal = lineaIterada.transform.Find("time real hh:mm").GetComponent<TMP_Text>();
+                        TMP_Text tiempoRestante = lineaIterada.transform.Find("time left mins").GetComponent<TMP_Text>();
+
+                        if (hasFoundRoute == true && formattedTimes.Count > 0)
+                        {
+                            tiempoReal.text = string.Join("   /   ", formattedTimes);
+                            tiempoRestante.text = string.Join("   /   ", substractedTime);
+                        }
+                        else
+                        {
+                            tiempoReal.text = "No se encuentran tiempos.";
+                            tiempoRestante.text = "";
+                        }
                     }
                 }
-
-                GameObject lineaIterada = Instantiate(pltr_linea, pltr_parent.transform);
-                TMP_Text lineaNombre = lineaIterada.transform.Find("title").GetComponent<TMP_Text>();
-
-                TMP_Text tiempoReal = lineaIterada.transform.Find("time real hh:mm").GetComponent<TMP_Text>();
-                TMP_Text tiempoRestante = lineaIterada.transform.Find("time left mins").GetComponent<TMP_Text>();
-
-                if (hasFoundRoute == true && formattedTimes.Count > 0)
-                {
-                    tiempoReal.text = string.Join("   /   ", formattedTimes);
-                    tiempoRestante.text = string.Join("   /   ", substractedTime);
-                }
-                else
-                {
-                    tiempoReal.text = "No se encuentran tiempos.";
-                    tiempoRestante.text = "";
-                }
+                //
             }
         }
 

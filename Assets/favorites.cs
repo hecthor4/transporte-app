@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class favorites : MonoBehaviour
 {
+    //trayectos favoritos
     public string _1_name;
     public string _1_type;
     public string _1_lineaInici;
@@ -38,6 +39,7 @@ public class favorites : MonoBehaviour
     public string _5_lineaFinal;
     public int _5_paradFinal;
 
+    //lineas favoritas
     public string _f_l1_name;
     public string _f_l1_type;
     public string _f_l1_linea;
@@ -59,6 +61,24 @@ public class favorites : MonoBehaviour
     public string _f_l5_linea;
 
 
+    //paradas favoritas
+    public string _f_p1_name;
+    public string _f_p1_parada;
+
+    public string _f_p2_name;
+    public string _f_p2_parada;
+
+    public string _f_p3_name;
+    public string _f_p3_parada;
+
+    public string _f_p4_name;
+    public string _f_p4_parada;
+
+    public string _f_p5_name;
+    public string _f_p5_parada;
+
+
+    //check if its empty
     public bool is1stEmpty;
     public bool is2ndEmpty;
     public bool is3rdEmpty;
@@ -71,6 +91,7 @@ public class favorites : MonoBehaviour
     public bool isf_l5_Empty;
 
 
+    //objetos en escena - parents
     public GameObject fav1;
     public GameObject fav2;
     public GameObject fav3;
@@ -83,7 +104,14 @@ public class favorites : MonoBehaviour
     public GameObject f_l4;
     public GameObject f_l5;
 
+    public GameObject f_p1;
+    public GameObject f_p2;
+    public GameObject f_p3;
+    public GameObject f_p4;
+    public GameObject f_p5;
 
+
+    //objetos en escena - children
     public TMP_Text fav1_name;
     public TMP_Text fav1_text1;
     public TMP_Text fav1_text2;
@@ -121,17 +149,32 @@ public class favorites : MonoBehaviour
     public TMP_Text f_l5_text1;
 
 
+    public TMP_Text f_p1_name;
+
+    public TMP_Text f_p2_name;
+
+    public TMP_Text f_p3_name;
+
+    public TMP_Text f_p4_name;
+
+    public TMP_Text f_p5_name;
+
+
+    //editing
     public int editingNumb;
     public bool isEditing;
     public TMP_InputField newName;
 
 
+    //error message if no routes
     public GameObject noRoutesError;
 
 
+    //screens to derivate to
     public GameObject r_all;
     public GameObject m_all;
     public GameObject b_all;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -548,6 +591,11 @@ public class favorites : MonoBehaviour
         GetEmptySlots();
         SaveDataToPlayerPrefs();
     }
+    public void SaveParada(string code)
+    {
+
+    }
+
 
     public void EraseAllData()
     {
