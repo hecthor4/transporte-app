@@ -1,9 +1,8 @@
-using Mono.Cecil.Cil;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
@@ -28,9 +27,16 @@ public class bus : MonoBehaviour
     public GameObject dir2Obj;
 
 
+    //layout groups
+    public GridLayoutGroup botonesBusLineaParent;
+    public VerticalLayoutGroup pltr_parent_layout;
+    public VerticalLayoutGroup viewportContentLayout;
+
+
     //iterar lista
     public GameObject bus_info;
     public GameObject bus_info_emt;
+    public GameObject bus_info_n;
     public GameObject iteratedParent;
 
     public TMP_InputField search;
@@ -60,7 +66,6 @@ public class bus : MonoBehaviour
     public GameObject pltr_linea;
     public TMP_Text pltr_parada_code;
     public TMP_Text pltr_parada_name;
-    public VerticalLayoutGroup pltr_parent_layout; //it bugs sometimes
 
 
     //selection
@@ -214,6 +219,8 @@ public class bus : MonoBehaviour
                 item.SetActive(matches);
             }
         }
+
+        StartCoroutine(RefreshLayoutGroups());
     }
     public void SortBy(string type)
     {
@@ -225,6 +232,26 @@ public class bus : MonoBehaviour
             bool matches = nombreLinea.text.ToLower().StartsWith(type);
             item.SetActive(matches);
         }
+
+        StartCoroutine(RefreshLayoutGroups());
+    }
+
+
+    IEnumerator RefreshLayoutGroups()
+    {
+        //change
+        botonesBusLineaParent.cellSize = new Vector2(499, 199);
+        pltr_parent_layout.padding.left = 14;
+        viewportContentLayout.padding.left = 1;
+
+        yield return new WaitForSeconds(0.1f);
+
+        //restore
+        botonesBusLineaParent.cellSize = new Vector2(500, 200);
+        pltr_parent_layout.padding.left = 15;
+        viewportContentLayout.padding.left = 0;
+
+        Debug.Log("layout groups refreshed - forced redrawn");
     }
 
 
@@ -436,7 +463,13 @@ public class bus : MonoBehaviour
         //conseguir realtimes
         StopAllCoroutines();
         hasFoundRoute = false;
-        StartCoroutine(GetRealTimes("https://api.transit.welbits.com/stops/times/" + codigos[paradaID], lineaInicial));
+
+        //arreglar los codigos
+        string fixedCode = codigos[paradaID].Trim();
+        if (codigos[paradaID].Length == 4) { fixedCode = "0" + fixedCode; }
+
+        StartCoroutine(GetRealTimes("https://api.transit.welbits.com/stops/times/" + fixedCode, lineaInicial));
+
 
 
         if (!string.IsNullOrEmpty(conexion[index].Trim()))
@@ -700,6 +733,9 @@ public class bus : MonoBehaviour
             }
         }
 
+
+        StartCoroutine(RefreshLayoutGroups());
+
     }
 
 
@@ -731,7 +767,6 @@ public class bus : MonoBehaviour
         }
 
 
-
         //buses interurbanos
         TextAsset todosLosNumerosDeLineas = Resources.Load<TextAsset>("buses/iterar/bus11");
         string[] numerosLineas = todosLosNumerosDeLineas.text.Trim().Split('\n');
@@ -755,6 +790,32 @@ public class bus : MonoBehaviour
             nombreLinea.text = numerosLineas[i];
             infoLinea.text = paradasLineas[i];
         }
+
+
+        //buses nocturnos
+        TextAsset todosLosNumerosDeLineas_noc = Resources.Load<TextAsset>("buses/iterar/bus11_n");
+        string[] numerosLineas_n = todosLosNumerosDeLineas_noc.text.Trim().Split('\n');
+
+        TextAsset todasLasParadasDeLineas_noc = Resources.Load<TextAsset>("buses/iterar/bus12_n");
+        string[] paradasLineas_n = todasLasParadasDeLineas_noc.text.Trim().Split('\n');
+
+        for (int i = 0; i < numerosLineas_n.Length; i++)
+        {
+            GameObject iterated = Instantiate(bus_info_n, new Vector3(0, 0, 0), Quaternion.identity, iteratedParent.transform);
+            iterated.name = numerosLineas_n[i];
+
+            TMP_Text nombreLinea = iterated.transform.Find("nombre").GetComponent<TMP_Text>();
+            TMP_Text infoLinea = iterated.transform.Find("info").GetComponent<TMP_Text>();
+
+            Button button = iterated.transform.GetComponent<Button>();
+            button.onClick.RemoveAllListeners();
+            string lineName = iterated.name;
+            button.onClick.AddListener(() => OpenLineInfo(lineName));
+
+            nombreLinea.text = numerosLineas_n[i];
+            infoLinea.text = paradasLineas_n[i];
+        }
+
 
         //añadir a la lista para buscar
         foreach (Transform child in iteratedParent.transform)

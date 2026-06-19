@@ -6,7 +6,7 @@ Marqués de la Valdavia
 La Moraleja
 La Granja
 Ronda de la Comunicación
-Las Tablas  [1]
+Las Tablas  [ML1]
 Montecarmelo
 Tres Olivos
 Fuencarral
@@ -24,7 +24,7 @@ Príncipe Pío
 Lago
 Batán
 Casa de Campo  [5]
-Colonia Jardín  [2] [3]
+Colonia Jardín  [ML2] [ML3]
 Aviación Española
 Cuatro Vientos
 Joaquín Vilumbrales

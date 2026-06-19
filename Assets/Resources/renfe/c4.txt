@@ -7,6 +7,6 @@ Villaverde Bajo [C3]
 Atocha [Metro] [C3] [C5] [C7] [C8] [C10]
 Sol [Metro] [C3]
 Nuevos Ministerios [Metro] [C2] [C5] [C7] [C8] [C10]
-Pinar de Chamartín [Metro] [C1] [C2] [C3] [C7] [C8] [C10]
+Chamartín [Metro] [C1] [C2] [C3] [C7] [C8] [C10]
 Fuencarral
 Universidad Cantoblanco
