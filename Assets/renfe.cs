@@ -149,24 +149,27 @@ public class renfe : MonoBehaviour
 
     public void SaveInfo()
     {
-        if (readyToSendInfo == true)
-        {
-            trayecto trayecto = FindFirstObjectByType<trayecto>();
-            trayecto.FetchInfo(paradaPrimera, lineaPrimera, paradaFinal, lineaFinal, "renfe");
-
-            indicators indicators = FindFirstObjectByType<indicators>();
-            indicators.AllToNormal();
-        }
-        /*
-        else if (isContarParadas == false)
+        if (isContarParadas == false)
         {
             isContarParadas = true;
+
+            indicators indicators = FindFirstObjectByType<indicators>();
+            indicators.ShowIndicator(paradaPrimera + "", "C" + lineaPrimera, "renfe");
         }
-        */
-        else if (isContarParadas == true)
+        else
         {
             indicators indicators = FindFirstObjectByType<indicators>();
             indicators.ShowIndicator(paradaPrimera + "", "C" + lineaPrimera, "renfe");
+        }
+
+
+        if (readyToSendInfo == true)
+        {
+            trayecto trayecto = FindFirstObjectByType<trayecto>();
+            trayecto.FetchInfo(paradaPrimera, "C" + lineaPrimera, paradaFinal, "C" + lineaFinal, "renfe");
+
+            indicators indicators = FindFirstObjectByType<indicators>();
+            indicators.AllToNormal();
         }
     }
     public void SaveLineaToFavs()
@@ -207,10 +210,10 @@ public class renfe : MonoBehaviour
         selection_parada.text = parada_texto;
 
 
+
+
         if (isContarParadas == false)
         {
-            isContarParadas = true;
-
             selection_contarParadas.text = "Viajar desde aquí hasta...";
 
             lineaPrimera = lineaNumb;

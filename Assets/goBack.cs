@@ -27,6 +27,7 @@ public class goBack : MonoBehaviour
     public GameObject r_all;
 
     public GameObject b_mapa;
+    public GameObject b_settings;
     public GameObject b_all;
 
     public GameObject ma_mapa;
@@ -176,6 +177,7 @@ public class goBack : MonoBehaviour
 
         else if (b_mapa.activeInHierarchy == true)      { currentScreen = b_mapa; }
         else if (b_all.activeInHierarchy == true)       { currentScreen = b_all; }
+        else if (b_settings.activeInHierarchy == true)  { currentScreen = b_settings; }
 
 
         else if (r_favs.activeInHierarchy == true)      { currentScreen = r_favs; }

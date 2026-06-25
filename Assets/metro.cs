@@ -134,6 +134,20 @@ public class metro : MonoBehaviour
 
     public void SaveInfo()
     {
+        if (isContarParadas == false)
+        {
+            isContarParadas = true;
+
+            indicators indicators = FindFirstObjectByType<indicators>();
+            indicators.ShowIndicator(ParadaInicial + "", lineaInicial, "metro");
+        }
+        else
+        {
+            indicators indicators = FindFirstObjectByType<indicators>();
+            indicators.ShowIndicator(ParadaInicial + "", lineaInicial, "metro");
+        }
+
+
         if (readyToSendInfo == true)
         {
             trayecto trayecto = FindFirstObjectByType<trayecto>();
@@ -141,17 +155,6 @@ public class metro : MonoBehaviour
 
             indicators indicators = FindFirstObjectByType<indicators>();
             indicators.AllToNormal();
-        }
-        /*
-        else if (isContarParadas == false)
-        {
-            isContarParadas = true;
-        }
-        */
-        else if (isContarParadas == true)
-        {
-            indicators indicators = FindFirstObjectByType<indicators>();
-            indicators.ShowIndicator(ParadaInicial + "", lineaInicial, "metro");
         }
     }
     public void SaveLineaToFavs()
@@ -197,10 +200,9 @@ public class metro : MonoBehaviour
         selection_parada.text = parada_texto;
 
 
+
         if (isContarParadas == false)
         {
-            isContarParadas = true;
-
             selection_contarParadas.text = "Viajar desde aquí hasta...";
 
             lineaInicial = lineaNumb;

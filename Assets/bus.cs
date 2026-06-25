@@ -34,12 +34,15 @@ public class bus : MonoBehaviour
 
 
     //iterar lista
+    public int busButtonHeightX;
+    public int busButtonHeightY;
     public GameObject bus_info;
     public GameObject bus_info_emt;
     public GameObject bus_info_n;
     public GameObject iteratedParent;
 
     public TMP_InputField search;
+    public bool isInterurbanPrefered;
     private List<GameObject> elementsInList = new List<GameObject>();
 
 
@@ -76,6 +79,7 @@ public class bus : MonoBehaviour
     public GameObject se_corresObj;                 //correspondencia titulo texto
     public TMP_Text se_corresText;                  //correspondencia texto
     public GameObject se_trObj;                     //tiempo real objeto parent
+    public TMP_Text se_loadingText;                      //tiempo real en hh:mm
     public TMP_Text se_trText;                      //tiempo real en hh:mm
     public TMP_Text se_trMinsText;                  //tiempo real restante en minutos
     public TMP_Text selection_contarParadas;
@@ -113,20 +117,27 @@ public class bus : MonoBehaviour
 
     public void SaveInfo()
     {
+        if (isContarParadas == false)
+        {
+            isContarParadas = true;
+
+            indicators indicators = FindFirstObjectByType<indicators>();
+            indicators.ShowIndicator(paradaInicial + "", lineaInicial, "bus_dir" + selection_direction);
+        }
+        else
+        {
+            indicators indicators = FindFirstObjectByType<indicators>();
+            indicators.ShowIndicator(paradaInicial + "", lineaInicial, "bus_dir" + selection_direction);
+        }
+
+
         if (readyToSendInfo == true)
         {
             trayecto trayecto = FindFirstObjectByType<trayecto>();
-            Debug.LogWarning("bus_dir" + selection_direction);
             trayecto.FetchInfo(paradaInicial, lineaInicial, paradaFinal, lineaFinal, "bus_dir" + selection_direction);
 
             indicators indicators = FindFirstObjectByType<indicators>();
             indicators.AllToNormal();
-        }
-
-        else if (isContarParadas == true)
-        {
-            indicators indicators = FindFirstObjectByType<indicators>();
-            indicators.ShowIndicator(paradaInicial + "", lineaInicial, "bus_dir" + selection_direction);
         }
     }
     public void SaveLineaToFavs()
@@ -196,6 +207,15 @@ public class bus : MonoBehaviour
 
             StopAllCoroutines();
             hasFoundRoute = false;
+
+
+            //preferencia de buses interurbanos
+            if (isInterurbanPrefered == true)
+            {
+                if (searchText == "5617") { searchText = "8-5617"; }
+            }
+
+
             StartCoroutine(GetRealTimes("https://api.transit.welbits.com/stops/times/" + searchText, "all"));
 
 
@@ -466,7 +486,7 @@ public class bus : MonoBehaviour
 
         //arreglar los codigos
         string fixedCode = codigos[paradaID].Trim();
-        if (codigos[paradaID].Length == 4) { fixedCode = "0" + fixedCode; }
+        if (codigos[paradaID].Length == 4 && fixedCode.Substring(0, 1) == "7") { fixedCode = "0" + fixedCode; }
 
         StartCoroutine(GetRealTimes("https://api.transit.welbits.com/stops/times/" + fixedCode, lineaInicial));
 
@@ -483,9 +503,9 @@ public class bus : MonoBehaviour
         }
 
 
+
         if (isContarParadas == false)
         {
-            isContarParadas = true;
             paradaInicial = paradaID;
             lineaInicial = busLinea.text;
 
@@ -505,7 +525,8 @@ public class bus : MonoBehaviour
 
     IEnumerator GetRealTimes(string apiURL, string targetLine)
     {
-        se_trText.text = "Cargando...";
+        se_loadingText.text = "Cargando...";
+        se_trText.text = "";
         se_trMinsText.text = "";
         Coroutine anim = StartCoroutine(RealTimeTextAnim());
 
@@ -535,13 +556,13 @@ public class bus : MonoBehaviour
 
         while (hasFoundRoute == false)
         {
-            se_trText.text = "Cargando...";
+            se_loadingText.text = "Cargando...";
             yield return new WaitForSeconds(time);
-            se_trText.text = "Cargando";
+            se_loadingText.text = "Cargando";
             yield return new WaitForSeconds(time);
-            se_trText.text = "Cargando.";
+            se_loadingText.text = "Cargando.";
             yield return new WaitForSeconds(time);
-            se_trText.text = "Cargando..";
+            se_loadingText.text = "Cargando..";
             yield return new WaitForSeconds(time);
         }
     }
@@ -565,6 +586,8 @@ public class bus : MonoBehaviour
         //si estas viendo el tiempo de un bus en su respectivo menu, dentro de b all
         if (targetLine == lineaInicial)
         {
+            paradaLineasTiempoReal.SetActive(false); //esconder lo otro de abajo
+
             foreach (BusTrip route in data.routes)
             {
                 if (route.shortName != targetLine.ToString())
@@ -593,6 +616,7 @@ public class bus : MonoBehaviour
                         else
                         {
                             Debug.Log("no se pudo parsear. " + time.arrivalDate);
+                            se_trMinsText.text = "Error";
                         }
 
                         /*
@@ -619,11 +643,13 @@ public class bus : MonoBehaviour
 
             if (hasFoundRoute == true && formattedTimes.Count > 0)
             {
+                se_loadingText.text = "";
                 se_trText.text = string.Join("   /   ", formattedTimes);
                 se_trMinsText.text = string.Join("   /   ", substractedTime);
             }
             else
             {
+                se_loadingText.text = "";
                 se_trText.text = "No se encuentran tiempos.";
                 se_trMinsText.text = "";
             }
@@ -649,27 +675,6 @@ public class bus : MonoBehaviour
             {
                 GameObject child = pltr_parent_rt.GetChild(i).gameObject;
                 Destroy(child);
-            }
-
-
-            //poner nombre de la parada y codigo
-            if (data.stopCode.Contains("_")) { pltr_parada_code.text = data.stopCode.Substring(2); }
-            else { pltr_parada_code.text = data.stopCode; }
-
-            for (int i = 1; i < 3; i++)
-            {
-                string path = "buses/paradas/";
-                TextAsset paradaRaw = Resources.Load<TextAsset>(path + data.routes[0].shortName.Trim() + "/dir" + i + "_pa");
-                if (paradaRaw == null) { Debug.Log("l. 615. no se encuentra el archivo de paradas para el nombre de la parada de bus que se quiere buscar"); }
-                string[] paradas = paradaRaw.text.Trim().Split('\n');
-
-                TextAsset codigoRaw = Resources.Load<TextAsset>(path + data.routes[0].shortName.Trim() + "/dir" + i + "_co");
-                if (codigoRaw == null) { Debug.Log("l. 619. no se encuentra el archivo de codigos para conseguir la linea exacta para el nombre de las paradas"); }
-                string[] codigos = codigoRaw.text.Trim().Split('\n');
-
-                for (int j = 0; j < codigos.Length; j++) {
-                    //Debug.Log("iteration " + j + " / codigo: " + codigos[j].Trim() + " / codigo parada: " + data.stopCode);
-                    if (codigos[j].Trim() == data.stopCode || codigos[j].Trim() == data.stopCode.Substring(2)) { pltr_parada_name.text = paradas[j]; break; } }
             }
 
 
@@ -731,11 +736,32 @@ public class bus : MonoBehaviour
                 }
                 //
             }
+
+
+
+            //poner nombre de la parada y codigo
+            if (data.stopCode.Contains("_")) { pltr_parada_code.text = data.stopCode.Substring(2); }
+            else { pltr_parada_code.text = data.stopCode; }
+
+            for (int i = 1; i < 3; i++)
+            {
+                string path = "buses/paradas/";
+                TextAsset paradaRaw = Resources.Load<TextAsset>(path + data.routes[0].shortName.Trim() + "/dir" + i + "_pa");
+                if (paradaRaw == null) { Debug.Log("l. 615. no se encuentra el archivo de paradas para el nombre de la parada de bus que se quiere buscar"); }
+                string[] paradas = paradaRaw.text.Trim().Split('\n');
+
+                TextAsset codigoRaw = Resources.Load<TextAsset>(path + data.routes[0].shortName.Trim() + "/dir" + i + "_co");
+                if (codigoRaw == null) { Debug.Log("l. 619. no se encuentra el archivo de codigos para conseguir la linea exacta para el nombre de las paradas"); }
+                string[] codigos = codigoRaw.text.Trim().Split('\n');
+
+                for (int j = 0; j < codigos.Length; j++) {
+                    //Debug.Log("iteration " + j + " / codigo: " + codigos[j].Trim() + " / codigo parada: " + data.stopCode);
+                    if (codigos[j].Trim() == data.stopCode || codigos[j].Trim() == data.stopCode.Substring(2)) { pltr_parada_name.text = paradas[j]; break; } }
+            }
         }
 
 
         StartCoroutine(RefreshLayoutGroups());
-
     }
 
 
@@ -875,5 +901,11 @@ public class bus : MonoBehaviour
             paradasTexts[i].text = paradas[i].Trim();
             */
         }
+    }
+
+    public void ModifyButtonHeight(int newHeightX, int newHeightY)
+    {
+        busButtonHeightX = newHeightX;
+        busButtonHeightY = newHeightY;
     }
 }
