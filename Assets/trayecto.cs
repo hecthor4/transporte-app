@@ -1,5 +1,8 @@
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using TMPro;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public class trayecto : MonoBehaviour
@@ -51,6 +54,28 @@ public class trayecto : MonoBehaviour
     public TMP_Text paso3_direccion;
     public TMP_Text paso3_paradasDiferencia;
 
+    public GameObject paso3_5;
+    public TMP_Text paso3_5_text;
+
+    public GameObject paso4;
+    public TMP_Text paso4_currentLinea;
+    public TMP_Text paso4_paradaInicial;
+    public TMP_Text paso4_paradaFinal;
+    public TMP_Text paso4_direccion;
+    public TMP_Text paso4_paradasDiferencia;
+
+    public GameObject paso4_5;
+    public TMP_Text paso4_5_text;
+
+    public GameObject paso5;
+    public TMP_Text paso5_currentLinea;
+    public TMP_Text paso5_paradaInicial;
+    public TMP_Text paso5_paradaFinal;
+    public TMP_Text paso5_direccion;
+    public TMP_Text paso5_paradasDiferencia;
+
+
+
     public GameObject datos;
     public TMP_Text tiempoEstimado;
     public TMP_Text paradasTotales;
@@ -87,10 +112,14 @@ public class trayecto : MonoBehaviour
     public void ContarParadas()
     {
         paso1.SetActive(false);
-        paso2.SetActive(false);
         paso1_5.SetActive(false);
-        paso3.SetActive(false);
+        paso2.SetActive(false);
         paso2_5.SetActive(false);
+        paso3.SetActive(false);
+        paso3_5.SetActive(false);
+        paso4.SetActive(false);
+        paso4_5.SetActive(false);
+        paso5.SetActive(false);
 
 
         m_all.SetActive(false);
@@ -200,21 +229,28 @@ public class trayecto : MonoBehaviour
             TextAsset paradasEnLineaFinal = Resources.Load<TextAsset>(location + lineaFinal + location_extra);
             string[] paradasFinal = paradasEnLineaFinal.text.Split('\n');
 
-            paso1.SetActive(true);
-            paso1_5.SetActive(true);
-            paso2.SetActive(true);
 
             string cleanText(string texto) => texto.Split('[')[0].Trim();
 
-            paso1_currentLinea.text = "Línea " + lineaPrimera;
+
+            if (infoTransportType == "metro") { paso1_currentLinea.text = "Línea " + lineaPrimera; }
+            if (infoTransportType == "renfe") { paso1_currentLinea.text = "C" + lineaPrimera; }
+            if (infoTransportType.Contains("bus")) { paso1_currentLinea.text = "Bus " + lineaPrimera; }
             paso1_paradaInicial.text = cleanText(paradasPrimera[paradaPrimera - numbersToSubstract]);
+            paso1_paradaFinal.text = cleanText(paradasPrimera[paradaFinal - numbersToSubstract]);
+            paso1_paradasDiferencia.text = Mathf.Abs(paradaPrimera - paradaFinal) + " paradas";
+
 
             isWayPossible = false;
             for (int i = 0; i < paradasPrimera.Length; i++)
             {
-                //si en la linea final hay parada de la linea inicial
+                //si en la linea final hay parada de la linea inicial (solo un transbordo)
                 if (paradasPrimera[i].Contains("[" + lineaFinal + "]"))
                 {
+                    paso1.SetActive(true);
+                    paso1_5.SetActive(true);
+                    paso2.SetActive(true);
+
                     paso1_paradaFinal.text = cleanText(paradasPrimera[i]);
                     isWayPossible = true;
 
@@ -250,29 +286,79 @@ public class trayecto : MonoBehaviour
                     paso2_paradasDiferencia.text = dif2 + " paradas";
 
                     paradasTotales.text = "Paradas totales: " + totalParadas;
-                    if ((totalParadas * 3) > 60)
-                    {
-                        tiempoEstimado.text = "Tiempo estimado: 1h y " + ((totalParadas * 3) - 60) + "''";
-                    }
-                    else
-                    {
-                        tiempoEstimado.text = "Tiempo estimado: " + (totalParadas * 3) + "''";
-                    }
+                    if ((totalParadas * 3) > 60) { tiempoEstimado.text = "Tiempo estimado: 1h y " + ((totalParadas * 3) - 60) + "''"; }
+                    else { tiempoEstimado.text = "Tiempo estimado: " + (totalParadas * 3) + "''"; }
+
+
+                    //transbordo
+                    paso1_5_text.text = "Transbordo a línea " + lineaFinal;
+                    //fin transbordo
+
+
+                    if (infoTransportType == "metro") { paso2_currentLinea.text = "Línea " + lineaFinal; }
+                    if (infoTransportType == "renfe") { paso2_currentLinea.text = "C" + lineaFinal; }
+                    if (infoTransportType.Contains("bus")) { paso2_currentLinea.text = "Bus " + lineaFinal; }
+                    paso2_paradaInicial.text = paso1_paradaFinal.text;
+                    paso2_paradaFinal.text = cleanText(paradasFinal[paradaFinal - 1]);
+
 
                     break;
                 }
+
+
+
+                //si hay que hacer mas de un transbordo
+                else
+                {
+                    paso1.SetActive(true);
+                    paso1_5.SetActive(true);
+                    paso2.SetActive(true);
+
+
+                    for (int j = 0; j  < paradasPrimera.Length; j++)
+                    {
+                        for (int k = 0; k < 999; k++)
+                        {
+                            bool lineaFinalHasConection = paradasFinal.Any(p => p.Contains("[" + k + "]"));
+
+
+                            if (paradasPrimera[j].Contains("[" + k + "]") && lineaFinalHasConection)
+                            {
+                                paso1.SetActive(true);
+                                paso1_5.SetActive(true);
+                                paso2.SetActive(true);
+                                paso2_5.SetActive(true);
+                                paso3.SetActive(true);
+
+                                paso1_paradaFinal.text = cleanText(paradasPrimera[j]);
+                                isWayPossible = true;
+
+                                //buscar index en linea final
+                                int indexEnLineaFinal = -1;
+
+
+                                for (int m = 0; m < paradasFinal.Length; m++)
+                                {
+                                    if (cleanText(paradasFinal[m]) == paso3_paradaFinal.text)
+                                    {
+                                        indexEnLineaFinal = m;
+                                        break;
+                                    }
+                                }
+
+                                //si no se encuentra el index
+                                if (indexEnLineaFinal == -1)
+                                {
+                                    continue;
+                                }
+
+                                break;
+                            }
+                        }
+                    }
+                }
             }
             StartCoroutine(ErrorIfTripIsntPossible());
-
-            //transbordo
-            paso1_5_text.text = "Transbordo a línea " + lineaFinal;
-            //fin transbordo
-
-
-            paso2_currentLinea.text = "Línea " + lineaFinal;
-            paso2_paradaInicial.text = paso1_paradaFinal.text;
-            paso2_paradaFinal.text = cleanText(paradasFinal[paradaFinal - 1]);
-
 
             ButtonMath(paradasFinal.Length);
         }

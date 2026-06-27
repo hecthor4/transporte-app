@@ -10,6 +10,8 @@ public class updater : MonoBehaviour
     public GameObject updateMenu;
     public TMP_InputField input;
 
+    public int monthCaduca = 8;
+
     public int isCodeCorrect;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -17,32 +19,14 @@ public class updater : MonoBehaviour
     {
         isCodeCorrect = PlayerPrefs.GetInt("isCodeCorrect", 0);
 
-        //
-        //isCodeCorrect = 0;
-        //PlayerPrefs.SetInt("isCodeCorrect", isCodeCorrect);
-        //PlayerPrefs.Save();
-        //
 
-        if (isCodeCorrect == 1)
-        {
-            timeUntilUpdateMenu.SetActive(false);
-        }
-        else
-        {
-            timeUntilUpdateMenu.SetActive(true);
-        }
+        if (isCodeCorrect == 1) { timeUntilUpdateMenu.SetActive(false); }
+        else { timeUntilUpdateMenu.SetActive(true); }
 
 
-            int month = DateTime.Now.Month;
-        if (month > 6 && isCodeCorrect == 0)
-        {
-            Debug.Log("error. actualiza app");
-            updateMenu.SetActive(true);
-        }
-        else
-        {
-            
-        }
+        int month = DateTime.Now.Month;
+        if (month > monthCaduca && isCodeCorrect == 0) { updateMenu.SetActive(true); }
+        
 
         Refresh();
     }
@@ -50,9 +34,11 @@ public class updater : MonoBehaviour
     void Refresh()
     {
         DateTime now = DateTime.Now;
-        DateTime caduca = new DateTime(now.Year, now.Month, 1).AddMonths(1);
+        DateTime caduca = new DateTime(now.Year, monthCaduca, 1);
+        TimeSpan tiempoRestante = caduca - now;
+        int diasRestantes = tiempoRestante.Days;
 
-        licenciaInfo.text = "Esta licencia caduca en " + (caduca - now).Days + " días.";
+        licenciaInfo.text = "Esta licencia caduca en " + diasRestantes + " días.";
     }
 
     public void Check()
