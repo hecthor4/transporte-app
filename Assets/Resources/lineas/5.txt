@@ -15,7 +15,7 @@ Alonso Martínez  [4] [10]
 Chueca
 Gran Vía  [1]
 Callao  [3]
-Ópera  [2]
+Ópera  [R] [2]
 La Latina
 Puerta de Toledo
 Acacias  [3]

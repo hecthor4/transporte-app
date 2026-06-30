@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
-using UnityEditor.Rendering;
 using UnityEngine;
 
 public class trayecto : MonoBehaviour
@@ -207,6 +205,8 @@ public class trayecto : MonoBehaviour
                 }
             }
 
+            if (paradaPrimera == paradaFinal) { paso1_direccion.text = ""; }
+
 
             ButtonMath(paradas.Length);
         }
@@ -214,72 +214,80 @@ public class trayecto : MonoBehaviour
         //hay que hacer transbordos
         else
         {
-            string location = "";
-            string location_extra = "";
-            int numbersToSubstract = 1;
-            if (infoTransportType == "metro") { location = "lineas/"; numbersToSubstract = 1; }
-            if (infoTransportType == "renfe") { location = "renfe/c"; numbersToSubstract = 1; }
-            if (infoTransportType == "bus_dir1") { transportType.text = "bus"; location = "buses/paradas/"; location_extra = "/dir1_pa"; numbersToSubstract = 0; }
-            if (infoTransportType == "bus_dir2") { transportType.text = "bus"; location = "buses/paradas/"; location_extra = "/dir2_pa"; numbersToSubstract = 0; }
+            List<string> rutaLineas = BuscarRuta(lineaPrimera, lineaFinal);
 
-
-            TextAsset paradasEnLineaPrimera = Resources.Load<TextAsset>(location + lineaPrimera + location_extra);
-            string[] paradasPrimera = paradasEnLineaPrimera.text.Split('\n');
-
-            TextAsset paradasEnLineaFinal = Resources.Load<TextAsset>(location + lineaFinal + location_extra);
-            string[] paradasFinal = paradasEnLineaFinal.text.Split('\n');
-
-
-            string cleanText(string texto) => texto.Split('[')[0].Trim();
-
-
-            if (infoTransportType == "metro") { paso1_currentLinea.text = "Línea " + lineaPrimera; }
-            if (infoTransportType == "renfe") { paso1_currentLinea.text = "C" + lineaPrimera; }
-            if (infoTransportType.Contains("bus")) { paso1_currentLinea.text = "Bus " + lineaPrimera; }
-            paso1_paradaInicial.text = cleanText(paradasPrimera[paradaPrimera - numbersToSubstract]);
-            paso1_paradaFinal.text = cleanText(paradasPrimera[paradaFinal - numbersToSubstract]);
-            paso1_paradasDiferencia.text = Mathf.Abs(paradaPrimera - paradaFinal) + " paradas";
-
-
-            isWayPossible = false;
-            for (int i = 0; i < paradasPrimera.Length; i++)
+            if (rutaLineas != null && rutaLineas.Count > 1)
             {
-                //si en la linea final hay parada de la linea inicial (solo un transbordo)
-                if (paradasPrimera[i].Contains("[" + lineaFinal + "]"))
+                isWayPossible = true;
+
+                paso1.SetActive(true);
+                paso1_5.SetActive(true);
+                paso2.SetActive(true);
+
+                string location = "";
+                string location_extra = "";
+                int numbersToSubstract = 1;
+                if (infoTransportType == "metro") { location = "lineas/"; numbersToSubstract = 1; }
+                if (infoTransportType == "renfe") { location = "renfe/c"; numbersToSubstract = 1; }
+                if (infoTransportType == "bus_dir1") { transportType.text = "bus"; location = "buses/paradas/"; location_extra = "/dir1_pa"; numbersToSubstract = 0; }
+                if (infoTransportType == "bus_dir2") { transportType.text = "bus"; location = "buses/paradas/"; location_extra = "/dir2_pa"; numbersToSubstract = 0; }
+
+                TextAsset paradasEnLineaPrimera = Resources.Load<TextAsset>(location + lineaPrimera + location_extra);
+                string[] paradasPrimera = paradasEnLineaPrimera.text.Split('\n');
+
+                string siguienteLineaEnRuta = rutaLineas[1];
+                TextAsset paradasEnLineaSegunda= Resources.Load<TextAsset>(location + lineaFinal + location_extra);
+                string[] paradasSegunda = paradasEnLineaSegunda.text.Split('\n');
+
+                string cleanText(string texto) => texto.Split('[')[0].Trim();
+
+
+                if (infoTransportType == "metro") { paso1_currentLinea.text = "Línea " + lineaPrimera; }
+                if (infoTransportType == "renfe") { paso1_currentLinea.text = "C" + lineaPrimera; }
+                if (infoTransportType.Contains("bus")) { paso1_currentLinea.text = "Bus " + lineaPrimera; }
+
+
+                paso1_paradaInicial.text = cleanText(paradasPrimera[paradaPrimera - numbersToSubstract]);
+
+                int indexEnLineaPrimera = -1;
+                for (int i = 0; i < paradasPrimera.Length; i++)
                 {
-                    paso1.SetActive(true);
-                    paso1_5.SetActive(true);
-                    paso2.SetActive(true);
-
-                    paso1_paradaFinal.text = cleanText(paradasPrimera[i]);
-                    isWayPossible = true;
-
-                    //buscar index en linea final
-                    int indexEnLineaFinal = -1;
-                    for (int j = 0; j < paradasFinal.Length; j++)
+                    if (paradasPrimera[i].Contains('[' + siguienteLineaEnRuta + ']'))
                     {
-                        if (cleanText(paradasFinal[j]) == paso1_paradaFinal.text)
+                        indexEnLineaPrimera = i;
+                        break;
+                    }
+                }
+                if (indexEnLineaPrimera != 1)
+                {
+                    paso1_paradaFinal.text = cleanText(paradasPrimera[indexEnLineaPrimera]);
+
+                    int indexEnParadasFinal = -1;
+                    for (int j = 0; j < paradasPrimera.Length; j++)
+                    {
+                        if (cleanText(paradasSegunda[j]) == paso1_paradaFinal.text)
                         {
-                            indexEnLineaFinal = j;
+                            indexEnParadasFinal = j;
                             break;
                         }
                     }
 
-                    //si no se encuentra el index
-                    if (indexEnLineaFinal == -1)
-                    {
-                        continue;
-                    }
 
-                    if (paradaPrimera > i + 1) { paso1_direccion.text = "Dirección " + cleanText(paradasPrimera[0]); direccion = "negative"; }
+                    if (paradaPrimera > indexEnLineaPrimera + 1) { paso1_direccion.text = "Dirección " + cleanText(paradasPrimera[0]); direccion = "negative"; }
                     else { paso1_direccion.text = "Dirección " + cleanText(paradasPrimera[paradasPrimera.Length - 1]); direccion = "positive"; }
 
-                    if ((indexEnLineaFinal + 1) > paradaFinal) { paso2_direccion.text = "Dirección " + cleanText(paradasFinal[0]); }
-                    else { paso2_direccion.text = "Dirección " + cleanText(paradasFinal[paradasFinal.Length - 1]); }
+                    if (paso1_paradaInicial.text == paso1_paradaFinal.text) { paso1_direccion.text = ""; }
 
 
-                    int dif1 = Mathf.Abs(paradaPrimera - (i + 1));
-                    int dif2 = Mathf.Abs(paradaFinal - (indexEnLineaFinal + 1));
+                    if ((indexEnParadasFinal + 1) > paradaFinal) { paso2_direccion.text = "Dirección " + cleanText(paradasSegunda[0]); }
+                    else { paso2_direccion.text = "Dirección " + cleanText(paradasSegunda[paradasSegunda.Length - 1]); }
+
+                    if (paso2_paradaInicial.text == paso2_paradaFinal.text) { paso2_direccion.text = ""; }
+
+
+
+                    int dif1 = Mathf.Abs(paradaPrimera - (indexEnLineaPrimera + 1));
+                    int dif2 = Mathf.Abs(paradaFinal - (indexEnParadasFinal + 1));
                     int totalParadas = dif1 + dif2;
 
                     paso1_paradasDiferencia.text = dif1 + " paradas";
@@ -288,6 +296,7 @@ public class trayecto : MonoBehaviour
                     paradasTotales.text = "Paradas totales: " + totalParadas;
                     if ((totalParadas * 3) > 60) { tiempoEstimado.text = "Tiempo estimado: 1h y " + ((totalParadas * 3) - 60) + "''"; }
                     else { tiempoEstimado.text = "Tiempo estimado: " + (totalParadas * 3) + "''"; }
+
 
 
                     //transbordo
@@ -299,68 +308,9 @@ public class trayecto : MonoBehaviour
                     if (infoTransportType == "renfe") { paso2_currentLinea.text = "C" + lineaFinal; }
                     if (infoTransportType.Contains("bus")) { paso2_currentLinea.text = "Bus " + lineaFinal; }
                     paso2_paradaInicial.text = paso1_paradaFinal.text;
-                    paso2_paradaFinal.text = cleanText(paradasFinal[paradaFinal - 1]);
-
-
-                    break;
-                }
-
-
-
-                //si hay que hacer mas de un transbordo
-                else
-                {
-                    paso1.SetActive(true);
-                    paso1_5.SetActive(true);
-                    paso2.SetActive(true);
-
-
-                    for (int j = 0; j  < paradasPrimera.Length; j++)
-                    {
-                        for (int k = 0; k < 999; k++)
-                        {
-                            bool lineaFinalHasConection = paradasFinal.Any(p => p.Contains("[" + k + "]"));
-
-
-                            if (paradasPrimera[j].Contains("[" + k + "]") && lineaFinalHasConection)
-                            {
-                                paso1.SetActive(true);
-                                paso1_5.SetActive(true);
-                                paso2.SetActive(true);
-                                paso2_5.SetActive(true);
-                                paso3.SetActive(true);
-
-                                paso1_paradaFinal.text = cleanText(paradasPrimera[j]);
-                                isWayPossible = true;
-
-                                //buscar index en linea final
-                                int indexEnLineaFinal = -1;
-
-
-                                for (int m = 0; m < paradasFinal.Length; m++)
-                                {
-                                    if (cleanText(paradasFinal[m]) == paso3_paradaFinal.text)
-                                    {
-                                        indexEnLineaFinal = m;
-                                        break;
-                                    }
-                                }
-
-                                //si no se encuentra el index
-                                if (indexEnLineaFinal == -1)
-                                {
-                                    continue;
-                                }
-
-                                break;
-                            }
-                        }
-                    }
+                    paso2_paradaFinal.text = cleanText(paradasSegunda[paradaFinal - 1]);
                 }
             }
-            StartCoroutine(ErrorIfTripIsntPossible());
-
-            ButtonMath(paradasFinal.Length);
         }
     }
 
@@ -519,4 +469,80 @@ public class trayecto : MonoBehaviour
         ContarParadas();
     }
     */
+
+
+    public List<string> BuscarRuta(string lineaPrimera, string lineaFinal)
+    {
+        Queue<List<string>> cola = new Queue<List<string>>();
+        HashSet<string> visitadas = new HashSet<string>();
+
+        cola.Enqueue(new List<string> { lineaPrimera });
+        visitadas.Add(lineaPrimera);
+
+        while (cola.Count > 0)
+        {
+            List<string> ruta = cola.Dequeue();
+            string lineaActual = ruta[ruta.Count - 1];
+
+            if (lineaActual == lineaFinal)
+            {
+                return ruta;
+            }
+
+            List<string> neighbors = GetCorrespondencies(lineaActual);
+            foreach (string neighbor in neighbors)
+            {
+                if (visitadas.Contains(neighbor) == false)
+                {
+                    visitadas.Add(neighbor);
+                    List<string> nuevaRuta = new List<string>(ruta);
+                    nuevaRuta.Add(neighbor);
+                    cola.Enqueue(nuevaRuta);
+                }
+            }
+        }
+        return null;
+    }
+    public List<string> GetCorrespondencies(string linea)
+    {
+        List<string> conexiones = new List<string>();
+
+        string location = "";
+        string location_extra = "";
+        int numbersToSubstract = 1;
+        if (infoTransportType == "metro") { location = "lineas/"; numbersToSubstract = 1; }
+        if (infoTransportType == "renfe") { location = "renfe/c"; numbersToSubstract = 1; }
+        if (infoTransportType == "bus_dir1") { transportType.text = "bus"; location = "buses/paradas/"; location_extra = "/dir1_pa"; numbersToSubstract = 0; }
+        if (infoTransportType == "bus_dir2") { transportType.text = "bus"; location = "buses/paradas/"; location_extra = "/dir2_pa"; numbersToSubstract = 0; }
+
+        TextAsset paradasEnLinea = Resources.Load<TextAsset>(location + linea + location_extra);
+        string[] paradas = paradasEnLinea.text.Split('\n');
+
+        foreach (string parada in paradas)
+        {
+            int indexCorcheteAbrir = parada.IndexOf('[');
+
+            while (indexCorcheteAbrir != -1)
+            {
+                int indexCorcheteCerrar = parada.IndexOf(']', indexCorcheteAbrir);
+
+                if (indexCorcheteCerrar != -1)
+                {
+                    string lineaCorrespondencia = parada.Substring(indexCorcheteAbrir + 1, indexCorcheteCerrar - indexCorcheteAbrir - 1).Trim();
+
+                    if (conexiones.Contains(lineaCorrespondencia) == false && lineaCorrespondencia != linea)
+                    {
+                        conexiones.Add(lineaCorrespondencia);
+                    }
+                    indexCorcheteAbrir = parada.IndexOf('[', indexCorcheteCerrar);
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+
+        return conexiones;
+    }
 }

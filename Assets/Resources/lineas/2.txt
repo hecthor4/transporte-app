@@ -11,7 +11,7 @@ Retiro
 Banco de España
 Sevilla
 Sol  [1] [3]
-Ópera  [5]
+Ópera  [R] [5]
 Santo Domingo
 Noviciado  [3] [10]
 San Bernardo  [4]
