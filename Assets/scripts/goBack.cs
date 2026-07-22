@@ -31,8 +31,12 @@ public class goBack : MonoBehaviour
     public GameObject b_all;
 
     public GameObject ma_mapa;
+    public GameObject ma_mapaIntegrado;
+
+    public GameObject b_buscar;
 
     public GameObject changelog;
+    public GameObject mainSettings;
 
     bus bus_ins;
     trayecto trayecto_ins;
@@ -185,8 +189,13 @@ public class goBack : MonoBehaviour
 
 
         else if (ma_mapa.activeInHierarchy == true)     { currentScreen = ma_mapa; }
+        else if (ma_mapaIntegrado.activeInHierarchy == true) { currentScreen = ma_mapaIntegrado; }
+
+
+        else if (b_buscar.activeInHierarchy == true) { currentScreen = b_buscar; }
 
 
         else if (changelog.activeInHierarchy == true)   { currentScreen = changelog; }
+        else if (mainSettings.activeInHierarchy == true) { currentScreen = mainSettings; }
     }
 }
