@@ -16,9 +16,11 @@ public class goBack : MonoBehaviour
     public GameObject mapas;
 
     public GameObject r_nuevo;
+    public GameObject r_nuevo2;
     public GameObject r_favs;
 
-    public GameObject m_mapa;
+    public GameObject m_mapaEsq;
+    public GameObject m_mapaCar;
     public GameObject m_settings;
     public GameObject m_all;
 
@@ -97,7 +99,7 @@ public class goBack : MonoBehaviour
     }
     IEnumerator CloseScreenCoroutine()
     {
-        yield return new WaitForSeconds(0.05f);
+        yield return new WaitForSeconds(0.075f); //old: 0.05
 
         currentScreen.SetActive(false);
 
@@ -129,7 +131,7 @@ public class goBack : MonoBehaviour
         bus_ins.GoBack();
         ajustes_ins.RefreshSettings();
 
-        if (screenHistory[screenHistory.Count - 1] == r_favs || screenHistory[screenHistory.Count - 1] == r_nuevo) //currentScreen == main || )
+        if (screenHistory[screenHistory.Count - 1] == r_favs || screenHistory[screenHistory.Count - 1] == r_nuevo || screenHistory[screenHistory.Count - 1] == r_nuevo2) //currentScreen == main || )
         {
             trayecto_ins.ContarParadasReset();
 
@@ -169,7 +171,8 @@ public class goBack : MonoBehaviour
         else if (mapas.activeInHierarchy == true)       { currentScreen = mapas; }
 
 
-        else if (m_mapa.activeInHierarchy == true)      { currentScreen = m_mapa; }
+        else if (m_mapaEsq.activeInHierarchy == true)   { currentScreen = m_mapaEsq; }
+        else if (m_mapaCar.activeInHierarchy == true)   { currentScreen = m_mapaCar; }
         else if (m_all.activeInHierarchy == true)       { currentScreen = m_all; }
         else if (m_settings.activeInHierarchy == true)  { currentScreen = m_settings; }
 
@@ -186,6 +189,7 @@ public class goBack : MonoBehaviour
 
         else if (r_favs.activeInHierarchy == true)      { currentScreen = r_favs; }
         else if (r_nuevo.activeInHierarchy == true)     { currentScreen = r_nuevo; }
+        else if (r_nuevo2.activeInHierarchy == true)    { currentScreen = r_nuevo2; }
 
 
         else if (ma_mapa.activeInHierarchy == true)     { currentScreen = ma_mapa; }

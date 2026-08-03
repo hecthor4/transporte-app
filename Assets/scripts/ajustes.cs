@@ -4,18 +4,21 @@ using UnityEngine.UI;
 
 public class ajustes : MonoBehaviour
 {
+    //metro
     public Slider m_tamaño;
     public int m_tamañoSave;
     public Slider m_espaciado;
     public int m_espaciadoSave;
     public VerticalLayoutGroup m_layout;
 
+    //renfe
     public Slider r_tamaño;
     public int r_tamañoSave;
     public Slider r_espaciado;
     public int r_espaciadoSave;
     public VerticalLayoutGroup r_layout;
 
+    //bus
     public Slider b_tamañoX;
     public int b_tamañoSaveX;
     public Slider b_tamañoY;

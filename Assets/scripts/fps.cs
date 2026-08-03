@@ -1,21 +1,53 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class fps : MonoBehaviour
 {
     public static int SDK_INT; //get value 0 if I call from another script
     public static int result; //get value 0 if I call from another script
 
+
+    public TMP_Text fpsValue;
+    public Slider fpsSlider;
+    public int savedFPS;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        QualitySettings.vSyncCount = 1;
-        Application.targetFrameRate = 90;
+        //QualitySettings.vSyncCount = 1;
+
+        savedFPS = PlayerPrefs.GetInt("savedFPS", 90);
+        fpsSlider.value = savedFPS;
+        Application.targetFrameRate = savedFPS;
         Screen.fullScreen = false;
 
         disableFullScreen();
         result = getStatusHeight();
         SDK_INT = getSDKInt();
+    }
+
+    public void RestoreFPS()
+    {
+        fpsSlider.value = 90;
+        fpsValue.text = fpsSlider.value.ToString();
+
+        savedFPS = Mathf.RoundToInt(fpsSlider.value);
+        Application.targetFrameRate = savedFPS;
+
+        PlayerPrefs.SetInt("savedFPS", savedFPS);
+        PlayerPrefs.Save();
+    }
+
+    public void OnFPSSliderUpdate()
+    {
+        fpsValue.text = fpsSlider.value.ToString();
+
+        savedFPS = Mathf.RoundToInt(fpsSlider.value);
+        Application.targetFrameRate = savedFPS;
+
+        PlayerPrefs.SetInt("savedFPS", savedFPS);
+        PlayerPrefs.Save();
     }
 
     static void disableFullScreen()

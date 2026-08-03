@@ -13,7 +13,8 @@ public class mapaMetro : MonoBehaviour
     private float zoomSpeed = 0.0025f;
     private bool isActive;
 
-    public RectTransform rect;
+    public RectTransform contentRect;
+    public RectTransform viewportRect;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -31,28 +32,35 @@ public class mapaMetro : MonoBehaviour
                 Touch touchZero = Input.GetTouch(0);
                 Touch touchOne = Input.GetTouch(1);
 
+                if (touchZero.phase == TouchPhase.Began || touchOne.phase == TouchPhase.Began)
+                {
+                    return;
+                }
+
                 Vector2 touchZeroPrev = touchZero.position - touchZero.deltaPosition;
                 Vector2 touchOnePrev = touchOne.position - touchOne.deltaPosition;
 
                 float prevTouchDeltaMag = (touchZeroPrev - touchOnePrev).magnitude;
                 float touchDeltaMag = (touchZero.position - touchOne.position).magnitude;
-
                 float deltaMagDiff = touchDeltaMag - prevTouchDeltaMag;
 
-
                 Vector2 touchPointScreen = (touchZero.position + touchOne.position) / 2f;
-                RectTransformUtility.ScreenPointToLocalPointInRectangle(rect, touchPointScreen, null, out Vector2 localPivotBeforeZoom);
 
-                float currentScale = rect.localScale.x;
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(viewportRect, touchPointScreen, null, out Vector2 pivotInViewport);
+
+                Vector3 worldPointBeforeZoom = viewportRect.TransformPoint(pivotInViewport);
+
+                float currentScale = contentRect.localScale.x;
                 float newScale = currentScale + (deltaMagDiff * zoomSpeed);
                 newScale = Mathf.Clamp(newScale, minZoom, maxZoom);
+                contentRect.localScale = new Vector3(newScale, newScale, 1);
 
-                rect.localScale = new Vector3(newScale, newScale, 1);
+                Vector3 worldPointAfterZoom = viewportRect.TransformPoint(pivotInViewport);
+                Vector3 localPointBeforeInContent = contentRect.InverseTransformPoint(worldPointBeforeZoom);
+                Vector3 localPointAfterInContent = contentRect.InverseTransformPoint(worldPointAfterZoom);
 
-                float scaleRatio = newScale / currentScale;
-                Vector3 displacement = (Vector3)localPivotBeforeZoom * (scaleRatio - 1f);
-
-                rect.localPosition -= displacement;
+                Vector3 deltaPivot = localPointAfterInContent - localPointBeforeInContent;
+                contentRect.localPosition += contentRect.TransformDirection(deltaPivot);
             }
         }
     }

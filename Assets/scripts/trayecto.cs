@@ -96,7 +96,7 @@ public class trayecto : MonoBehaviour
     public void FetchInfo(int par1, string lin1, int par2, string lin2, string infoType)
     {
         transportType.text = infoType;
-        infoTransportType = infoType;
+        infoTransportType = infoType.Trim();
 
         paradaPrimera = par1;
         lineaPrimera = lin1;
@@ -140,19 +140,19 @@ public class trayecto : MonoBehaviour
             string location_extra = "";
             int numbersToSubstract = 1;
             if (infoTransportType == "metro") { location = "lineas/"; numbersToSubstract = 1; }
-            if (infoTransportType == "renfe") { location = "renfe/c"; numbersToSubstract = 1; }
+            if (infoTransportType == "renfe") { location = "renfe/"; numbersToSubstract = 1; }
             if (infoTransportType == "bus_dir1") { transportType.text = "bus"; location = "buses/paradas/"; location_extra = "/dir1_pa"; numbersToSubstract = 0; }
             if (infoTransportType == "bus_dir2") { transportType.text = "bus"; location = "buses/paradas/"; location_extra = "/dir2_pa"; numbersToSubstract = 0; }
 
-            TextAsset paradasEnLinea = Resources.Load<TextAsset>(location + lineaPrimera + location_extra);
-            string[] paradas = paradasEnLinea.text.Split('\n');
+            TextAsset paradasEnLinea = Resources.Load<TextAsset>(location + lineaPrimera.Trim() + location_extra);
+            string[] paradas = paradasEnLinea.text.Trim().Split('\n');
 
             string cleanText(string texto) => texto.Split('[')[0].Trim();
 
             paso1.SetActive(true);
 
             if (infoTransportType == "metro") { paso1_currentLinea.text = "Línea " + lineaPrimera; }
-            if (infoTransportType == "renfe") { paso1_currentLinea.text = "C" + lineaPrimera; }
+            if (infoTransportType == "renfe") { paso1_currentLinea.text = "" + lineaPrimera; }
             if (infoTransportType.Contains("bus")) { paso1_currentLinea.text = "Bus " + lineaPrimera; }
             paso1_paradaInicial.text = cleanText(paradas[paradaPrimera - numbersToSubstract]);
             paso1_paradaFinal.text = cleanText(paradas[paradaFinal - numbersToSubstract]);
@@ -232,7 +232,7 @@ public class trayecto : MonoBehaviour
                 if (infoTransportType == "bus_dir1") { transportType.text = "bus"; location = "buses/paradas/"; location_extra = "/dir1_pa"; numbersToSubstract = 0; }
                 if (infoTransportType == "bus_dir2") { transportType.text = "bus"; location = "buses/paradas/"; location_extra = "/dir2_pa"; numbersToSubstract = 0; }
 
-                TextAsset paradasEnLineaPrimera = Resources.Load<TextAsset>(location + lineaPrimera + location_extra);
+                TextAsset paradasEnLineaPrimera = Resources.Load<TextAsset>(location + lineaPrimera.Trim() + location_extra);
                 string[] paradasPrimera = paradasEnLineaPrimera.text.Split('\n');
 
                 string siguienteLineaEnRuta = rutaLineas[1];
