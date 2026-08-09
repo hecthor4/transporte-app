@@ -2,6 +2,7 @@ using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -32,10 +33,7 @@ public class search : MonoBehaviour
     public GameObject searchResultSummarized_recuadro;
 
 
-    int metroLinesFound;
-    int renfeLinesFound;
-    int busLinesFound;
-
+    public string predictedName;
     public List<string> resultMetro = new List<string>();
     public List<string> resultRenfe = new List<string>();
     public List<string> resultBus = new List<string>();
@@ -77,10 +75,7 @@ public class search : MonoBehaviour
         }
         else
         {
-            metroLinesFound = 0;
-            renfeLinesFound = 0;
-            busLinesFound = 0;
-
+            predictedName = "";
             resultMetro.Clear();
             resultRenfe.Clear();
             resultBus.Clear();
@@ -115,8 +110,7 @@ public class search : MonoBehaviour
 
                         parada.text = cleanText(paradas[j].ToString().Trim());
 
-                        metroLinesFound++;
-                        resultMetro.Add(linea.text);
+                        //resultMetro.Add(linea.text);
                     }
                 }
             }
@@ -151,8 +145,7 @@ public class search : MonoBehaviour
 
                         parada.text = cleanText(paradas[j].ToString().Trim());
 
-                        renfeLinesFound++;
-                        resultRenfe.Add(linea.text);
+                        //resultRenfe.Add(linea.text);
                     }
                 }
             }
@@ -181,21 +174,78 @@ public class search : MonoBehaviour
             }
 
 
+            /*
+             * ============================================
+             *                 PREDICADOR
+             * ============================================
+             */
+
+
+            //predict for summarizer
+            string predicted = resultMetro[0];
+
+
+            TextAsset paradasLineaPredecida = Resources.Load<TextAsset>("lineas/" + predicted);
+            string[] paradasPrecedidas = paradasLineaPredecida.text.Split('\n');
+
+
+            for (int i = 0; i < paradasPrecedidas.Length; i++) {
+                if (paradasPrecedidas[i].ToLower().Contains(searchText.ToLower())) {
+                    predictedName = paradasPrecedidas[i]; } }
+
+
+            //buscar lineas de metro predichas
+            for (int i = 0; i < metroIterationOrder.Count; i++)
+            {
+                TextAsset paradasLinea = Resources.Load<TextAsset>("lineas/" + metroIterationOrder[i]);
+                string[] paradas = paradasLinea.text.Split('\n');
+
+                for (int j = 0; j < paradas.Length; j++) {
+                    if (paradas[j].ToLower().Contains(searchText.ToLower())) {
+                        resultMetro.Add(paradas[j]); } } }
+						
+						
+            //buscar lineas de renfe predichas
+            for (int i = 0; i < renfeIterationOrder.Count; i++)
+            {
+                TextAsset paradasLinea = Resources.Load<TextAsset>("renfe/c" + renfeIterationOrder[i]);
+                string[] paradas = paradasLinea.text.Split('\n');
+
+                for (int j = 0; j < paradas.Length; j++) {
+                    if (paradas[j].ToLower().Contains(searchText.ToLower())) {
+                        resultRenfe.Add(paradas[j]); } } }
+
+
+            //buscar lineas de bus predichas
+            for (int i = 0; i < busLineas.Length; i++)
+            {
+                TextAsset checkDir1 = Resources.Load<TextAsset>("buses/paradas/" + busIterationOrder[i] + "/dir1_pa");
+
+                if (checkDir1 != null)
+                {
+                    resultBus.Add(busIterationOrder[i]);
+                }
+            }
+
+
+
 
             //summarize
-            if (busLinesFound > 1)
+            if (resultBus.Count > 0)
             {
                 GameObject instantiated = Instantiate(searchResultSummarized, parentReference.transform);
                 instantiated.transform.SetAsFirstSibling();
 
                 TMP_Text lineaNombre = instantiated.transform.Find("linea nombre grande").GetComponent<TMP_Text>();
+                lineaNombre.text = predictedName;
+
 
                 //metro
                 GameObject metro = instantiated.transform.Find("metro").gameObject;
-                if (metroLinesFound > 1) {
+                if (resultMetro.Count > 0) {
                     GameObject lineas = metro.transform.Find("lineas").gameObject;
 
-                    for (int i = 0; i < metroLinesFound; i++) {
+                    for (int i = 0; i < resultMetro.Count; i++) {
                         GameObject recuadro = Instantiate(searchResultSummarized_recuadro, lineas.transform);
                         TMP_Text recuadroText = recuadro.GetComponent<TMP_Text>();
                         recuadroText.text = resultMetro[i];
@@ -205,10 +255,10 @@ public class search : MonoBehaviour
 
                 //renfe
                 GameObject renfe = instantiated.transform.Find("renfe").gameObject;
-                if (renfeLinesFound > 1) {
+                if (resultRenfe.Count > 0) {
                     GameObject lineas = renfe.transform.Find("lineas").gameObject;
 
-                    for (int i = 0; i < renfeLinesFound; i++) {
+                    for (int i = 0; i < resultRenfe.Count; i++) {
                         GameObject recuadro = Instantiate(searchResultSummarized_recuadro, lineas.transform);
                         TMP_Text recuadroText = recuadro.GetComponent<TMP_Text>();
                         recuadroText.text = resultRenfe[i];
@@ -216,9 +266,28 @@ public class search : MonoBehaviour
                 else { renfe.SetActive(false); }
 
 
-                GameObject busEmt = instantiated.transform.Find("bus emt").gameObject;
+                //GameObject busEmt = instantiated.transform.Find("bus emt").gameObject;
+
+
+                //bus interurbano
                 GameObject busInt = instantiated.transform.Find("bus interurbano").gameObject;
-                GameObject busNoc = instantiated.transform.Find("bus nocturno").gameObject;
+                List<string> resultBus2 = resultBus.Distinct().ToList();
+                if (resultBus2.Count > 0)
+                {
+                    GameObject lineas = busInt.transform.Find("lineas").gameObject;
+
+                    for (int i = 0; i < resultBus2.Count; i++)
+                    {
+                        GameObject recuadro = Instantiate(searchResultSummarized_recuadro, lineas.transform);
+                        TMP_Text recuadroText = recuadro.GetComponent<TMP_Text>();
+                        recuadroText.text = resultBus2[i];
+                    }
+                }
+                else { busInt.SetActive(false); }
+
+
+                //GameObject busNoc = instantiated.transform.Find("bus nocturno").gameObject;
+
 
                 GameObject contarParadas = instantiated.transform.Find("contar paradas hasta").gameObject;
             }
@@ -252,8 +321,9 @@ public class search : MonoBehaviour
 
                 parada.text = cleanText(paradas[j].ToString().Trim());
 
-                busLinesFound++;
                 resultBus.Add(linea.text);
+
+                return;
             }
         }
     }
