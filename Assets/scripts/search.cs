@@ -34,6 +34,7 @@ public class search : MonoBehaviour
 
 
     public string predictedName;
+    public string predictedCandidate;
     public List<string> resultMetro = new List<string>();
     public List<string> resultRenfe = new List<string>();
     public List<string> resultBus = new List<string>();
@@ -75,6 +76,7 @@ public class search : MonoBehaviour
         }
         else
         {
+            predictedCandidate = null;
             predictedName = "";
             resultMetro.Clear();
             resultRenfe.Clear();
@@ -111,6 +113,11 @@ public class search : MonoBehaviour
                         parada.text = cleanText(paradas[j].ToString().Trim());
 
                         //resultMetro.Add(linea.text);
+                        
+                        if (predictedCandidate == null)
+                        {
+                            predictedCandidate = metroIterationOrder[i];
+                        }
                     }
                 }
             }
@@ -182,7 +189,7 @@ public class search : MonoBehaviour
 
 
             //predict for summarizer
-            string predicted = resultMetro[0];
+            string predicted = predictedCandidate;
 
 
             TextAsset paradasLineaPredecida = Resources.Load<TextAsset>("lineas/" + predicted);
@@ -191,7 +198,7 @@ public class search : MonoBehaviour
 
             for (int i = 0; i < paradasPrecedidas.Length; i++) {
                 if (paradasPrecedidas[i].ToLower().Contains(searchText.ToLower())) {
-                    predictedName = paradasPrecedidas[i]; } }
+                    predictedName = paradasPrecedidas[i].Split('[')[0].Trim(); } } //cleantext
 
 
             //buscar lineas de metro predichas
@@ -201,8 +208,8 @@ public class search : MonoBehaviour
                 string[] paradas = paradasLinea.text.Split('\n');
 
                 for (int j = 0; j < paradas.Length; j++) {
-                    if (paradas[j].ToLower().Contains(searchText.ToLower())) {
-                        resultMetro.Add(paradas[j]); } } }
+                    if (paradas[j].Trim().ToLower().Contains(predictedName.ToLower())) {
+                        resultMetro.Add(metroIterationOrder[i]); } } }
 						
 						
             //buscar lineas de renfe predichas
@@ -212,8 +219,8 @@ public class search : MonoBehaviour
                 string[] paradas = paradasLinea.text.Split('\n');
 
                 for (int j = 0; j < paradas.Length; j++) {
-                    if (paradas[j].ToLower().Contains(searchText.ToLower())) {
-                        resultRenfe.Add(paradas[j]); } } }
+                    if (paradas[j].ToLower() == (predictedName.ToLower())) {
+                        resultRenfe.Add(renfeIterationOrder[i]); } } }
 
 
             //buscar lineas de bus predichas
@@ -221,11 +228,14 @@ public class search : MonoBehaviour
             {
                 TextAsset checkDir1 = Resources.Load<TextAsset>("buses/paradas/" + busIterationOrder[i] + "/dir1_pa");
 
-                if (checkDir1 != null)
-                {
-                    resultBus.Add(busIterationOrder[i]);
-                }
-            }
+                if (checkDir1 != null) {
+                    TextAsset paradasLinea = Resources.Load<TextAsset>("buses/paradas/" + busIterationOrder[i] + "/dir1_pa");
+                    string[] paradas = paradasLinea.text.Split('\n');
+
+                    for (int k = 0; k < paradas.Length; k++) {
+                        //Debug.Log(paradas[k].Trim() + " / " + predictedName.Trim());
+                        if (paradas[k].ToLower().Trim().Contains(predictedName.ToLower().Trim())) {
+                            resultBus.Add(busIterationOrder[i]); } } } }
 
 
 
@@ -321,7 +331,7 @@ public class search : MonoBehaviour
 
                 parada.text = cleanText(paradas[j].ToString().Trim());
 
-                resultBus.Add(linea.text);
+                //resultBus.Add(linea.text);
 
                 return;
             }
