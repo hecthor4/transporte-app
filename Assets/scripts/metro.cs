@@ -150,16 +150,8 @@ public class metro : MonoBehaviour
 
         if (readyToSendInfo == true)
         {
-            /*
             trayecto trayecto = FindFirstObjectByType<trayecto>();
             trayecto.FetchInfo(ParadaInicial, lineaInicial, ParadaFinal, LineaFinal, "metro");
-
-            indicators indicators = FindFirstObjectByType<indicators>();
-            indicators.AllToNormal();
-            */
-
-            trayecto2 trayecto2 = FindFirstObjectByType<trayecto2>();
-            trayecto2.FetchInfo(ParadaInicial, lineaInicial, ParadaFinal, LineaFinal, "metro");
 
             indicators indicators = FindFirstObjectByType<indicators>();
             indicators.AllToNormal();

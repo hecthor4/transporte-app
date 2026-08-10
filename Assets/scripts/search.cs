@@ -350,7 +350,7 @@ public class search : MonoBehaviour
             item.SetActive(matches);
         }
 
-        StartCoroutine(RefreshLayoutGroups());
+        //StartCoroutine(RefreshLayoutGroups());
     }
 
     IEnumerator RefreshLayoutGroups()
