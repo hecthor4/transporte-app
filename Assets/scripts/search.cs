@@ -1,10 +1,8 @@
-using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -38,6 +36,8 @@ public class search : MonoBehaviour
     public List<string> resultMetro = new List<string>();
     public List<string> resultRenfe = new List<string>();
     public List<string> resultBus = new List<string>();
+
+    public bool isTripBeginChoose;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -249,6 +249,11 @@ public class search : MonoBehaviour
                 TMP_Text lineaNombre = instantiated.transform.Find("linea nombre grande").GetComponent<TMP_Text>();
                 lineaNombre.text = predictedName;
 
+                GameObject button = instantiated.transform.Find("contar paradas hasta").gameObject;
+                Button buttonButton = button.GetComponent<Button>();
+                buttonButton.onClick.RemoveAllListeners();
+                buttonButton.onClick.AddListener(ContarParadas);
+
 
                 //metro
                 GameObject metro = instantiated.transform.Find("metro").gameObject;
@@ -335,6 +340,44 @@ public class search : MonoBehaviour
 
                 return;
             }
+        }
+    }
+
+
+    public void ContarParadas()
+    {
+        if (isTripBeginChoose == false)
+        {
+            isTripBeginChoose = true;
+
+            GameObject resultv2 = parentReference.transform.Find("result v2(Clone)").gameObject;
+            TMP_Text nombre = resultv2.transform.Find("linea nombre grande").gameObject.GetComponent<TMP_Text>();
+            GameObject button = resultv2.transform.Find("contar paradas hasta").gameObject;
+            Button buttonButton = button.GetComponent<Button>();
+            TMP_Text buttonText = button.GetComponentInChildren<TMP_Text>();
+
+            buttonText.text = "Ya estás aquí.";
+            buttonButton.interactable = false;
+
+
+            TextAsset paradasLinea = Resources.Load<TextAsset>("lineas/" + resultMetro[0]);
+            string[] paradas = paradasLinea.text.Split('\n');
+
+            for (int i = 0; i < paradas.Length; i++)
+            {
+                if (paradas[i].Contains(nombre.text))
+                {
+                    indicators indicators = FindFirstObjectByType<indicators>();
+                    //Debug.Log(paradas[i].Trim() + " / " + resultMetro[0].Trim() + " / " + "any");
+                    indicators.ShowIndicator((i + 1).ToString(), resultMetro[0].Trim(), "any");
+
+                    break;
+                }
+            }
+        }
+        else
+        {
+            //set trip
         }
     }
 

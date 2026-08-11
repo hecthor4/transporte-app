@@ -1033,12 +1033,15 @@ MonoBehaviour:
   - {fileID: 208665449}
   - {fileID: 1653797983}
   - {fileID: 1144140023}
+  - {fileID: 1723483979}
+  - {fileID: 276733952}
   - {fileID: 1619742913}
   - {fileID: 865444711}
   - {fileID: 1675123241}
   - {fileID: 672467724}
   - {fileID: 1065448258}
   - {fileID: 1238765443}
+  - {fileID: 1645911100}
   firstParada: {fileID: 1585322392}
   fp_text: {fileID: 217165095}
   noMemory: {fileID: 117887194}
@@ -25574,6 +25577,7 @@ MonoBehaviour:
   resultMetro: []
   resultRenfe: []
   resultBus: []
+  isTripBeginChoose: 0
 --- !u!114 &300183270
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73085,7 +73089,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 506.5, y: -25.04}
+  m_AnchoredPosition: {x: 506.5, y: -25.04004}
   m_SizeDelta: {x: 1013, y: 50.08}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &816420018
@@ -106910,7 +106914,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Nombre de parada, l\xEDnea..."
+  m_text: Nombre de parada...
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1b4c553049064704ca3bfaae9af8a9eb, type: 2}
   m_sharedMaterial: {fileID: 213905704386277544, guid: 1b4c553049064704ca3bfaae9af8a9eb, type: 2}
@@ -132004,18 +132008,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1177797388}
-        m_TargetAssemblyTypeName: metro, Assembly-CSharp
-        m_MethodName: SaveInfo
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &1480167978
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156718,7 +156710,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Selecciona una l\xEDnea final para crear un trayecto."
+  m_text: Selecciona otro punto para crear un trayecto.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1b4c553049064704ca3bfaae9af8a9eb, type: 2}
   m_sharedMaterial: {fileID: 213905704386277544, guid: 1b4c553049064704ca3bfaae9af8a9eb, type: 2}

@@ -285,7 +285,7 @@ GameObject:
   - component: {fileID: 5781629704784642738}
   - component: {fileID: 7982701457615320834}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: contar paradas text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1001,7 +1001,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 516.5, y: -511.79}
+  m_AnchoredPosition: {x: 516.5, y: -461.79}
   m_SizeDelta: {x: 983, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9148891242816616826

@@ -72,6 +72,7 @@ public class indicators : MonoBehaviour
         if (type == "renfe") { location = "renfe/"; numbersToSubstract = 1; } //ya meto el 'C' en 'linea'
         if (type == "bus_dir1") { location = "buses/paradas/"; location_extra = "/dir1_pa"; numbersToSubstract = 0; }
         if (type == "bus_dir2") { location = "buses/paradas/"; location_extra = "/dir2_pa"; numbersToSubstract = 0; }
+        if (type == "any") { location = "lineas/"; numbersToSubstract = 1; }
 
         TextAsset paradasRaw = Resources.Load<TextAsset>(location + linea + location_extra);
         string[] paradasList = paradasRaw.text.Split('\n');
@@ -80,7 +81,14 @@ public class indicators : MonoBehaviour
 
         string cleanText(string texto) => texto.Split('[')[0].Trim();
 
-        fp_text.text = "Parada “" + cleanText(paradasList[int.Parse(parada) - numbersToSubstract].Trim()) + "” (línea " + linea + ") seleccionada.";
+        if (type != "any")
+        {
+            fp_text.text = "Parada “" + cleanText(paradasList[int.Parse(parada) - numbersToSubstract].Trim()) + "” (línea " + linea + ") seleccionada.";
+        }
+        else
+        {
+            fp_text.text = "Área intermodal “" + cleanText(paradasList[int.Parse(parada) - numbersToSubstract].Trim()) + "” seleccionada.";
+        }
 
         for (int i = 0; i < all.Count; i++)
         {
