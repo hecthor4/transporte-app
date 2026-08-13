@@ -43557,8 +43557,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 506.5, y: -2889.57}
-  m_SizeDelta: {x: 1013, y: 5618.98}
+  m_AnchoredPosition: {x: 506.5, y: -2910.855}
+  m_SizeDelta: {x: 1013, y: 5661.55}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &449246677
 MonoBehaviour:
@@ -43582,22 +43582,22 @@ MonoBehaviour:
       m_Calls: []
   m_text: "<b>Versi\xF3n 1.21</b> (11/08/2026)\n\t- A\xF1adido guardado de paradas
     enteras en favoritos.\n\t- A\xF1adido opci\xF3n para cambiar el tama\xF1o del
-    texto general.\n\n\n<b>Versi\xF3n 1.20</b> (10/08/2026)\n\t- Soluci\xF3n de errores
-    en el zoom de los mapas.\n\t- Soluci\xF3n de errores en trayectos en Cercan\xEDas.\n\t-
-    A\xF1adido bot\xF3n para borrar todos los datos guardados.\n\t- Nuevo men\xFA
-    Resumen en buscar.\n\t- \"Intro\" busca autom\xE1ticamente.\n\n\n<b>Versi\xF3n
-    1.19</b> (26/07/2026)\n\t- A\xF1adido mapa de Madrid con ubicaci\xF3n GPS.\n\t-
-    Customizaci\xF3n de fotogramas por segundo.\n\n\n<b>Versi\xF3n 1.18</b> (30/06/2026)\n\t-
-    A\xF1adido Buscar.\n\t- A\xF1adido ajustes generales.\n\t- Notificaciones de
-    aviso durante viajes.\n\n\n<b>Versi\xF3n 1.17</b> (25/06/2026)\n\t- Soluci\xF3n
-    de errores al crear trayectos.\n\t- Ajustes en autobuses.\n\t- Mejoras al buscar
-    paradas o ver tiempos reales en buses.\n\n\n<b>Versi\xF3n 1.16</b> (17/06/2026)\n\t-
-    Buscar paradas de bus por c\xF3digo.\n\t- Soluci\xF3n de errores en la base de
-    datos.\n\t- Soluci\xF3n de errores visuales en buses.\n\t- Buses nocturnos (b\xFAhos)
-    a\xF1adidos.\n\n\n<b>Versi\xF3n 1.15</b> (15/06/2026)\n\t- Tiempos reales en
-    horas en paradas de autobuses.\n\t- Tiempo restante en minutos para autobus en
-    paradas.\n\t- Advertencia al guardar una parada o l\xEDnea sin espacio.\n\t-
-    Aplicaci\xF3n minimizable al ir atr\xE1s en el menu principal.\n\n\n<b>Versi\xF3n
+    texto general.\n\t- Mejoras en la b\xFAsqueda de autobuses por municipios.\n\n\n<b>Versi\xF3n
+    1.20</b> (10/08/2026)\n\t- Soluci\xF3n de errores en el zoom de los mapas.\n\t-
+    Soluci\xF3n de errores en trayectos en Cercan\xEDas.\n\t- A\xF1adido bot\xF3n
+    para borrar todos los datos guardados.\n\t- Nuevo men\xFA Resumen en buscar.\n\t-
+    \"Intro\" busca autom\xE1ticamente.\n\n\n<b>Versi\xF3n 1.19</b> (26/07/2026)\n\t-
+    A\xF1adido mapa de Madrid con ubicaci\xF3n GPS.\n\t- Customizaci\xF3n de fotogramas
+    por segundo.\n\n\n<b>Versi\xF3n 1.18</b> (30/06/2026)\n\t- A\xF1adido Buscar.\n\t-
+    A\xF1adido ajustes generales.\n\t- Notificaciones de aviso durante viajes.\n\n\n<b>Versi\xF3n
+    1.17</b> (25/06/2026)\n\t- Soluci\xF3n de errores al crear trayectos.\n\t- Ajustes
+    en autobuses.\n\t- Mejoras al buscar paradas o ver tiempos reales en buses.\n\n\n<b>Versi\xF3n
+    1.16</b> (17/06/2026)\n\t- Buscar paradas de bus por c\xF3digo.\n\t- Soluci\xF3n
+    de errores en la base de datos.\n\t- Soluci\xF3n de errores visuales en buses.\n\t-
+    Buses nocturnos (b\xFAhos) a\xF1adidos.\n\n\n<b>Versi\xF3n 1.15</b> (15/06/2026)\n\t-
+    Tiempos reales en horas en paradas de autobuses.\n\t- Tiempo restante en minutos
+    para autobus en paradas.\n\t- Advertencia al guardar una parada o l\xEDnea sin
+    espacio.\n\t- Aplicaci\xF3n minimizable al ir atr\xE1s en el menu principal.\n\n\n<b>Versi\xF3n
     1.14</b> (12/06/2026)\n\t- Correspondencias en Cecan\xEDas.\n\t- Cambios grandes
     de nomenclatura en la base de datos.\n\t- Soluci\xF3n de errores en trayectos
     de Cercan\xEDas.\n\n\n<b>Versi\xF3n 1.13</b> (09/06/2026)\n\t- Ajustes en Cercan\xEDas\n\t-
@@ -57636,8 +57636,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 506.5, y: -3699.53}
-  m_SizeDelta: {x: 1013, y: 5699.06}
+  m_AnchoredPosition: {x: 506.5, y: -3720.815}
+  m_SizeDelta: {x: 1013, y: 5741.63}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &598826494
 MonoBehaviour:
@@ -62725,14 +62725,14 @@ MonoBehaviour:
   m_VerticalScrollbarEventHandler: {fileID: 0}
   m_LayoutGroup: {fileID: 0}
   m_ScrollSensitivity: 1
-  m_ContentType: 4
+  m_ContentType: 0
   m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 1
+  m_KeyboardType: 0
   m_LineType: 0
   m_HideMobileInput: 0
   m_HideSoftKeyboard: 0
-  m_CharacterValidation: 4
+  m_CharacterValidation: 0
   m_RegexValue: 
   m_GlobalPointSize: 14
   m_CharacterLimit: 0
@@ -80252,7 +80252,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 506.5, y: -25.04004}
+  m_AnchoredPosition: {x: 506.5, y: -25.04}
   m_SizeDelta: {x: 1013, y: 50.08}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &816420018
@@ -94658,7 +94658,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 6699.06}
+  m_SizeDelta: {x: 0, y: 6741.63}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &961985545
 MonoBehaviour:
@@ -127662,7 +127662,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 506.5, y: -6649.06}
+  m_AnchoredPosition: {x: 506.5, y: -6691.63}
   m_SizeDelta: {x: 1013, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1304295537
@@ -192934,7 +192934,7 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1795288811}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.758175}
+  m_AnchorMin: {x: 0, y: 0.759702}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
@@ -207564,7 +207564,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1964180362}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.24182497
+  m_Size: 0.24029797
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

@@ -238,38 +238,22 @@ public class bus : MonoBehaviour
         }
         if (search.text.All(char.IsLetter)) //si buscas una ciudad
         {
-            TextAsset busTotalLineas = Resources.Load<TextAsset>("buses/iterar/bus11");
-            string textoLimpio = busTotalLineas.text.Replace("\r", "");
-            string[] busLineas = textoLimpio.Trim().Split('\n');
-
-            List<string> busIterationOrder = new List<string>();
-            for (int i = 0; i < busLineas.Length; i++)
-            {
-                busIterationOrder.Add(busLineas[i].Trim());
-            }
-
             string searchLower = search.text.ToLower();
-
-            for (int i = 0; i < busLineas.Length; i++)
-            {
-                bool foundCity = false;
-
-                TextAsset checkDir1 = Resources.Load<TextAsset>("buses/paradas/" + busIterationOrder[i].Trim() + "/dir1_mu");
-
-                if (checkDir1 != null && checkDir1.text.ToLower().Trim().Contains(searchLower))
-                {
-                    foundCity = true;
-                }
-
-                if (i < elementsInList.Count)
-                {
-                    elementsInList[i].SetActive(foundCity);
-                }
-            }
 
             foreach (GameObject item in elementsInList)
             {
-                //item.SetActive(foundCity);
+                string lineName = item.name.Trim();
+
+                TextAsset checkDir1 = Resources.Load<TextAsset>("buses/paradas/" + lineName.Trim() + "/dir1_mu");
+                if (checkDir1 != null && checkDir1.text.ToLower().Trim().Contains(searchLower))
+                {
+                    item.SetActive(true);
+                }
+                else
+                {
+                    item.SetActive(false);
+                }
+
             }
         }
 
