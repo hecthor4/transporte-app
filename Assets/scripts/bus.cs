@@ -1,11 +1,14 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using Unity.Collections.LowLevel.Unsafe;
+using UnityEditor.Search;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public class bus : MonoBehaviour
 {
@@ -233,14 +236,40 @@ public class bus : MonoBehaviour
         {
             paradaLineasTiempoReal.SetActive(false);
         }
-        if (search.text.All(char.IsLetter))
+        if (search.text.All(char.IsLetter)) //si buscas una ciudad
         {
+            TextAsset busTotalLineas = Resources.Load<TextAsset>("buses/iterar/bus11");
+            string textoLimpio = busTotalLineas.text.Replace("\r", "");
+            string[] busLineas = textoLimpio.Trim().Split('\n');
+
+            List<string> busIterationOrder = new List<string>();
+            for (int i = 0; i < busLineas.Length; i++)
+            {
+                busIterationOrder.Add(busLineas[i].Trim());
+            }
+
+            string searchLower = search.text.ToLower();
+
+            for (int i = 0; i < busLineas.Length; i++)
+            {
+                bool foundCity = false;
+
+                TextAsset checkDir1 = Resources.Load<TextAsset>("buses/paradas/" + busIterationOrder[i].Trim() + "/dir1_mu");
+
+                if (checkDir1 != null && checkDir1.text.ToLower().Trim().Contains(searchLower))
+                {
+                    foundCity = true;
+                }
+
+                if (i < elementsInList.Count)
+                {
+                    elementsInList[i].SetActive(foundCity);
+                }
+            }
+
             foreach (GameObject item in elementsInList)
             {
-                TMP_Text nombreLinea = item.transform.Find("info").GetComponent<TMP_Text>();
-
-                bool matches = nombreLinea.text.ToLower().Contains(searchText);
-                item.SetActive(matches);
+                //item.SetActive(foundCity);
             }
         }
 
