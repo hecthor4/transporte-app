@@ -4,6 +4,11 @@ using UnityEngine.UI;
 
 public class ajustes : MonoBehaviour
 {
+    //fuente de texto
+    public static int fontSizeModifier;
+    public Slider fontSlider;
+    public TMP_Text fontText;
+
     //metro
     public Slider m_tamaño;
     public int m_tamañoSave;
@@ -39,6 +44,9 @@ public class ajustes : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        fontSizeModifier = PlayerPrefs.GetInt("fontSizeModifier", 0);
+
+
         metro_ins = FindFirstObjectByType<metro>();
         renfe_ins = FindFirstObjectByType<renfe>();
         bus_ins = FindFirstObjectByType<bus>();
@@ -56,6 +64,9 @@ public class ajustes : MonoBehaviour
         b_preferenciaInterurbanoSave = PlayerPrefs.GetInt("b_preferenciaInterurbanoSave", 0);
 
 
+
+        fontSlider.value = fontSizeModifier;
+        fontText.text = fontSlider.value.ToString();
 
 
         m_tamaño.value = m_tamañoSave;
@@ -81,6 +92,9 @@ public class ajustes : MonoBehaviour
 
     public void RefreshSettings()
     {
+        fontSizeModifier = Mathf.RoundToInt(fontSlider.value);
+
+
         metro_ins.ModifyButtonHeight(Mathf.RoundToInt(m_tamaño.value));
         m_layout.spacing = m_espaciado.value;
 
@@ -115,6 +129,8 @@ public class ajustes : MonoBehaviour
     {
         RefreshSettings();
 
+        PlayerPrefs.SetInt("fontSizeModifier", fontSizeModifier);
+
         PlayerPrefs.SetInt("m_tamañoSave", m_tamañoSave);
         PlayerPrefs.SetInt("m_espaciadoSave", m_espaciadoSave);
 
@@ -131,6 +147,12 @@ public class ajustes : MonoBehaviour
 
     public void ResetValues(string which)
     {
+        if (which == "font")
+        {
+            fontSizeModifier = 0;
+            fontSlider.value = 0;
+            fontText.text = "0";
+        }
         if (which == "metro")
         {
             m_tamañoSave = 85;
@@ -159,6 +181,23 @@ public class ajustes : MonoBehaviour
             b_espaciado.value = b_espaciadoSave;
             b_preferenciaInterurbano.value = b_preferenciaInterurbanoSave;
         }
+
+        RefreshSettings();
+        SaveValues();
+    }
+
+
+
+
+
+
+
+
+
+    public void OnTextSizeSliderChange()
+    {
+        fontSizeModifier = Mathf.RoundToInt(fontSlider.value);
+        fontText.text = fontSlider.value.ToString();
 
         RefreshSettings();
         SaveValues();

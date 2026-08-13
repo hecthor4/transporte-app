@@ -17,6 +17,7 @@ public class DeleteEverything : MonoBehaviour
     public void Delete()
     {
         ajustes ajustes = FindFirstObjectByType<ajustes>();
+        ajustes.ResetValues("font");
         ajustes.ResetValues("metro");
         ajustes.ResetValues("renfe");
         ajustes.ResetValues("bus");
