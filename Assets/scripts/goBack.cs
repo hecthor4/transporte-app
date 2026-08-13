@@ -18,6 +18,7 @@ public class goBack : MonoBehaviour
     public GameObject r_nuevo;
     //public GameObject r_nuevo2;
     public GameObject r_favs;
+    public GameObject r_visorParada;
 
     public GameObject m_mapaEsq;
     public GameObject m_mapaCar;
@@ -190,6 +191,7 @@ public class goBack : MonoBehaviour
         else if (r_favs.activeInHierarchy == true)      { currentScreen = r_favs; }
         else if (r_nuevo.activeInHierarchy == true)     { currentScreen = r_nuevo; }
         //else if (r_nuevo2.activeInHierarchy == true)    { currentScreen = r_nuevo2; }
+        else if (r_visorParada.activeInHierarchy == true) { currentScreen = r_visorParada; }
 
 
         else if (ma_mapa.activeInHierarchy == true)     { currentScreen = ma_mapa; }

@@ -89,6 +89,11 @@ public class favorites : MonoBehaviour
     public bool isf_l3_Empty;
     public bool isf_l4_Empty;
     public bool isf_l5_Empty;
+    public bool isf_p1_Empty;
+    public bool isf_p2_Empty;
+    public bool isf_p3_Empty;
+    public bool isf_p4_Empty;
+    public bool isf_p5_Empty;
 
 
     //objetos en escena - parents
@@ -150,14 +155,19 @@ public class favorites : MonoBehaviour
 
 
     public TMP_Text f_p1_name;
+    public TMP_Text f_p1_code;
 
     public TMP_Text f_p2_name;
+    public TMP_Text f_p2_code;
 
     public TMP_Text f_p3_name;
+    public TMP_Text f_p3_code;
 
     public TMP_Text f_p4_name;
+    public TMP_Text f_p4_code;
 
     public TMP_Text f_p5_name;
+    public TMP_Text f_p5_code;
 
 
     //editing
@@ -236,6 +246,22 @@ public class favorites : MonoBehaviour
         _f_l5_linea = PlayerPrefs.GetString("_f_l5_linea", "0");
 
 
+        _f_p1_name = PlayerPrefs.GetString("_f_p1_name", "Default name");
+        _f_p1_parada = PlayerPrefs.GetString("_f_p1_parada", "0");
+
+        _f_p2_name = PlayerPrefs.GetString("_f_p2_name", "Default name");
+        _f_p2_parada = PlayerPrefs.GetString("_f_p2_parada", "0");
+
+        _f_p3_name = PlayerPrefs.GetString("_f_p3_name", "Default name");
+        _f_p3_parada = PlayerPrefs.GetString("_f_p3_parada", "0");
+
+        _f_p4_name = PlayerPrefs.GetString("_f_p4_name", "Default name");
+        _f_p4_parada = PlayerPrefs.GetString("_f_p4_parada", "0");
+
+        _f_p5_name = PlayerPrefs.GetString("_f_p5_name", "Default name");
+        _f_p5_parada = PlayerPrefs.GetString("_f_p5_parada", "0");
+
+
         GetEmptySlots();
         RefreshData();
         noRoutesError.SetActive(true);
@@ -286,7 +312,24 @@ public class favorites : MonoBehaviour
         else { isf_l4_Empty = false; f_l4.SetActive(true); }
 
         if (_f_l5_linea == "0") { isf_l5_Empty = true; f_l5.SetActive(false); }
-        else { is5thEmpty = false; f_l5.SetActive(true); }
+        else { isf_l5_Empty = false; f_l5.SetActive(true); }
+
+
+        if (_f_p1_parada == "0") { isf_p1_Empty = true; f_p1.SetActive(false); }
+        else { isf_p1_Empty = false; f_p1.SetActive(true); }
+
+        if (_f_p2_parada == "0") { isf_p2_Empty = true; f_p2.SetActive(false); }
+        else { isf_p2_Empty = false; f_p2.SetActive(true); }
+
+        if (_f_p3_parada == "0") { isf_p3_Empty = true; f_p3.SetActive(false); }
+        else { isf_p3_Empty = false; f_p3.SetActive(true); }
+
+        if (_f_p4_parada == "0") { isf_p4_Empty = true; f_p4.SetActive(false); }
+        else { isf_p4_Empty = false; f_p4.SetActive(true); }
+
+        if (_f_p5_parada == "0") { isf_p5_Empty = true; f_p5.SetActive(false); }
+        else { isf_p5_Empty = false; f_p5.SetActive(true); }
+
 
         CheckForNoRouteError();
     }
@@ -300,7 +343,8 @@ public class favorites : MonoBehaviour
     void CheckForNoRouteError()
     {
         if (is1stEmpty == true && is2ndEmpty == true && is3rdEmpty == true && is4thEmpty == true && is5thEmpty == true &&
-            isf_l1_Empty == true && isf_l2_Empty == true && isf_l3_Empty == true && isf_l4_Empty == true && isf_l5_Empty == true)
+            isf_l1_Empty == true && isf_l2_Empty == true && isf_l3_Empty == true && isf_l4_Empty == true && isf_l5_Empty == true &&
+            isf_p1_Empty == true && isf_p2_Empty == true && isf_p3_Empty == true && isf_p4_Empty == true && isf_p5_Empty == true)
         {
             noRoutesError.SetActive(true);
         }
@@ -482,6 +526,33 @@ public class favorites : MonoBehaviour
             f_l5_name.text = _f_l5_name;
             f_l5_text1.text = lineaNomenclatura + _f_l5_linea;
         }
+
+
+        if (isf_p1_Empty == false)
+        {
+            f_p1_name.text = _f_p1_name;
+            f_p1_code.text = _f_p1_parada;
+        }
+        if (isf_p2_Empty == false)
+        {
+            f_p2_name.text = _f_p2_name;
+            f_p2_code.text = _f_p2_parada;
+        }
+        if (isf_p3_Empty == false)
+        {
+            f_p3_name.text = _f_p3_name;
+            f_p3_code.text = _f_p3_parada;
+        }
+        if (isf_p4_Empty == false)
+        {
+            f_p4_name.text = _f_p4_name;
+            f_p4_code.text = _f_p4_parada;
+        }
+        if (isf_p5_Empty == false)
+        {
+            f_p5_name.text = _f_p5_name;
+            f_p5_code.text = _f_p5_parada;
+        }
     }
 
     public void SaveRoute(int paradaInicial, string lineaInicial, int paradaFinal, string lineaFinal, string type)
@@ -557,30 +628,40 @@ public class favorites : MonoBehaviour
             _f_l1_name = "Default name";
             _f_l1_type = type;
             _f_l1_linea = linea;
+
+            isf_l1_Empty = false;
         }
         else if (isf_l2_Empty == true)
         {
             _f_l2_name = "Default name";
             _f_l2_type = type;
             _f_l2_linea = linea;
+
+            isf_l2_Empty = false;
         }
         else if (isf_l3_Empty == true)
         {
             _f_l3_name = "Default name";
             _f_l3_type = type;
             _f_l3_linea = linea;
+
+            isf_l3_Empty = false;
         }
         else if (isf_l4_Empty == true)
         {
             _f_l4_name = "Default name";
             _f_l4_type = type;
             _f_l4_linea = linea;
+
+            isf_l4_Empty = false;
         }
         else if (isf_l5_Empty == true)
         {
             _f_l5_name = "Default name";
             _f_l5_type = type;
             _f_l5_linea = linea;
+
+            isf_l5_Empty = false;
         }
         else
         {
@@ -593,7 +674,44 @@ public class favorites : MonoBehaviour
     }
     public void SaveParada(string code)
     {
+        if (isf_p1_Empty == true)
+        {
+            _f_p1_name = "Default name";
+            _f_p1_parada = code;
 
+            isf_p1_Empty = false;
+        }
+        else if (isf_p2_Empty == true)
+        {
+            _f_p2_name = "Default name";
+            _f_p2_parada = code;
+
+            isf_p2_Empty = false;
+        }
+        else if (isf_p3_Empty == true)
+        {
+            _f_p3_name = "Default name";
+            _f_p3_parada = code;
+
+            isf_p3_Empty = false;
+        }
+        else if (isf_p4_Empty == true)
+        {
+            _f_p4_name = "Default name";
+            _f_p4_parada = code;
+
+            isf_p4_Empty = false;
+        }
+        else if (isf_p5_Empty == true)
+        {
+            _f_p5_name = "Default name";
+            _f_p5_parada = code;
+
+            isf_p5_Empty = false;
+        }
+
+        GetEmptySlots();
+        SaveDataToPlayerPrefs();
     }
 
 
@@ -610,6 +728,12 @@ public class favorites : MonoBehaviour
         DeleteFL3();
         DeleteFL4();
         DeleteFL5();
+
+        DeleteFP1();
+        DeleteFP2();
+        DeleteFP3();
+        DeleteFP4();
+        DeleteFP5();
 
         GetEmptySlots();
         SaveDataToPlayerPrefs();
@@ -673,6 +797,22 @@ public class favorites : MonoBehaviour
         PlayerPrefs.SetString("_f_l5_name", f_l5_name.text);
         PlayerPrefs.SetString("_f_l5_type", _f_l5_type);
         PlayerPrefs.SetString("_f_l5_linea", _f_l5_linea);
+
+
+        PlayerPrefs.SetString("_f_p1_name", f_p1_name.text);
+        PlayerPrefs.SetString("_f_p1_parada", _f_p1_parada);
+
+        PlayerPrefs.SetString("_f_p2_name", f_p2_name.text);
+        PlayerPrefs.SetString("_f_p2_parada", _f_p2_parada);
+
+        PlayerPrefs.SetString("_f_p3_name", f_p3_name.text);
+        PlayerPrefs.SetString("_f_p3_parada", _f_p3_parada);
+
+        PlayerPrefs.SetString("_f_p4_name", f_p4_name.text);
+        PlayerPrefs.SetString("_f_p4_parada", _f_p4_parada);
+
+        PlayerPrefs.SetString("_f_p5_name", f_p5_name.text);
+        PlayerPrefs.SetString("_f_p5_parada", _f_p5_parada);
 
 
         PlayerPrefs.Save();
@@ -748,6 +888,32 @@ public class favorites : MonoBehaviour
             if (_f_l5_type == "metro") { metro.Iterate(_f_l5_linea); m_all.SetActive(true); }
             if (_f_l5_type == "renfe") { renfe.Iterate(_f_l5_linea); r_all.SetActive(true); }
             if (_f_l5_type == "bus") { bus.OpenLineInfo(_f_l5_linea + ""); b_all.SetActive(true); }
+        }
+
+        if (favNumber == 201)
+        {
+            stopVisualizer stopVisualizer = FindFirstObjectByType<stopVisualizer>();
+            stopVisualizer.Load(_f_p1_parada);
+        }
+        if (favNumber == 202)
+        {
+            stopVisualizer stopVisualizer = FindFirstObjectByType<stopVisualizer>();
+            stopVisualizer.Load(_f_p2_parada);
+        }
+        if (favNumber == 203)
+        {
+            stopVisualizer stopVisualizer = FindFirstObjectByType<stopVisualizer>();
+            stopVisualizer.Load(_f_p3_parada);
+        }
+        if (favNumber == 204)
+        {
+            stopVisualizer stopVisualizer = FindFirstObjectByType<stopVisualizer>();
+            stopVisualizer.Load(_f_p4_parada);
+        }
+        if (favNumber == 205)
+        {
+            stopVisualizer stopVisualizer = FindFirstObjectByType<stopVisualizer>();
+            stopVisualizer.Load(_f_p5_parada);
         }
     }
 
@@ -834,6 +1000,31 @@ public class favorites : MonoBehaviour
         _f_l5_linea = "0";
         _f_l5_type = "0";
     }
+    void DeleteFP1()
+    {
+        _f_p1_name = "Default name";
+        _f_p1_parada = "0";
+    }
+    void DeleteFP2()
+    {
+        _f_p2_name = "Default name";
+        _f_p2_parada = "0";
+    }
+    void DeleteFP3()
+    {
+        _f_p3_name = "Default name";
+        _f_p3_parada = "0";
+    }
+    void DeleteFP4()
+    {
+        _f_p4_name = "Default name";
+        _f_p4_parada = "0";
+    }
+    void DeleteFP5()
+    {
+        _f_p5_name = "Default name";
+        _f_p5_parada = "0";
+    }
 
     public void SaveEditedContent()
     {
@@ -916,7 +1107,7 @@ public class favorites : MonoBehaviour
 
             if (_f_l2_name == "<borrar>")
             {
-                DeleteFL1();
+                DeleteFL2();
 
                 GetEmptySlots();
                 SaveDataToPlayerPrefs();
@@ -953,6 +1144,67 @@ public class favorites : MonoBehaviour
             if (_f_l5_name == "<borrar>")
             {
                 DeleteFL5();
+
+                GetEmptySlots();
+                SaveDataToPlayerPrefs();
+            }
+        }
+
+        if (editingNumb == 201)
+        {
+            _f_p1_name = newName.text;
+
+            if (_f_p1_name == "<borrar>")
+            {
+                DeleteFP1();
+
+                GetEmptySlots();
+                SaveDataToPlayerPrefs();
+            }
+        }
+        if (editingNumb == 202)
+        {
+            _f_p2_name = newName.text;
+
+            if (_f_p2_name == "<borrar>")
+            {
+                DeleteFP2();
+
+                GetEmptySlots();
+                SaveDataToPlayerPrefs();
+            }
+        }
+        if (editingNumb == 203)
+        {
+            _f_p3_name = newName.text;
+
+            if (_f_p3_name == "<borrar>")
+            {
+                DeleteFP3();
+
+                GetEmptySlots();
+                SaveDataToPlayerPrefs();
+            }
+        }
+        if (editingNumb == 204)
+        {
+            _f_p4_name = newName.text;
+
+            if (_f_p4_name == "<borrar>")
+            {
+                DeleteFP4();
+
+                GetEmptySlots();
+                SaveDataToPlayerPrefs();
+            }
+        }
+        if (editingNumb == 205)
+        {
+            _f_p5_name = newName.text;
+
+            if (_f_p5_name == "<borrar>")
+            {
+                DeleteFP5();
 
                 GetEmptySlots();
                 SaveDataToPlayerPrefs();

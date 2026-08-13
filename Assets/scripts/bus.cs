@@ -229,6 +229,10 @@ public class bus : MonoBehaviour
                 item.SetActive(matches);
             }
         }
+        else //quitar la parada en tiempo real
+        {
+            paradaLineasTiempoReal.SetActive(false);
+        }
         if (search.text.All(char.IsLetter))
         {
             foreach (GameObject item in elementsInList)
