@@ -61,6 +61,26 @@ public class trayecto2 : MonoBehaviour
         goback.OpenScreen();
     }
 
+    public void FetchInfoFromModalArea(string parada, string infoType)
+    {
+        if (infoType == "metro")
+        {
+            //buscar las lineas de la parada que ha sido pasada
+            //o: proporcionar todas las lineas desde el buscador
+
+            //repetir para que funcione el bus tambien
+        }
+
+        m_all.SetActive(false);
+        b_all.SetActive(false);
+        r_all.SetActive(false);
+        m_metroLineas.SetActive(false);
+        recorridoViajes.SetActive(true);
+
+        goBack goback = FindFirstObjectByType<goBack>();
+        goback.OpenScreen();
+    }
+
     private (string path, string extra, int substract) GetConfig()
     {
         if (infoTransportType == "metro") return ("lineas/", "", 1);

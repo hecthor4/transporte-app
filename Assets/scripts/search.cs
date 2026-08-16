@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -33,6 +32,7 @@ public class search : MonoBehaviour
 
     public string predictedName;
     public string predictedCandidate;
+    public string predictedTransportType;
     public List<string> resultMetro = new List<string>();
     public List<string> resultRenfe = new List<string>();
     public List<string> resultBus = new List<string>();
@@ -116,7 +116,8 @@ public class search : MonoBehaviour
                         
                         if (predictedCandidate == null)
                         {
-                            predictedCandidate = metroIterationOrder[i];
+                            predictedCandidate = parada.text;
+                            predictedTransportType = "metro";
                         }
                     }
                 }
@@ -189,9 +190,10 @@ public class search : MonoBehaviour
 
 
             //predict for summarizer
-            string predicted = predictedCandidate;
+            //string predicted = predictedCandidate;
+            predictedName = predictedCandidate ?? "";
 
-
+            /*
             TextAsset paradasLineaPredecida = Resources.Load<TextAsset>("lineas/" + predicted);
             string[] paradasPrecedidas = paradasLineaPredecida.text.Split('\n');
 
@@ -199,6 +201,7 @@ public class search : MonoBehaviour
             for (int i = 0; i < paradasPrecedidas.Length; i++) {
                 if (paradasPrecedidas[i].ToLower().Contains(searchText.ToLower())) {
                     predictedName = paradasPrecedidas[i].Split('[')[0].Trim(); } } //cleantext
+            */
 
 
             //buscar lineas de metro predichas
@@ -241,7 +244,7 @@ public class search : MonoBehaviour
 
 
             //summarize
-            if (resultBus.Count > 0)
+            if (predictedCandidate != null)
             {
                 GameObject instantiated = Instantiate(searchResultSummarized, parentReference.transform);
                 instantiated.transform.SetAsFirstSibling();
@@ -253,6 +256,11 @@ public class search : MonoBehaviour
                 Button buttonButton = button.GetComponent<Button>();
                 buttonButton.onClick.RemoveAllListeners();
                 buttonButton.onClick.AddListener(ContarParadas);
+
+                TMP_Text buttonText = button.GetComponentInChildren<TMP_Text>();
+                if (isTripBeginChoose == true) { buttonText.text = "Viajar hasta aquí."; }
+                else { buttonText.text = "Viajar desde aquí...";
+}
 
 
                 //metro
@@ -281,7 +289,8 @@ public class search : MonoBehaviour
                 else { renfe.SetActive(false); }
 
 
-                //GameObject busEmt = instantiated.transform.Find("bus emt").gameObject;
+                GameObject busEmt = instantiated.transform.Find("bus emt").gameObject;
+                busEmt.SetActive(false);
 
 
                 //bus interurbano
@@ -301,7 +310,8 @@ public class search : MonoBehaviour
                 else { busInt.SetActive(false); }
 
 
-                //GameObject busNoc = instantiated.transform.Find("bus nocturno").gameObject;
+                GameObject busNoc = instantiated.transform.Find("bus nocturno").gameObject;
+                busNoc.SetActive(false);
 
 
                 GameObject contarParadas = instantiated.transform.Find("contar paradas hasta").gameObject;
@@ -338,6 +348,12 @@ public class search : MonoBehaviour
 
                 //resultBus.Add(linea.text);
 
+                if (predictedCandidate == null)
+                {
+                    predictedCandidate = parada.text;
+                    predictedTransportType = "bus";
+                }
+
                 return;
             }
         }
@@ -359,25 +375,49 @@ public class search : MonoBehaviour
             buttonText.text = "Ya estás aquí.";
             buttonButton.interactable = false;
 
-
-            TextAsset paradasLinea = Resources.Load<TextAsset>("lineas/" + resultMetro[0]);
-            string[] paradas = paradasLinea.text.Split('\n');
-
-            for (int i = 0; i < paradas.Length; i++)
+            if (predictedTransportType == "metro")
             {
-                if (paradas[i].Contains(nombre.text))
-                {
-                    indicators indicators = FindFirstObjectByType<indicators>();
-                    //Debug.Log(paradas[i].Trim() + " / " + resultMetro[0].Trim() + " / " + "any");
-                    indicators.ShowIndicator((i + 1).ToString(), resultMetro[0].Trim(), "any");
+                TextAsset paradasLinea = Resources.Load<TextAsset>("lineas/" + resultMetro[0]);
+                string[] paradas = paradasLinea.text.Split('\n');
 
-                    break;
+                for (int i = 0; i < paradas.Length; i++)
+                {
+                    if (paradas[i].Contains(nombre.text))
+                    {
+                        indicators indicators = FindFirstObjectByType<indicators>();
+                        indicators.ShowIndicator((i + 1).ToString(), resultMetro[0].Trim(), "any_m");
+
+                        break;
+                    }
+                }
+            }
+            if (predictedTransportType == "bus")
+            {
+                TextAsset paradasLinea = Resources.Load<TextAsset>("buses/paradas/" + resultBus[0] + "/dir1_pa");
+                string[] paradas = paradasLinea.text.Split('\n');
+
+                for (int i = 0; i < paradas.Length; i++)
+                {
+                    if (paradas[i].Contains(nombre.text))
+                    {
+                        indicators indicators = FindFirstObjectByType<indicators>();
+                        indicators.ShowIndicator((i + 1).ToString(), resultBus[0].Trim(), "any_b");
+
+                        break;
+                    }
                 }
             }
         }
         else
         {
             //set trip
+            isTripBeginChoose = false;
+
+            trayecto2 trayecto2 = FindFirstObjectByType<trayecto2>();
+            trayecto2.FetchInfoFromModalArea(predictedName, predictedTransportType);
+
+            indicators indicators = FindFirstObjectByType<indicators>();
+            indicators.AllToNormal();
         }
     }
 

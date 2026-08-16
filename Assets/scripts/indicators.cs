@@ -87,7 +87,14 @@ public class indicators : MonoBehaviour
         }
         else
         {
-            fp_text.text = "Área intermodal “" + cleanText(paradasList[int.Parse(parada) - numbersToSubstract].Trim()) + "” seleccionada.";
+            if (type == "any_m")
+            {
+                fp_text.text = "Área intermodal “" + cleanText(paradasList[int.Parse(parada) - numbersToSubstract].Trim()) + "” seleccionada.";
+            }
+            if (type == "any_b")
+            {
+                fp_text.text = "Parada “" + cleanText(paradasList[int.Parse(parada) - numbersToSubstract].Trim()) + "” seleccionada.";
+            }
         }
 
         for (int i = 0; i < all.Count; i++)
