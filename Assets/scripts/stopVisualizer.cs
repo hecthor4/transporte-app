@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
 public class stopVisualizer : MonoBehaviour
 {
@@ -18,6 +19,13 @@ public class stopVisualizer : MonoBehaviour
     public GameObject loading;
     public TMP_Text loadingText;
 
+    public GameObject selection;
+    public GameObject selection_iterationParent;
+    public GameObject selection_iteration;
+    public GameObject setTimer;
+    public GameObject setTimerCustomTime;
+    public TMP_Dropdown customTimeDropdown;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -29,6 +37,27 @@ public class stopVisualizer : MonoBehaviour
     {
         
     }
+
+    public void Selection(string line)
+    {
+        selection.SetActive(true);
+
+        //clear all
+        for (int i = selection_iterationParent.transform.childCount - 1; i >= 0; i--)
+        {
+            Destroy(selection_iterationParent.transform.GetChild(i).gameObject);
+        }
+
+        /* comprobar el lenght de "times" en la api de los buses e iterar las instanciones del objeto iterable
+         * guardar los tiempos finales hasta que pase el bus
+         * hacer cosas para alarmas con el tiempo seleccionado
+         */
+
+        GameObject iteration = Instantiate(selection_iteration, iterationParent.transform);
+    }
+
+
+
 
     public void Reload()
     {
@@ -158,6 +187,10 @@ public class stopVisualizer : MonoBehaviour
                         GameObject lineaIterada = Instantiate(iteration, iterationParent.transform);
                         lineaIterada.transform.localScale = new Vector3(0, 0, 0);
                         lineaIterada.transform.localScale = Vector3.one;
+
+                        Button button = lineaIterada.GetComponent<Button>();
+                        button.onClick.RemoveAllListeners();
+                        button.onClick.AddListener(() => Selection(route.shortName));
 
                         StartCoroutine(UIPosCorrector(lineaIterada));
 
