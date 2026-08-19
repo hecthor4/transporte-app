@@ -1,14 +1,10 @@
-using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
-using Unity.Collections.LowLevel.Unsafe;
-using UnityEditor.Search;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
 
 public class bus : MonoBehaviour
 {
@@ -865,6 +861,12 @@ public class bus : MonoBehaviour
         {
             elementsInList.Add(child.gameObject);
         }
+    }
+
+    public void OpenVisorDeParadas()
+    {
+        stopVisualizer stopVisualizer = FindFirstObjectByType<stopVisualizer>();
+        stopVisualizer.Load(se_codigoParada.text);
     }
 
 
