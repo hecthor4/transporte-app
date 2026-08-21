@@ -1,71 +1,61 @@
 using System;
+using System.Collections;
+using System.IO;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class updater : MonoBehaviour
 {
-    public TMP_Text licenciaInfo;
-
-    public GameObject timeUntilUpdateMenu;
-    public GameObject updateMenu;
-    public TMP_InputField input;
-
-    public int monthCaduca = 8;
-
-    public int isCodeCorrect;
+    public string url;
+    public string path;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        isCodeCorrect = PlayerPrefs.GetInt("isCodeCorrect", 0);
-
-
-        if (isCodeCorrect == 1) { timeUntilUpdateMenu.SetActive(false); }
-        else { timeUntilUpdateMenu.SetActive(true); }
-
-
-        int month = DateTime.Now.Month;
-        if (month > monthCaduca && isCodeCorrect == 0) { updateMenu.SetActive(true); }
-        
-
-        Refresh();
-    }
-
-    void Refresh()
-    {
-        DateTime now = DateTime.Now;
-        DateTime caduca = new DateTime(now.Year, monthCaduca, 1);
-        TimeSpan tiempoRestante = caduca - now;
-        int diasRestantes = tiempoRestante.Days;
-
-        licenciaInfo.text = "Esta licencia caduca en " + diasRestantes + " días.";
-    }
-
-    public void Check()
-    {
-        if (input.text == "codigocp" || input.text == "felaciones124")
-        {
-            updateMenu.SetActive(false);
-
-            isCodeCorrect = 1;
-            PlayerPrefs.SetInt("isCodeCorrect", isCodeCorrect);
-            PlayerPrefs.Save();
-        }
-
-
-        if (isCodeCorrect == 1)
-        {
-            timeUntilUpdateMenu.SetActive(false);
-        }
-        else
-        {
-            timeUntilUpdateMenu.SetActive(true);
-        }
+        path = Path.Combine(Application.persistentDataPath, "update.apk");
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    public void StartUpdate()
+    {
+        StartCoroutine(DownloadAndInstall());
+    }
+
+    IEnumerator DownloadAndInstall()
+    {
+        using (UnityWebRequest www = UnityWebRequest.Get(url))
+        {
+            www.downloadHandler = new DownloadHandlerFile(path);
+            UnityWebRequestAsyncOperation operation = www.SendWebRequest();
+
+            while (operation.isDone == false)
+            {
+                float progress = www.downloadProgress;
+                yield return null;
+            }
+
+            if (www.result == UnityWebRequest.Result.Success)
+            {
+                TriggerAndroidInstaller(path);
+            }
+            else
+            {
+                //error
+            }
+        }
+    }
+
+    void TriggerAndroidInstaller(string apkPath)
+    {
+        using (AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
+        {
+
+        }
     }
 }
