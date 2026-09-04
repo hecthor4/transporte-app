@@ -39,6 +39,7 @@ public class goBack : MonoBehaviour
     public GameObject b_buscar;
 
     public GameObject changelog;
+    public GameObject timers;
     public GameObject mainSettings;
 
     bus bus_ins;
@@ -202,6 +203,7 @@ public class goBack : MonoBehaviour
 
 
         else if (changelog.activeInHierarchy == true)   { currentScreen = changelog; }
+        else if (timers.activeInHierarchy == true)      { currentScreen = timers; }
         else if (mainSettings.activeInHierarchy == true) { currentScreen = mainSettings; }
     }
 }

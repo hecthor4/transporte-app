@@ -7,6 +7,7 @@ public class notifications : MonoBehaviour
 {
     private const string canal_trayecto_id = "canal_final_trayecto";
     private const string canal_paso_id = "canal_paso_id";
+    private const string canal_aviso_autobuses_id = "canal_aviso_autobuses";
     private const string testing_id = "testing";
 
 
@@ -48,6 +49,16 @@ public class notifications : MonoBehaviour
         AndroidNotificationCenter.RegisterNotificationChannel(channelPaso);
 
 
+        var channelBus = new AndroidNotificationChannel
+        {
+            Id = canal_aviso_autobuses_id,
+            Name = "canal_aviso_autobuses",
+            Description = "Canal usado para avisar cuando un autobús se estacione en una parada y una alerta haya sido configurada.",
+            Importance = Importance.High
+        };
+        AndroidNotificationCenter.RegisterNotificationChannel(channelBus);
+
+
 
         var channelTesting = new AndroidNotificationChannel
         {
@@ -83,6 +94,16 @@ public class notifications : MonoBehaviour
             notification.Title = "Transbordo necesario";
             notification.Text = text;
             channelIdToSend = canal_paso_id;
+        }
+
+        if (targetChannel == "canal_aviso_autobuses")
+        {
+            string bus = text.Length >= 2 ? text.Substring(0, 2) : text;
+            string parada = text.Length > 2 ? text.Substring(2) : text;
+
+            notification.Title = "Alerta sobre el " + bus;
+            notification.Text = "El autobús " + bus + " va a efecturar su parada sobre la parada " + parada;
+            channelIdToSend = canal_aviso_autobuses_id;
         }
 
         if (targetChannel == "testing")

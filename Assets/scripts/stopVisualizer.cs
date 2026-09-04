@@ -1,12 +1,17 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Android.Gradle.Manifest;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
 public class stopVisualizer : MonoBehaviour
 {
+    public GameObject realtimeScrollview;
+    public GameObject mapScrollview;
+
     public bool hasFoundRoute = false;
     public string lastSavedCode = "";
 
@@ -19,12 +24,15 @@ public class stopVisualizer : MonoBehaviour
     public GameObject loading;
     public TMP_Text loadingText;
 
+    public Response jsonData;
+
     public GameObject selection;
     public GameObject selection_iterationParent;
     public GameObject selection_iteration;
     public GameObject setTimer;
     public GameObject setTimerCustomTime;
     public TMP_Dropdown customTimeDropdown;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -52,8 +60,47 @@ public class stopVisualizer : MonoBehaviour
          * guardar los tiempos finales hasta que pase el bus
          * hacer cosas para alarmas con el tiempo seleccionado
          */
+        foreach (BusTrip route in jsonData.routes)
+        {
+            if (route.shortName == line)
+            {
+                for (int i = 0; i < route.times.Count; i++)
+                {
+                    ArrivalTime time = route.times[i];
+                    if (DateTime.TryParse(time.arrivalDate, null, System.Globalization.DateTimeStyles.AdjustToUniversal, out DateTime utcTime))
+                    {
+                        DateTime localtime = utcTime.ToLocalTime();
 
-        GameObject iteration = Instantiate(selection_iteration, iterationParent.transform);
+                        GameObject iteration = Instantiate(selection_iteration, selection_iterationParent.transform);
+
+                        TMP_Text nextBusTime = iteration.transform.Find("siguiente bus hh:mm").GetComponent<TMP_Text>();
+                        TMP_Text nextBusTimeLeft = iteration.transform.Find("siguiente bus time left").GetComponent<TMP_Text>();
+
+                        nextBusTime.text = localtime.ToString("HH:mm");
+                        nextBusTimeLeft.text = time.arrivalDate;
+
+                        Button button = iteration.GetComponent<Button>();
+                        button.onClick.RemoveAllListeners();
+                        button.onClick.AddListener(() => { SetAlertForBus(route.shortName, time.arrivalDate); });
+                    }
+                }
+            }
+        }
+    }
+
+    public void SetAlertForBus(string line, string arrivalDate)
+    {
+        notifications notifications = FindFirstObjectByType<notifications>();
+
+        if (DateTime.TryParse(arrivalDate, out DateTime utcTime))
+        {
+            DateTime localtime = utcTime.ToLocalTime();
+            TimeSpan minutes = localtime - DateTime.Now;
+            notifications.Create("canal_aviso_autobuses", (line + paradaNombre.text), (int)Math.Ceiling(minutes.TotalMinutes));
+
+            timers timers = FindFirstObjectByType<timers>();
+            timers.CreateTimer((int)Math.Ceiling(minutes.TotalMinutes));
+        }
     }
 
 
@@ -71,6 +118,9 @@ public class stopVisualizer : MonoBehaviour
 
     public void Load(string code)
     {
+        realtimeScrollview.SetActive(true);
+        mapScrollview.SetActive(false);
+
         Debug.Log(code);
 
         for (int i = iterationParent.transform.childCount - 1; i >= 0; i--)
@@ -79,6 +129,21 @@ public class stopVisualizer : MonoBehaviour
         }
 
         StartCoroutine(GetRealTimes("https://api.transit.welbits.com/stops/times/" + code, "all"));
+        lastSavedCode = code;
+    }
+
+    public void LoadOnMap(string code)
+    {
+        realtimeScrollview.SetActive(false);
+        mapScrollview.SetActive(true);
+
+        Debug.Log(code);
+
+        for (int i = iterationParent.transform.childCount - 1; i >= 0; i--)
+        {
+            Destroy(iterationParent.transform.GetChild(i).gameObject);
+        }
+
         lastSavedCode = code;
     }
 
@@ -98,6 +163,8 @@ public class stopVisualizer : MonoBehaviour
                 string jsonResult = webRequest.downloadHandler.text;
 
                 Response data = JsonUtility.FromJson<Response>(jsonResult);
+
+                jsonData = data;
 
                 ProcessRealTimes(data, targetLine);
             }
