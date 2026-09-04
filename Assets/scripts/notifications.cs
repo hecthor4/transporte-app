@@ -19,7 +19,7 @@ public class notifications : MonoBehaviour
     }
 
 
-    public void Create(string type, string info, int minutesRemaining)
+    public void Create(string type, string info, float minutesRemaining)
     {
         DateTime remaining = DateTime.Now.AddMinutes(minutesRemaining);
         CreateNotification(remaining, type, info);
