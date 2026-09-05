@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,14 +10,22 @@ using UnityEngine.UI;
 
 public class stopVisualizer : MonoBehaviour
 {
+    public string mode;
     public GameObject realtimeScrollview;
     public GameObject mapScrollview;
 
-    public bool hasFoundRoute = false;
-    public string lastSavedCode = "";
+    public GameObject apiError;
 
-    public GameObject iterationParent;
-    public GameObject iteration;
+    public bool hasFoundRoute = false;
+    public string lastSavedCode = ""; //sirve para las dos
+    public string lastSavedCorp = ""; //empresa en pos
+
+    public GameObject rt_iterationParent;
+    public GameObject rt_iteration;
+
+    public GameObject ps_iterationParent;
+    public RectTransform ps_iterationParentRect;
+    public GameObject ps_iteration;
 
     public TMP_Text paradaNombre;
     public TMP_Text paradaCodigo;
@@ -24,14 +33,17 @@ public class stopVisualizer : MonoBehaviour
     public GameObject loading;
     public TMP_Text loadingText;
 
-    public Response jsonData;
+    public ResponseRT rt_jsonData;
 
     public GameObject selection;
+    public TMP_Text selection_lineName;
     public GameObject selection_iterationParent;
     public GameObject selection_iteration;
     public GameObject setTimer;
     public GameObject setTimerCustomTime;
     public TMP_Dropdown customTimeDropdown;
+
+    public bool hasSetAlarm = false;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -60,13 +72,15 @@ public class stopVisualizer : MonoBehaviour
          * guardar los tiempos finales hasta que pase el bus
          * hacer cosas para alarmas con el tiempo seleccionado
          */
-        foreach (BusTrip route in jsonData.routes)
+        foreach (BusTripRT route in rt_jsonData.routes)
         {
             if (route.shortName == line)
             {
+                selection_lineName.text = route.shortName;
+
                 for (int i = 0; i < route.times.Count; i++)
                 {
-                    ArrivalTime time = route.times[i];
+                    ArrivalTimeRT time = route.times[i];
                     if (DateTime.TryParse(time.arrivalDate, null, System.Globalization.DateTimeStyles.AdjustToUniversal, out DateTime utcTime))
                     {
                         DateTime localtime = utcTime.ToLocalTime();
@@ -79,6 +93,11 @@ public class stopVisualizer : MonoBehaviour
                         nextBusTime.text = localtime.ToString("HH:mm");
                         nextBusTimeLeft.text = time.arrivalDate;
 
+                        System.TimeSpan difference = localtime - System.DateTime.Now;
+                        int minutesRemaining = (int)difference.TotalMinutes;
+                        if (minutesRemaining > 0) { nextBusTimeLeft.text = minutesRemaining + "''"; }
+                        else { nextBusTimeLeft.text = ">>"; }
+
                         Button button = iteration.GetComponent<Button>();
                         button.onClick.RemoveAllListeners();
                         button.onClick.AddListener(() => { SetAlertForBus(route.shortName, time.arrivalDate); });
@@ -90,16 +109,41 @@ public class stopVisualizer : MonoBehaviour
 
     public void SetAlertForBus(string line, string arrivalDate)
     {
+        StartCoroutine(SetAlertForBusCoroutine(line, arrivalDate));
+
+        setTimer.SetActive(true);
+        selection.SetActive(false);
+    }
+
+    public void SetAlarm()
+    {
+        hasSetAlarm = true;
+    }
+
+    IEnumerator SetAlertForBusCoroutine(string line, string arrivalDate)
+    {
+        hasSetAlarm = false;
+        float minutesOff = 0;
+
+        while (hasSetAlarm == false)
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        string customTimeDropdownSelect = customTimeDropdown.options[customTimeDropdown.value].text;
+        if (customTimeDropdownSelect == "30''") { minutesOff = 0.30f; }
+        else if (customTimeDropdownSelect.Contains("'")) { minutesOff = float.Parse(customTimeDropdownSelect.Replace("'", "")); }
+
         notifications notifications = FindFirstObjectByType<notifications>();
 
         if (DateTime.TryParse(arrivalDate, out DateTime utcTime))
         {
             DateTime localtime = utcTime.ToLocalTime();
             TimeSpan minutes = localtime - DateTime.Now;
-            notifications.Create("canal_aviso_autobuses", (line + paradaNombre.text), (int)Math.Ceiling(minutes.TotalMinutes));
+            notifications.Create("canal_aviso_autobuses", (line + paradaNombre.text), (float)(minutes.TotalMinutes) - minutesOff);
 
             timers timers = FindFirstObjectByType<timers>();
-            timers.CreateTimer((int)Math.Ceiling(minutes.TotalMinutes));
+            timers.CreateTimer((float)(minutes.TotalMinutes) - minutesOff, line, paradaNombre.text);
         }
     }
 
@@ -108,42 +152,36 @@ public class stopVisualizer : MonoBehaviour
 
     public void Reload()
     {
-        for (int i = iterationParent.transform.childCount - 1; i >= 0; i--)
+        if (mode == "rt")
         {
-            Destroy(iterationParent.transform.GetChild(i).gameObject);
-        }
+            for (int i = rt_iterationParent.transform.childCount - 1; i >= 0; i--)
+            {
+                Destroy(rt_iterationParent.transform.GetChild(i).gameObject);
+            }
 
-        StartCoroutine(GetRealTimes("https://api.transit.welbits.com/stops/times/" + lastSavedCode, "all"));
+            StartCoroutine(GetRealTimes("https://api.transit.welbits.com/stops/times/" + lastSavedCode, "all"));
+        }
+        if (mode == "ps")
+        {
+            StartCoroutine(GetPositions("https://apisvt.avanzagrupo.com/lineas/getTrayectos?empresa=" + lastSavedCorp + "&linea=" + lastSavedCode + "&sentido=V", lastSavedCode));
+        }
     }
 
     public void Load(string code)
     {
+        mode = "rt"; //realtimes
+
         realtimeScrollview.SetActive(true);
         mapScrollview.SetActive(false);
 
         Debug.Log(code);
 
-        for (int i = iterationParent.transform.childCount - 1; i >= 0; i--)
+        for (int i = rt_iterationParent.transform.childCount - 1; i >= 0; i--)
         {
-            Destroy(iterationParent.transform.GetChild(i).gameObject);
+            Destroy(rt_iterationParent.transform.GetChild(i).gameObject);
         }
 
         StartCoroutine(GetRealTimes("https://api.transit.welbits.com/stops/times/" + code, "all"));
-        lastSavedCode = code;
-    }
-
-    public void LoadOnMap(string code)
-    {
-        realtimeScrollview.SetActive(false);
-        mapScrollview.SetActive(true);
-
-        Debug.Log(code);
-
-        for (int i = iterationParent.transform.childCount - 1; i >= 0; i--)
-        {
-            Destroy(iterationParent.transform.GetChild(i).gameObject);
-        }
-
         lastSavedCode = code;
     }
 
@@ -162,9 +200,9 @@ public class stopVisualizer : MonoBehaviour
             {
                 string jsonResult = webRequest.downloadHandler.text;
 
-                Response data = JsonUtility.FromJson<Response>(jsonResult);
+                ResponseRT data = JsonUtility.FromJson<ResponseRT>(jsonResult);
 
-                jsonData = data;
+                rt_jsonData = data;
 
                 ProcessRealTimes(data, targetLine);
             }
@@ -193,7 +231,7 @@ public class stopVisualizer : MonoBehaviour
     }
 
 
-    void ProcessRealTimes(Response data, string targetLine)
+    void ProcessRealTimes(ResponseRT data, string targetLine)
     {
         hasFoundRoute = false;
 
@@ -222,7 +260,7 @@ public class stopVisualizer : MonoBehaviour
             //buscar los tiempos de las lineas
             for (int i = 0; i < linesToIterate; i++)
             {
-                foreach (BusTrip route in data.routes)
+                foreach (BusTripRT route in data.routes)
                 {
                     hasFoundRoute = true;
 
@@ -231,7 +269,7 @@ public class stopVisualizer : MonoBehaviour
 
                     if (route.times != null && route.times.Count > 0)
                     {
-                        foreach (ArrivalTime time in route.times)
+                        foreach (ArrivalTimeRT time in route.times)
                         {
                             if (System.DateTime.TryParse(time.arrivalDate, null, System.Globalization.DateTimeStyles.AdjustToUniversal, out System.DateTime UTCDateTime))
                             {
@@ -251,7 +289,7 @@ public class stopVisualizer : MonoBehaviour
                             }
                         }
 
-                        GameObject lineaIterada = Instantiate(iteration, iterationParent.transform);
+                        GameObject lineaIterada = Instantiate(rt_iteration, rt_iterationParent.transform);
                         lineaIterada.transform.localScale = new Vector3(0, 0, 0);
                         lineaIterada.transform.localScale = Vector3.one;
 
@@ -320,4 +358,113 @@ public class stopVisualizer : MonoBehaviour
         rt.sizeDelta = new Vector2(rt.sizeDelta.x, 100);
     }
 
+
+
+
+
+
+
+
+
+
+
+    public void LoadOnMap(string line)
+    {
+        mode = "ps"; //positions
+
+        realtimeScrollview.SetActive(false);
+        mapScrollview.SetActive(true);
+
+        Debug.Log(line);
+
+        for (int i = rt_iterationParent.transform.childCount - 1; i >= 0; i--)
+        {
+            Destroy(rt_iterationParent.transform.GetChild(i).gameObject);
+        }
+
+        string empresa = "58"; //hardcoded
+
+        StartCoroutine(GetPositions("https://apisvt.avanzagrupo.com/lineas/getTrayectos?empresa=" + empresa + "&linea=" + line + "&sentido=V", line));
+        lastSavedCode = line;
+        lastSavedCorp = empresa;
+    }
+
+    IEnumerator GetPositions(string apiURL, string targetLine)
+    {
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(apiURL))
+        {
+            yield return webRequest.SendWebRequest();
+
+            if (webRequest.result == UnityWebRequest.Result.Success)
+            {
+                string jsonResult = webRequest.downloadHandler.text;
+
+                ResponsePS data = JsonUtility.FromJson<ResponsePS>(jsonResult);
+
+                ProcessPositions(data, targetLine);
+
+
+                Debug.Log(webRequest.downloadHandler.text);
+                Debug.Log(webRequest.result);
+                Debug.Log(webRequest.error);
+
+            }
+        }
+    }
+
+    void ProcessPositions(ResponsePS data, string targetLine)
+    {
+
+        if (data == null || data.data == null || data.data.trayectos == null || data.data.trayectos.Count == 0)
+        {
+            apiError.SetActive(true);
+            return;
+        }
+
+        Debug.Log(data == null ? "data null" :
+          data.data == null ? "data.data null" :
+          data.data.trayectos == null ? "trayectos null" :
+          "trayectos count: " + data.data.trayectos.Count);
+
+
+        foreach (TrayectoPS route in data.data.trayectos)
+        {
+            if (route.paradas != null && route.paradas.Count > 0)
+            {
+                foreach (ParadaPS stop in route.paradas)
+                {
+                    if (stop.coordinates == null || stop.coordinates.Count < 2)
+                    {
+                        continue;
+                    }
+
+                    GameObject iteratedStop = Instantiate(ps_iteration, ps_iterationParent.transform);
+                    RectTransform iteratedTransform = iteratedStop.GetComponent<RectTransform>();
+
+                    float minLatitude = 40.25002f;
+                    float maxLatitude = 40.56269f;
+                    float minLongitude = -3.9829f;
+                    float maxLongitude = -3.253411f;
+                    float lon = float.Parse(stop.coordinates[0], System.Globalization.CultureInfo.InvariantCulture);
+                    float lat = float.Parse(stop.coordinates[1], System.Globalization.CultureInfo.InvariantCulture);
+
+                    float pctX = (lon - minLongitude) / (maxLongitude - minLongitude);
+                    float pctY = (lat - minLatitude) / (maxLatitude - minLatitude);
+
+                    pctX = Mathf.Clamp01(pctX);
+                    pctY = Mathf.Clamp01(pctY);
+
+
+                    float mapWidth = ps_iterationParentRect.rect.width;
+                    float mapHeight = ps_iterationParentRect.rect.height;
+
+
+                    float localX = (pctX - ps_iterationParentRect.pivot.x) * mapWidth;
+                    float localY = (pctY - ps_iterationParentRect.pivot.y) * mapHeight;
+
+                    iteratedTransform.anchoredPosition = new Vector2(localX, localY);
+                }
+            }
+        }
+    }
 }

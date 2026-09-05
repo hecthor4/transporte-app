@@ -552,7 +552,7 @@ public class bus : MonoBehaviour
             {
                 string jsonResult = webRequest.downloadHandler.text;
 
-                Response data = JsonUtility.FromJson<Response>(jsonResult);
+                ResponseRT data = JsonUtility.FromJson<ResponseRT>(jsonResult);
 
                 ProcessRealTimes(data, targetLine);
             }
@@ -581,7 +581,7 @@ public class bus : MonoBehaviour
     }
 
 
-    void ProcessRealTimes(Response data, string targetLine)
+    void ProcessRealTimes(ResponseRT data, string targetLine)
     {
         hasFoundRoute = false;
 
@@ -601,7 +601,7 @@ public class bus : MonoBehaviour
         {
             paradaLineasTiempoReal.SetActive(false); //esconder lo otro de abajo
 
-            foreach (BusTrip route in data.routes)
+            foreach (BusTripRT route in data.routes)
             {
                 if (route.shortName != targetLine.ToString())
                 {
@@ -612,7 +612,7 @@ public class bus : MonoBehaviour
 
                 if (route.times != null && route.times.Count > 0)
                 {
-                    foreach (ArrivalTime time in route.times)
+                    foreach (ArrivalTimeRT time in route.times)
                     {
                         if (System.DateTime.TryParse(time.arrivalDate, null, System.Globalization.DateTimeStyles.AdjustToUniversal, out System.DateTime UTCDateTime))
                         {
@@ -695,7 +695,7 @@ public class bus : MonoBehaviour
             //buscar los tiempos de las lineas
             for (int i = 0; i < linesToIterate; i++)
             {
-                foreach (BusTrip route in data.routes)
+                foreach (BusTripRT route in data.routes)
                 {
                     hasFoundRoute = true;
 
@@ -704,7 +704,7 @@ public class bus : MonoBehaviour
 
                     if (route.times != null && route.times.Count > 0)
                     {
-                        foreach (ArrivalTime time in route.times)
+                        foreach (ArrivalTimeRT time in route.times)
                         {
                             if (System.DateTime.TryParse(time.arrivalDate, null, System.Globalization.DateTimeStyles.AdjustToUniversal, out System.DateTime UTCDateTime))
                             {
@@ -867,6 +867,12 @@ public class bus : MonoBehaviour
     {
         stopVisualizer stopVisualizer = FindFirstObjectByType<stopVisualizer>();
         stopVisualizer.Load(se_codigoParada.text);
+    }
+
+    public void OpenVisorDeParadasEnMapa()
+    {
+        stopVisualizer stopVisualizer = FindFirstObjectByType<stopVisualizer>();
+        stopVisualizer.LoadOnMap(lineaNumb + "");
     }
 
 
