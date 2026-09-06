@@ -1,0 +1,41 @@
+ALSACIA (Área Intermodal)
+Aquitania-Capri
+Aquitania-República Eslovaca
+Aquitania-Toscana
+Avenida de Canillejas-Toscana
+Avenida de Canillejas-M40
+Pº Artilleros-Calahorra
+Pº Artilleros-Villacarlos
+Metro Vicálvaro
+San Cipriano-Jardín de la Duquesa
+San Cipriano-Minerva
+Gran Vía del Este-San Cipriano
+Rivas-Gran Vía del Este
+Boyer-Los Cavilas
+Boyer-Ctra. Coslada
+Av. Constitución-Mar Mediterráneo
+Mar Mediterráneo - Puerto de Bilbao
+Puerto de Barcelona-Mar Mediterráneo
+Puerto de Barcelona-Océano Pacífico
+Océano Pacífico-Puerto de Alicante
+Océano Pacífico-Av. España
+Sevilla-Doctor Fleming
+Velázquez-Centro de mayores
+Av. España - Zoco Coslada
+Av. España - Las Conejeras
+Av. España - Centro de salud
+Méjico - Est. La Rambla
+Méjico - Argentina
+Colombia-Jesús de San Antonio
+Av. Madrid-Av. Roma
+Av. Madrid-Av. Berlín
+Av. Madrid-Aula Compensación Educativa
+Av. Vicálvaro-Gonzalo de Córdoba
+Av. Cañada-Jesús de San Antonio
+Av. Cañada-Oviedo
+Av. Cañada-Av. Jarama
+Av. Jarama-Av. San Pablo
+Av. San Pablo-Clínica
+Av. San Pablo-ITV
+Av. San Pablo-Bº Estación
+Estación Ferrocarril-Est. San Fernando
