@@ -6,7 +6,7 @@ using System.Collections.Generic;
 //          REAL TIMES
 // ==============================
 
-
+//for bus
 [Serializable]
 public class ArrivalTimeRT
 {
@@ -32,7 +32,36 @@ public class ResponseRT
     public List<BusTripRT> routes;
 }
 
+//for metro
+[Serializable]
+public class ApiResponseRT_metro
+{
+    public string stopCode;
+    public List<RouteRT_metro> routes;
+    public string stopName;
+    public string isPrimaryProvider;
+    public string providerCode;
+}
 
+[Serializable]
+public class RouteRT_metro
+{
+    public string platform;
+    public List<ArrivalTimesRT_metro> times;
+    public string transportType;
+    public string routeName;
+    public string longName;
+    public string color;
+    public string shortName;
+    public string lineCode;
+}
+
+[Serializable]
+public class ArrivalTimesRT_metro
+{
+    public string arrivalDate;
+    public bool isProgrammed;
+}
 
 
 
@@ -77,4 +106,30 @@ public class ParadaPS
     public string idsae;
     public List<string> coordinates;
     public List<string> enlaces;
+}
+
+
+
+
+
+// ==============================
+//        ALL POSITIONS
+// ==============================
+
+[Serializable]
+public class StopDataAP
+{
+    public string id;
+    public string name;
+    public float latitude;
+    public float longitude;
+    public List<string> lines;
+    public int min;
+    public int max;
+}
+
+[Serializable]
+public class StopCollectionAP
+{
+    public List<StopDataAP> stops;
 }

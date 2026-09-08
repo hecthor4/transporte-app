@@ -173,6 +173,7 @@ public class bus : MonoBehaviour
     public void GoBack()
     {
         //borrar paradas de antes
+        /*
         for (int i = 0; i < d1_parent.childCount; i++)
         {
             GameObject child = d1_parent.GetChild(i).gameObject;
@@ -183,6 +184,7 @@ public class bus : MonoBehaviour
             GameObject child = d2_parent.GetChild(i).gameObject;
             Destroy(child);
         }
+        */
     }
 
     public void Search()
@@ -273,6 +275,8 @@ public class bus : MonoBehaviour
     IEnumerator RefreshLayoutGroups()
     {
         //change
+        yield return new WaitForSeconds(0.1f);
+
         botonesBusLineaParent.cellSize = new Vector2(499, 199);
         pltr_parent_layout.padding.left = 14;
         viewportContentLayout.padding.left = 1;
@@ -290,6 +294,19 @@ public class bus : MonoBehaviour
 
     public void OpenLineInfo(string line)
     {
+        for (int i = 0; i < d1_parent.childCount; i++)
+        {
+            GameObject child = d1_parent.GetChild(i).gameObject;
+            Destroy(child);
+        }
+        for (int i = 0; i < d2_parent.childCount; i++)
+        {
+            GameObject child = d2_parent.GetChild(i).gameObject;
+            Destroy(child);
+        }
+
+
+
         busParent.SetActive(false);
         busLineParent.SetActive(true);
         Debug.Log(line);
@@ -623,7 +640,7 @@ public class bus : MonoBehaviour
                             System.TimeSpan difference = localDateTime - System.DateTime.Now;
                             int minutesRemaining = (int)difference.TotalMinutes;
 
-                            if (minutesRemaining > 0) { substractedTime.Add(minutesRemaining + "''"); }
+                            if (minutesRemaining > 0) { substractedTime.Add(minutesRemaining + "'"); }
                             else { substractedTime.Add(">>"); }
                         }
                         else
@@ -715,7 +732,7 @@ public class bus : MonoBehaviour
                                 System.TimeSpan difference = localDateTime - System.DateTime.Now;
                                 int minutesRemaining = (int)difference.TotalMinutes;
 
-                                if (minutesRemaining > 0) { substractedTime.Add(minutesRemaining + "''"); }
+                                if (minutesRemaining > 0) { substractedTime.Add(minutesRemaining + "'"); }
                                 else { substractedTime.Add(">>"); }
                             }
                             else
@@ -871,8 +888,13 @@ public class bus : MonoBehaviour
 
     public void OpenVisorDeParadasEnMapa()
     {
+        //arreglar los codigos
+        string fixedCode = "0";
+        if (se_codigoParada.text.Length == 4 && fixedCode.Substring(0, 1) == "7") { fixedCode = "0" + fixedCode; }
+        else { fixedCode = se_codigoParada.text; }
+
         stopVisualizer stopVisualizer = FindFirstObjectByType<stopVisualizer>();
-        stopVisualizer.LoadOnMap(lineaNumb + "");
+        stopVisualizer.LoadOnMap(lineaInicial + "", fixedCode);
     }
 
 

@@ -10,6 +10,8 @@ public class GPS : MonoBehaviour
     public RectTransform mapParentRect;
     public RectTransform playerIndicator;
 
+    public GameObject playerObj;
+
     public float minLatitude;
     public float maxLatitude;
     public float minLongitude;
@@ -49,6 +51,9 @@ public class GPS : MonoBehaviour
         if (!Input.location.isEnabledByUser)
         {
             Debug.LogWarning("gps desactivado warning");
+            
+            playerObj.SetActive(false);
+
             yield break;
         }
 
@@ -90,6 +95,7 @@ public class GPS : MonoBehaviour
         if (!isServiceStarted || Input.location.status != LocationServiceStatus.Running)
             return;
 
+        playerObj.SetActive(true);
 
         float currentLat = Input.location.lastData.latitude;
         float currentLon = Input.location.lastData.longitude;
@@ -122,5 +128,6 @@ public class GPS : MonoBehaviour
         float localY = (pctY - mapParentRect.pivot.y) * mapHeight;
 
         targetAnchoredPosition = new Vector2(localX, localY);
+        targetAnchoredPosition += new Vector2(0, -20);
     }
 }

@@ -45,6 +45,7 @@ public class goBack : MonoBehaviour
     bus bus_ins;
     trayecto trayecto_ins;
     ajustes ajustes_ins;
+    stopVisualizer visorDeParadas;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -55,6 +56,7 @@ public class goBack : MonoBehaviour
         bus_ins = FindFirstObjectByType<bus>();
         trayecto_ins = FindFirstObjectByType<trayecto>();
         ajustes_ins = FindFirstObjectByType<ajustes>();
+        visorDeParadas = FindFirstObjectByType<stopVisualizer>();
     }
 
     // Update is called once per frame
@@ -144,6 +146,12 @@ public class goBack : MonoBehaviour
             trayecto_ins.ContarParadasReset();
 
             Debug.Log("contar paradas reset - case 2 - by goback");
+        }
+        if (screenHistory[screenHistory.Count - 1] == r_visorParada)
+        {
+            visorDeParadas.KillChildren();
+
+            Debug.Log("visor de paradas - kill children");
         }
 
         //Debug.Log("screen closed - current screen:" + currentScreen);

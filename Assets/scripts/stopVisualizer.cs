@@ -1,9 +1,7 @@
-using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.Android.Gradle.Manifest;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
@@ -11,10 +9,13 @@ using UnityEngine.UI;
 public class stopVisualizer : MonoBehaviour
 {
     public string mode;
+    public GameObject visorDeParadas;
+
     public GameObject realtimeScrollview;
     public GameObject mapScrollview;
 
     public GameObject apiError;
+    public GameObject apiErrorMap;
 
     public bool hasFoundRoute = false;
     public string lastSavedCode = ""; //sirve para las dos
@@ -25,7 +26,9 @@ public class stopVisualizer : MonoBehaviour
 
     public GameObject ps_iterationParent;
     public RectTransform ps_iterationParentRect;
+    public RectTransform ps_content;
     public GameObject ps_iteration;
+    public ScrollRect ps_scroll;
 
     public TMP_Text paradaNombre;
     public TMP_Text paradaCodigo;
@@ -95,7 +98,7 @@ public class stopVisualizer : MonoBehaviour
 
                         System.TimeSpan difference = localtime - System.DateTime.Now;
                         int minutesRemaining = (int)difference.TotalMinutes;
-                        if (minutesRemaining > 0) { nextBusTimeLeft.text = minutesRemaining + "''"; }
+                        if (minutesRemaining > 0) { nextBusTimeLeft.text = minutesRemaining + "'"; }
                         else { nextBusTimeLeft.text = ">>"; }
 
                         Button button = iteration.GetComponent<Button>();
@@ -163,7 +166,7 @@ public class stopVisualizer : MonoBehaviour
         }
         if (mode == "ps")
         {
-            StartCoroutine(GetPositions("https://apisvt.avanzagrupo.com/lineas/getTrayectos?empresa=" + lastSavedCorp + "&linea=" + lastSavedCode + "&sentido=V", lastSavedCode));
+            StartCoroutine(GetPositions("https://apisvt.avanzagrupo.com/lineas/getTrayectos?empresa=" + lastSavedCorp + "&linea=" + lastSavedCode + "&sentido=V", lastSavedCode, "0"));
         }
     }
 
@@ -171,6 +174,7 @@ public class stopVisualizer : MonoBehaviour
     {
         mode = "rt"; //realtimes
 
+        visorDeParadas.SetActive(true);
         realtimeScrollview.SetActive(true);
         mapScrollview.SetActive(false);
 
@@ -239,6 +243,7 @@ public class stopVisualizer : MonoBehaviour
         if (data == null || data.routes == null || data.routes.Count == 0)
         {
             loadingText.text = "No se encuentran tiempos.";
+            apiError.SetActive(true);
             return;
         }
 
@@ -280,7 +285,7 @@ public class stopVisualizer : MonoBehaviour
                                 System.TimeSpan difference = localDateTime - System.DateTime.Now;
                                 int minutesRemaining = (int)difference.TotalMinutes;
 
-                                if (minutesRemaining > 0) { substractedTime.Add(minutesRemaining + "''"); }
+                                if (minutesRemaining > 0) { substractedTime.Add(minutesRemaining + "'"); }
                                 else { substractedTime.Add(">>"); }
                             }
                             else
@@ -356,6 +361,25 @@ public class stopVisualizer : MonoBehaviour
         rt.sizeDelta = new Vector2(rt.sizeDelta.x, 101);
         yield return new WaitForSeconds(0.1f);
         rt.sizeDelta = new Vector2(rt.sizeDelta.x, 100);
+
+
+
+
+        yield return new WaitForSeconds(0.1f);
+
+        rt_iterationParent.SetActive(false);
+
+        yield return new WaitForSeconds(0.1f);
+
+        rt_iterationParent.SetActive(true);
+
+        yield return new WaitForSeconds(0.1f);
+
+        rt_iterationParent.SetActive(false);
+
+        yield return new WaitForSeconds(0.1f);
+
+        rt_iterationParent.SetActive(true);
     }
 
 
@@ -367,29 +391,60 @@ public class stopVisualizer : MonoBehaviour
 
 
 
-
-    public void LoadOnMap(string line)
+    public void KillChildren()
     {
-        mode = "ps"; //positions
-
-        realtimeScrollview.SetActive(false);
-        mapScrollview.SetActive(true);
-
-        Debug.Log(line);
-
         for (int i = rt_iterationParent.transform.childCount - 1; i >= 0; i--)
         {
             Destroy(rt_iterationParent.transform.GetChild(i).gameObject);
         }
 
-        string empresa = "58"; //hardcoded
+        for (int i = ps_iterationParent.transform.childCount - 1; i >= 0; i--)
+        {
+            Destroy(ps_iterationParent.transform.GetChild(i).gameObject);
+        }
+    }
 
-        StartCoroutine(GetPositions("https://apisvt.avanzagrupo.com/lineas/getTrayectos?empresa=" + empresa + "&linea=" + line + "&sentido=V", line));
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public void LoadOnMap(string line, string code)
+    {
+        paradaCodigo.text = code;
+
+        mode = "ps"; //positions
+
+        Debug.Log(line);
+
+        for (int i = ps_iterationParent.transform.childCount - 1; i >= 0; i--)
+        {
+            Destroy(ps_iterationParent.transform.GetChild(i).gameObject);
+        }
+
+        string empresa = "58";
+        int lineI = int.Parse(line);
+        /*
+        if (lineI > 279 && lineI < 360) { empresa = "58"; }
+        else if (lineI > 609 && lineI < 697) { empresa = "4"; }
+        else if (lineI > 400 && lineI < 500) { empresa = "25"; }
+        */
+
+
+        StartCoroutine(GetPositions("https://apisvt.avanzagrupo.com/lineas/getTrayectos?empresa=" + empresa + "&linea=" + line + "&sentido=V", line, code));
         lastSavedCode = line;
         lastSavedCorp = empresa;
     }
 
-    IEnumerator GetPositions(string apiURL, string targetLine)
+    IEnumerator GetPositions(string apiURL, string targetLine, string code)
     {
         using (UnityWebRequest webRequest = UnityWebRequest.Get(apiURL))
         {
@@ -401,18 +456,12 @@ public class stopVisualizer : MonoBehaviour
 
                 ResponsePS data = JsonUtility.FromJson<ResponsePS>(jsonResult);
 
-                ProcessPositions(data, targetLine);
-
-
-                Debug.Log(webRequest.downloadHandler.text);
-                Debug.Log(webRequest.result);
-                Debug.Log(webRequest.error);
-
+                ProcessPositions(data, targetLine, code);
             }
         }
     }
 
-    void ProcessPositions(ResponsePS data, string targetLine)
+    void ProcessPositions(ResponsePS data, string targetLine, string code)
     {
 
         if (data == null || data.data == null || data.data.trayectos == null || data.data.trayectos.Count == 0)
@@ -420,12 +469,6 @@ public class stopVisualizer : MonoBehaviour
             apiError.SetActive(true);
             return;
         }
-
-        Debug.Log(data == null ? "data null" :
-          data.data == null ? "data.data null" :
-          data.data.trayectos == null ? "trayectos null" :
-          "trayectos count: " + data.data.trayectos.Count);
-
 
         foreach (TrayectoPS route in data.data.trayectos)
         {
@@ -440,6 +483,15 @@ public class stopVisualizer : MonoBehaviour
 
                     GameObject iteratedStop = Instantiate(ps_iteration, ps_iterationParent.transform);
                     RectTransform iteratedTransform = iteratedStop.GetComponent<RectTransform>();
+
+                    Button button = iteratedStop.GetComponent<Button>();
+                    stopButton script = iteratedStop.GetComponent<stopButton>();
+
+                    //button.onClick.RemoveAllListeners();
+                    //button.onClick.AddListener(script.OnClickMath);
+                    
+
+                    script.SetCode(stop.codigo);
 
                     float minLatitude = 40.25002f;
                     float maxLatitude = 40.56269f;
@@ -463,6 +515,40 @@ public class stopVisualizer : MonoBehaviour
                     float localY = (pctY - ps_iterationParentRect.pivot.y) * mapHeight;
 
                     iteratedTransform.anchoredPosition = new Vector2(localX, localY);
+
+
+                    if (stop.codigo.Trim() == code.Trim())
+                    {
+                        Debug.Log("stop found in api");
+
+
+                        Canvas.ForceUpdateCanvases();
+
+                        RectTransform viewport = ps_scroll.viewport;
+                        RectTransform content = ps_scroll.content;
+
+                        Vector2 viewportCenter = viewport.rect.center;
+                        Vector2 stopPos = iteratedTransform.anchoredPosition;
+
+                        Vector2 offset = viewportCenter - stopPos;
+                        content.anchoredPosition += offset;
+
+
+                        /*
+                        Canvas.ForceUpdateCanvases();
+
+                        RectTransform viewport = ps_scroll.viewport;
+
+                        Vector2 locatorLocalPos = ps_content.InverseTransformPoint(iteratedTransform.position);
+
+                        Vector3 viewportWorldCenter = viewport.TransformPoint(viewport.rect.center);
+                        Vector2 viewportCenterInContentSpace = ps_content.InverseTransformPoint(viewportWorldCenter);
+
+                        Vector2 offset = viewportCenterInContentSpace - locatorLocalPos;
+
+                        ps_content.anchoredPosition += offset;
+                        */
+                    }
                 }
             }
         }
