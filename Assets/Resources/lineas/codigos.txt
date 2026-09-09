@@ -1,0 +1,242 @@
+Abrantes 207
+Acacias 92
+Aeropuerto T1-T2-T3 159
+Aeropuerto T4 285
+Alameda de Osuna 252
+Alcorcón Central 211
+Alfonso XIII 66
+Almendrales 267
+Alonso Cano 143
+Alonso de Mendoza 255
+Alonso Martínez 57
+Alsacia 323
+Alto de Extremadura
+Alto del Arenal 23
+Aluche 100
+Alvarado 5
+Antón Martín 14
+Antonio Machado 149
+Arganda del Rey 186
+Arganzuela-Planetario 259
+Argüelles 52
+Arroyo Culebro 223
+Arroyofresno 153
+Artilleros 177
+Arturo Soria 68
+Ascao 136
+Atocha 16
+Avenida de América 64
+Avenida de Guadalajara 324
+Avenida de la Ilustración 151
+Avenida de La Paz 67
+Aviación Española 257
+Bambú 262
+Banco de España 33
+Barajas 160
+Barrio de la Concepción 138
+Barrio del Pilar 162
+Barrio del Puerto 287
+Batán 200
+Baunatal 282
+Begoña 188
+Bilbao 9
+Buenos Aires 22
+Callao 49
+Campamento 102
+Canal 41
+Canillas 70
+Canillejas 74
+Carabanchel 98
+Carabanchel Alto 255
+Carpetana 105
+Cartagena 140
+Casa de Campo 103
+Casa del Reloj 233
+Chamartín 261
+Chueca 86
+Ciudad de los Ángeles 270
+Ciudad Lineal 407
+Ciudad Universitaria 124
+Colombia 156
+Colón 58
+Colonia Jardín 202
+Concha Espina 168
+Conde de Casal 113
+Congosto 27
+Conservatorio 224
+Coslada Central 288
+Cruz del Rayo 169
+Cuatro Caminos 6
+Cuatro Vientos 203
+Cuzco 191
+Delicias 44
+Diego de León 63
+Duque de Pastrana 165
+El Bercial 230
+El Capricho 253
+El Carmen 80
+El Carrascal 231
+El Casar 228
+Embajadores 46
+Empalme 101
+Esperanza 69
+Estación del Arte 15
+Estadio Metropolitano 286
+Estrecho 4
+Estrella 175
+Eugenia de Montijo 99
+Feria de Madrid 158
+Francos Rodríguez 147
+Fuencarral 187
+Fuenlabrada Central 221
+García Noblejas 135
+Getafe Central 226
+Goya 30
+Gran Vía 11
+Gregorio Marañón 142
+Guzmán el Bueno 122
+Henares 292
+Herrera Oria 161
+Hortaleza 264
+Hospital 12 de Octubre 268
+Hospital de Fuenlabrada 219
+Hospital de Móstoles 216
+Hospital del Henares 296
+Hospital Infanta Sofía 284
+Hospital Severo Ochoa 234
+Ibiza 173
+Iglesia 8
+Islas Filipinas 145
+Jarama 291
+Joaquín Vilumbrales 204
+Juan de la Cierva 227
+Julián Besteiro 232
+La Almudena 322
+La Elipa 260
+La Fortuna 305
+La Gavia 293
+La Granja 278
+La Latina 90
+La Moraleja 279
+La Peseta 256
+La Poveda 185
+La Rambla 289
+Lacoma 152
+Lago 199
+Laguna 104
+Las Musas 132
+Las Rosas 325
+Las Suertes 294
+Las Tablas 276
+Lavapiés 47
+Leganés Central 235
+Legazpi 43
+Lista 62
+Loranca 218
+Los Espartales 229
+Lucero 130
+Manoteras 265
+Manuel Becerra 29
+Manuel de Falla 281
+Manuela Malasaña 217
+Mar de Cristal 71
+Marqués de la Valdavia 280
+Marqués de Vadillo 94
+Méndez Álvaro 111
+Menéndez Pelayo 17
+Miguel Hernández 24
+Mirasierra 326
+Moncloa 53
+Montecarmelo 275
+Móstoles Central 214
+Noviciado 38
+Nueva Numancia 20
+Nuevos Ministerios 120
+Núñez de Balboa 83
+O'Donnell 115
+Opañel 107
+Ópera 36
+Oporto 96
+Pacífico 18
+Paco de Lucía 345
+Palos de la Frontera 45
+Pan Bendito 208
+Parque de las Avenidas 139
+Parque de los Estados 222
+Parque de Santa María 73
+Parque Europa 220
+Parque Lisboa 210
+Parque Oeste 212
+Pavones 178
+Peñagrande 150
+Pinar de Chamartín 263
+Pinar del Rey 258
+Pío XII 166
+Pirámides 93
+Pitis 154
+Plaza de Castilla 1
+Plaza de España 50
+Plaza Elíptica 108
+Portazgo 21
+Pradillo 215
+Príncipe de Vergara 31
+Príncipe Pío 127
+Prosperidad 65
+Pueblo Nuevo 78
+Puente de Vallecas 19
+Puerta de Arganda 182
+Puerta de Toledo 91
+Puerta del Ángel 128
+Puerta del Sur 205
+Quevedo 40
+Quintana 79
+República Argentina 119
+Retiro 32
+Reyes Católicos 283
+Ríos Rosas 7
+Rivas Futura 300
+Rivas Urbanizaciones 183
+Rivas Vaciamadrid 184
+Ronda de la Comunicación 277
+Rubén Darío 84
+Sainz de Baranda 114
+San Bernardo 39
+San Blas 133
+San Cipriano 181
+San Cristóbal 272
+San Fermín-Orcasur 269
+San Fernando 290
+San Francisco 254
+San Lorenzo 72
+San Nicasio 236
+Santiago Bernabéu 192
+Santo Domingo 37
+Serrano 59
+Sevilla 34
+Sierra de Guadalupe 25
+Simancas 134
+Sol 12
+Suanzes 76
+Tetuán 3
+Tirso de Molina 13
+Torre Arias 75
+Tres Olivos 374
+Tribunal 10
+Universidad Rey Juan Carlos 213
+Urgel 95
+Usera 109
+Valdeacederas 2
+Valdebernardo 179
+Valdecarros 295
+Valdezarza 148
+Velázquez 60
+Ventas 28
+Ventilla 163
+Ventura Rodríguez 51
+Vicálvaro 180
+Vicente Aleixandre 123
+Villa de Vallecas 26
+Villaverde Alto 273
+Villaverde Bajo-Cruce 271
+Vinateros 176
+Vista Alegre 97

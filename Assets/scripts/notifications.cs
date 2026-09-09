@@ -98,11 +98,11 @@ public class notifications : MonoBehaviour
 
         if (targetChannel == "canal_aviso_autobuses")
         {
-            string bus = text.Length >= 2 ? text.Substring(0, 2) : text;
-            string parada = text.Length > 2 ? text.Substring(2) : text;
+            string bus = text.Length >= 2 ? text.Substring(0, 3) : text;
+            string parada = text.Length > 2 ? text.Substring(3) : text;
 
             notification.Title = "Alerta sobre el " + bus;
-            notification.Text = "El autobús " + bus + " va a efecturar su parada sobre la parada " + parada;
+            notification.Text = "El autobús " + bus + " va a efectuar su parada en '" + parada + "'.";
             channelIdToSend = canal_aviso_autobuses_id;
         }
 

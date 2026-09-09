@@ -8,10 +8,15 @@ public class mapaMetro : MonoBehaviour
     public Slider zoomSlider;
     public RectTransform scrollContent;
 
+    public bool isZooming = false;
+
     private float minZoom = 0.25f;
-    private float maxZoom = 4;
+    private float maxZoom = 5.5f;
     private float zoomSpeed = 0.0025f;
     private bool isActive;
+
+    private Vector2 pivotInViewport;
+    private Vector3 localPointBeforeInContent;
 
     public RectTransform contentRect;
     public RectTransform viewportRect;
@@ -25,46 +30,60 @@ public class mapaMetro : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (gameObject.activeInHierarchy == true)
+        if (!gameObject.activeInHierarchy) return;
+
+        /*
+        if (Input.GetKeyDown(KeyCode.Z))
         {
-            if (Input.touchCount == 2)
+            contentRect.localScale += new Vector3(0.5f, 0.5f, 0);
+        }
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            contentRect.localScale -= new Vector3(0.5f, 0.5f, 0);
+        }
+        */
+
+        if (Input.touchCount == 2)
+        {
+            Touch touchZero = Input.GetTouch(0);
+            Touch touchOne = Input.GetTouch(1);
+
+            if (touchZero.phase == TouchPhase.Began || touchOne.phase == TouchPhase.Began || !isZooming)
             {
-                Touch touchZero = Input.GetTouch(0);
-                Touch touchOne = Input.GetTouch(1);
-
-                if (touchZero.phase == TouchPhase.Began || touchOne.phase == TouchPhase.Began)
-                {
-                    return;
-                }
-
-                Vector2 touchZeroPrev = touchZero.position - touchZero.deltaPosition;
-                Vector2 touchOnePrev = touchOne.position - touchOne.deltaPosition;
-
-                float prevTouchDeltaMag = (touchZeroPrev - touchOnePrev).magnitude;
-                float touchDeltaMag = (touchZero.position - touchOne.position).magnitude;
-                float deltaMagDiff = touchDeltaMag - prevTouchDeltaMag;
+                isZooming = true;
 
                 Vector2 touchPointScreen = (touchZero.position + touchOne.position) / 2f;
 
-                RectTransformUtility.ScreenPointToLocalPointInRectangle(viewportRect, touchPointScreen, null, out Vector2 pivotInViewport);
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(viewportRect, touchPointScreen, null, out pivotInViewport);
 
                 Vector3 worldPointBeforeZoom = viewportRect.TransformPoint(pivotInViewport);
-
-                float currentScale = contentRect.localScale.x;
-                float newScale = currentScale + (deltaMagDiff * zoomSpeed);
-                newScale = Mathf.Clamp(newScale, minZoom, maxZoom);
-                contentRect.localScale = new Vector3(newScale, newScale, 1);
-
-                Vector3 worldPointAfterZoom = viewportRect.TransformPoint(pivotInViewport);
-                Vector3 localPointBeforeInContent = contentRect.InverseTransformPoint(worldPointBeforeZoom);
-                Vector3 localPointAfterInContent = contentRect.InverseTransformPoint(worldPointAfterZoom);
-
-                Vector3 deltaPivot = localPointAfterInContent - localPointBeforeInContent;
-                contentRect.localPosition += contentRect.TransformDirection(deltaPivot);
+                localPointBeforeInContent = contentRect.InverseTransformPoint(worldPointBeforeZoom);
+                return;
             }
+
+            Vector2 touchZeroPrev = touchZero.position - touchZero.deltaPosition;
+            Vector2 touchOnePrev = touchOne.position - touchOne.deltaPosition;
+
+            float prevTouchDeltaMag = (touchZeroPrev - touchOnePrev).magnitude;
+            float touchDeltaMag = (touchZero.position - touchOne.position).magnitude;
+            float deltaMagDiff = touchDeltaMag - prevTouchDeltaMag;
+
+            float currentScale = contentRect.localScale.x;
+            float newScale = currentScale + (deltaMagDiff * zoomSpeed);
+            newScale = Mathf.Clamp(newScale, minZoom, maxZoom);
+            contentRect.localScale = new Vector3(newScale, newScale, 1f);
+
+            Vector3 worldPointAfterZoom = viewportRect.TransformPoint(pivotInViewport);
+            Vector3 localPointAfterInContent = contentRect.InverseTransformPoint(worldPointAfterZoom);
+
+            Vector3 deltaPivot = localPointAfterInContent - localPointBeforeInContent;
+            contentRect.localPosition += contentRect.TransformDirection(deltaPivot);
+        }
+        else
+        {
+            isZooming = false;
         }
     }
-
     public void OnZoomSliderChange()
     {
         /*
