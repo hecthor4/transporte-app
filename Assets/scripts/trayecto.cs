@@ -163,9 +163,9 @@ public class trayecto : MonoBehaviour
             //tiempoEstimado.text = "Tiempo estimado: " + Mathf.Abs(paradaPrimera - paradaFinal) * 3 + "''";
 
             if ((Mathf.Abs(paradaPrimera - paradaFinal) * 3) > 60) {
-                tiempoEstimado.text = "Tiempo estimado: 1h y " + ((Mathf.Abs(paradaPrimera - paradaFinal) * 3) - 60) + "''"; }
+                tiempoEstimado.text = "Tiempo estimado: 1h y " + ((Mathf.Abs(paradaPrimera - paradaFinal) * 3) - 60) + "'"; }
             else {
-                tiempoEstimado.text = "Tiempo estimado: " + (Mathf.Abs(paradaPrimera - paradaFinal) * 3) + "''"; }
+                tiempoEstimado.text = "Tiempo estimado: " + (Mathf.Abs(paradaPrimera - paradaFinal) * 3) + "'"; }
 
 
             if (paradaPrimera > paradaFinal)
@@ -294,8 +294,8 @@ public class trayecto : MonoBehaviour
                     paso2_paradasDiferencia.text = dif2 + " paradas";
 
                     paradasTotales.text = "Paradas totales: " + totalParadas;
-                    if ((totalParadas * 3) > 60) { tiempoEstimado.text = "Tiempo estimado: 1h y " + ((totalParadas * 3) - 60) + "''"; }
-                    else { tiempoEstimado.text = "Tiempo estimado: " + (totalParadas * 3) + "''"; }
+                    if ((totalParadas * 3) > 60) { tiempoEstimado.text = "Tiempo estimado: 1h y " + ((totalParadas * 3) - 60) + "'"; }
+                    else { tiempoEstimado.text = "Tiempo estimado: " + (totalParadas * 3) + "'"; }
 
 
 

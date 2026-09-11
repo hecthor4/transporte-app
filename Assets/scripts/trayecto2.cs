@@ -173,11 +173,11 @@ public class trayecto2 : MonoBehaviour
         int tiempoMinutos = totalParadasAcumuladas * 3;
         if (tiempoMinutos > 60)
         {
-            tiempoEstimado.text = $"Tiempo estimado: {tiempoMinutos / 60}h y {tiempoMinutos % 60}''";
+            tiempoEstimado.text = $"Tiempo estimado: {tiempoMinutos / 60}h y {tiempoMinutos % 60}'";
         }
         else
         {
-            tiempoEstimado.text = $"Tiempo estimado: {tiempoMinutos}''";
+            tiempoEstimado.text = $"Tiempo estimado: {tiempoMinutos}'";
         }
 
         ButtonMath(totalParadasAcumuladas);
