@@ -44,7 +44,7 @@ public class lockdown : MonoBehaviour
         if (result == "true" && debugScreen.isDev == "false")
         {
             locked.SetActive(true);
-            SceneManager.LoadScene(3);
+            SceneManager.LoadScene(2);
         }
     }
 }

@@ -71,6 +71,8 @@ public class bus : MonoBehaviour
 
 
     //selection
+    public GameObject background;
+
     public string selection_direction;              //direccion de la parada seleccionada
     public bool hasFoundRoute;                      //si ha parseado datos de tiempo real bus
     public GameObject selection;                    //objeto parent seleccion
@@ -484,6 +486,7 @@ public class bus : MonoBehaviour
 
     public void OnParadaButtonClick(int paradaID, string dir)
     {
+        background.SetActive(true);
         selection.SetActive(true);
 
         selection_direction = dir;

@@ -103,6 +103,8 @@ public class renfe : MonoBehaviour
     public string lineaNumb;
     public int paradaNumb;
 
+    public GameObject background;
+
     public bool isContarParadas = false;
     public bool readyToSendInfo = false;
     public GameObject selection;
@@ -180,6 +182,8 @@ public class renfe : MonoBehaviour
 
     public void Selection(int paradaNumb2)
     {
+        background.SetActive(true);
+
         TextAsset paradasEnLinea = Resources.Load<TextAsset>("renfe/c" + lineaNumb);
         string[] paradas = paradasEnLinea.text.Split('\n');
 

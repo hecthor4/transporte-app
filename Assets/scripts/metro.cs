@@ -104,6 +104,8 @@ public class metro : MonoBehaviour
     public bool readyToSendInfo = false;
 
 
+    public GameObject background;                   //selection background
+
     public string selection_direction;              //direccion de la parada seleccionada
     public bool hasFoundRoute;                      //si ha parseado datos de tiempo real bus
     public GameObject selection;                    //objeto parent seleccion
@@ -185,6 +187,8 @@ public class metro : MonoBehaviour
 
     public void Selection(int paradaNumb2)
     {
+        background.SetActive(true);
+
         if (!lineaNumb.Contains("r") && !lineaNumb.Contains("ml")) { metroLinea.text = "Línea " + lineaNumb; }
         else if (lineaNumb.Contains("r")) { metroLinea.text = "Ramal"; }
         else if (lineaNumb.Contains("ml")) { metroLinea.text = "Metro Ligero " + lineaNumb[2]; }
