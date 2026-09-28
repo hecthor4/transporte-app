@@ -38,6 +38,8 @@ public class stopVisualizer : MonoBehaviour
 
     public ResponseRT rt_jsonData;
 
+    public GameObject background;
+
     public GameObject selection;
     public TMP_Text selection_lineName;
     public GameObject selection_iterationParent;
@@ -63,6 +65,7 @@ public class stopVisualizer : MonoBehaviour
 
     public void Selection(string line)
     {
+        background.SetActive(true);
         selection.SetActive(true);
 
         //clear all
@@ -108,6 +111,12 @@ public class stopVisualizer : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void SaveParadaFullToFavs() //guardar parada (entera: con todas las lineas) en favoritos
+    {
+        favorites favorites = FindFirstObjectByType<favorites>();
+        favorites.SaveParada(paradaCodigo.text);
     }
 
     public void SetAlertForBus(string line, string arrivalDate)
@@ -364,7 +373,6 @@ public class stopVisualizer : MonoBehaviour
 
 
 
-
         yield return new WaitForSeconds(0.1f);
 
         rt_iterationParent.SetActive(false);
@@ -373,6 +381,8 @@ public class stopVisualizer : MonoBehaviour
 
         rt_iterationParent.SetActive(true);
 
+        /*
+
         yield return new WaitForSeconds(0.1f);
 
         rt_iterationParent.SetActive(false);
@@ -380,6 +390,7 @@ public class stopVisualizer : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
 
         rt_iterationParent.SetActive(true);
+        */
     }
 
 
