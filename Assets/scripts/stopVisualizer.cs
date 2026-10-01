@@ -32,6 +32,7 @@ public class stopVisualizer : MonoBehaviour
 
     public TMP_Text paradaNombre;
     public TMP_Text paradaCodigo;
+    public TMP_Text paradaDireccion;
 
     public GameObject loading;
     public TMP_Text loadingText;
@@ -194,6 +195,12 @@ public class stopVisualizer : MonoBehaviour
             Destroy(rt_iterationParent.transform.GetChild(i).gameObject);
         }
 
+        //show loading indicators
+        paradaNombre.text = "Cargando datos de parada...";
+        paradaCodigo.text = "";
+        paradaDireccion.text = "";
+
+
         StartCoroutine(GetRealTimes("https://api.transit.welbits.com/stops/times/" + code, "all"));
         lastSavedCode = code;
     }
@@ -253,6 +260,7 @@ public class stopVisualizer : MonoBehaviour
         {
             loadingText.text = "No se encuentran tiempos.";
             apiError.SetActive(true);
+            background.SetActive(true);
             return;
         }
 
@@ -358,6 +366,23 @@ public class stopVisualizer : MonoBehaviour
                     if (codigos[j].Trim() == data.stopCode || codigos[j].Trim() == data.stopCode.Substring(2)) { paradaNombre.text = paradas[j]; break; }
                 }
             }
+
+
+            //poner la direccion de los buses
+            paradaDireccion.text = "Dirección desconocida.";
+            for (int i = 0; i  < 3; i++)
+            {
+                if (data.routes[i].routeName.Trim().StartsWith("Madrid"))
+                {
+                    paradaDireccion.text = "Autobuses procedentes de Madrid.";
+                    break;
+                }
+                else if (data.routes[i].routeName.Trim().Contains("Madrid"))
+                {
+                    paradaDireccion.text = "Autobuses con sentido a Madrid.";
+                    break;
+                }
+            }
         }
     }
 
@@ -371,7 +396,7 @@ public class stopVisualizer : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         rt.sizeDelta = new Vector2(rt.sizeDelta.x, 100);
 
-
+        /*
 
         yield return new WaitForSeconds(0.1f);
 
@@ -380,6 +405,7 @@ public class stopVisualizer : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
 
         rt_iterationParent.SetActive(true);
+        */
 
         /*
 
@@ -478,6 +504,7 @@ public class stopVisualizer : MonoBehaviour
         if (data == null || data.data == null || data.data.trayectos == null || data.data.trayectos.Count == 0)
         {
             apiError.SetActive(true);
+            background.SetActive(true);
             return;
         }
 

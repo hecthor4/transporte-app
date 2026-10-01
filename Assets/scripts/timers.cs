@@ -13,17 +13,20 @@ public class timers : MonoBehaviour
 
     public GameObject timerButton;
 
+    public GameObject noData;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         if (activeTimers >= 1)
         {
-            timerButton.SetActive(true);
+            noData.SetActive(false);
         }
         else
         {
-            timerButton.SetActive(false);
+            noData.SetActive(true);
         }
+        timerButton.SetActive(true);
     }
 
     // Update is called once per frame
@@ -37,6 +40,7 @@ public class timers : MonoBehaviour
         StartCoroutine(Timer(minutes, line, parada.Trim()));
 
         timerButton.SetActive(true);
+        noData.SetActive(false);
         activeTimers++;
     }
 
@@ -75,7 +79,8 @@ public class timers : MonoBehaviour
 
         if (activeTimers == 0)
         {
-            timerButton.SetActive(false);
+            //timerButton.SetActive(false); //old: false
+            noData.SetActive(false);
         }
 
         Destroy(instance);

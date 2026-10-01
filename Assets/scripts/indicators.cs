@@ -118,6 +118,10 @@ public class indicators : MonoBehaviour
         {
             nm_text.text = "No se ha podido guardar la línea porque intentas exceder el máximo (5).";
         }
+        if (type == "save_parada")
+        {
+            nm_text.text = "No se ha podido guardar la parada porque intentas exceder el máximo (5).";
+        }
 
 
         for (int i = 0; i < all.Count; i++)

@@ -709,6 +709,11 @@ public class favorites : MonoBehaviour
 
             isf_p5_Empty = false;
         }
+        else
+        {
+            indicators indicators = FindFirstObjectByType<indicators>();
+            indicators.NoMemoryWarning("save_parada");
+        }
 
         GetEmptySlots();
         SaveDataToPlayerPrefs();
