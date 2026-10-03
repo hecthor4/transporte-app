@@ -1,6 +1,8 @@
+using System.Collections;
 using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class renfe : MonoBehaviour
 {
@@ -103,15 +105,31 @@ public class renfe : MonoBehaviour
     public string lineaNumb;
     public int paradaNumb;
 
-    public GameObject background;
-
     public bool isContarParadas = false;
     public bool readyToSendInfo = false;
-    public GameObject selection;
-    public TMP_Text selection_parada;
-    public GameObject selection_corresObj;
-    public TMP_Text selection_corres;
+
+
+    public GameObject background;                   //selection background
+
+    public string selection_direction;              //direccion de la parada seleccionada
+    public bool hasFoundRoute;                      //si ha parseado datos de tiempo real bus
+    public GameObject selection;                    //objeto parent seleccion
+    public TMP_Text se_paradaName;                  //nombre parada
+    public GameObject se_corresObj;                 //correspondencia titulo texto
+    public TMP_Text se_corresText;                  //correspondencia texto
     public TMP_Text selection_contarParadas;
+    public GameObject apiError;
+
+    public GameObject se_d1_trObj;                      //tiempo real objeto parent
+    public TMP_Text se_d1_dirText;                      //tiempo real direccion
+    public TMP_Text se_d1_trText;                       //tiempo real en hh:mm
+    public TMP_Text se_d1_trMinsText;                   //tiempo real restante en minutos
+
+    public GameObject se_d2_trObj;                      //tiempo real objeto parent
+    public TMP_Text se_d2_dirText;                      //tiempo real direccion
+    public TMP_Text se_d2_trText;                       //tiempo real en hh:mm
+    public TMP_Text se_d2_trMinsText;                   //tiempo real restante en minutos
+
 
     public string lineaPrimera;
     public int paradaPrimera;
@@ -200,19 +218,37 @@ public class renfe : MonoBehaviour
             parada_texto = paradas[paradaNumb2 - 1].Substring(0, indice).Trim();
             corres_texto = paradas[paradaNumb2 - 1].Substring(indice);
 
-            selection_corresObj.SetActive(true);
-            selection_corres.text = corres_texto;
+            se_corresObj.SetActive(true);
+            se_corresText.text = corres_texto;
         }
         else
         {
             parada_texto = paradas[paradaNumb2 - 1].Trim();
 
-            selection_corres.text = "";
-            selection_corresObj.SetActive(false);
+            se_corresText.text = "";
+            se_corresObj.SetActive(false);
         }
 
-        selection_parada.text = parada_texto;
+        se_paradaName.text = parada_texto;
 
+
+        TextAsset codigosEnLinea = Resources.Load<TextAsset>("renfe/codigos");
+        string[] codigo = codigosEnLinea.text.Split('\n');
+
+        string currentCode = "0";
+
+        for (int i = 0; i < codigo.Length; i++)
+        {
+            string linea = codigo[i].Trim();
+
+            if (linea.StartsWith(parada_texto + " "))
+            {
+                currentCode = linea.Substring(parada_texto.Length).Trim();
+                break;
+            }
+        }
+
+        StartCoroutine(GetRealTimes("https://api.transit.welbits.com/stops/times/5-" + currentCode, lineaPrimera));
 
 
 
@@ -278,5 +314,120 @@ public class renfe : MonoBehaviour
     public void ModifyButtonHeight(int newHeight)
     {
         renfeButtonHeight = newHeight;
+    }
+
+    IEnumerator GetRealTimes(string apiURL, string targetLine)
+    {
+        apiError.SetActive(false);
+
+        se_d1_dirText.text = "";
+        se_d1_trText.text = "";
+        se_d1_trMinsText.text = "";
+
+        se_d2_dirText.text = "";
+        se_d2_trText.text = "";
+        se_d2_trMinsText.text = "";
+
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(apiURL))
+        {
+            yield return webRequest.SendWebRequest();
+
+            if (webRequest.result == UnityWebRequest.Result.Success)
+            {
+                string jsonResult = webRequest.downloadHandler.text;
+
+                ApiResponseRT_metro data = JsonUtility.FromJson<ApiResponseRT_metro>(jsonResult);
+
+
+
+                string cleanText(string texto) => texto.Split('[')[0].Trim();
+
+                TextAsset paradasEnLinea = Resources.Load<TextAsset>("lineas/" + lineaNumb);
+                string[] paradas = paradasEnLinea.text.Split('\n');
+
+                string dir1 = cleanText(paradas[0]);
+                string dir2 = cleanText(paradas[paradas.Length - 1]);
+
+
+                ProcessRealTimes(data, dir1, se_d1_dirText, se_d1_trText, se_d1_trMinsText);
+                ProcessRealTimes(data, dir2, se_d2_dirText, se_d2_trText, se_d2_trMinsText);
+            }
+            else
+            {
+                Debug.Log("error api: " + webRequest.error);
+            }
+        }
+    }
+
+
+    void ProcessRealTimes(ApiResponseRT_metro data, string targetDir, TMP_Text dir, TMP_Text timeText, TMP_Text timeMins)
+    {
+        hasFoundRoute = false;
+
+
+        if (data == null || data.routes == null || data.routes.Count == 0)
+        {
+            apiError.SetActive(true);
+            return;
+        }
+
+        System.Collections.Generic.List<string> formattedTimes = new System.Collections.Generic.List<string>();
+        System.Collections.Generic.List<string> substractedTime = new System.Collections.Generic.List<string>();
+
+        foreach (RouteRT_metro route in data.routes)
+        {
+            if (route.routeName != targetDir)
+            {
+                continue;
+            }
+
+            hasFoundRoute = true;
+
+            if (route.times != null && route.times.Count > 0)
+            {
+                foreach (ArrivalTimesRT_metro time in route.times)
+                {
+                    if (System.DateTime.TryParse(time.arrivalDate, null, System.Globalization.DateTimeStyles.AdjustToUniversal, out System.DateTime UTCDateTime))
+                    {
+                        System.DateTime localDateTime = UTCDateTime.ToLocalTime();
+                        string cleanDate = localDateTime.ToString("HH:mm");
+                        formattedTimes.Add(cleanDate);
+
+                        System.TimeSpan difference = localDateTime - System.DateTime.Now;
+                        int minutesRemaining = (int)difference.TotalMinutes;
+
+                        if (minutesRemaining > 0) { substractedTime.Add(minutesRemaining + "'"); }
+                        else { substractedTime.Add(">>"); }
+                    }
+                }
+            }
+        }
+        if (hasFoundRoute == true && formattedTimes.Count > 0)
+        {
+            dir.text = targetDir;
+            timeText.text = string.Join("   /   ", formattedTimes);
+            timeMins.text = string.Join("   /   ", substractedTime);
+        }
+        else
+        {
+            dir.text = "";
+            timeText.text = "No se encuentran tiempos.";
+            timeMins.text = "";
+        }
+
+        StartCoroutine(RefreshLayoutGroups());
+    }
+
+    IEnumerator RefreshLayoutGroups()
+    {
+        //change
+        yield return new WaitForSeconds(0.1f);
+
+
+        yield return new WaitForSeconds(0.1f);
+
+        //restore
+
+        Debug.Log("layout groups refreshed - forced redrawn");
     }
 }

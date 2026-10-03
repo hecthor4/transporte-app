@@ -1,0 +1,95 @@
+Aeropuerto T4 142
+Alcalá de Henares 2
+Alcalá de Henares Universidad 3
+Alcobendas - S.S. de los Reyes 4
+Alcorcón 5
+Alpedrete 6
+Aluche 7
+Aranjuez 8
+Aravaca 9
+Asamblea de Madrid - Entrevías 10
+Atocha 11
+Azuqueca 12
+Cantoblanco Universidad 15
+Cercedilla 16
+Chamartín 18
+Ciempozuelos 19
+Collado Mediano 20
+Colmenar Viejo 21
+Coslada 22
+Cotos 23
+Cuatro Vientos 24
+Delicias 25
+Doce de Octubre 26
+El Barrial - C.C. Pozuelo 13
+El Casar 103
+El Escorial 29
+El Goloso 37
+El Pozo 59
+Embajadores 28
+Fuencarral 31
+Fuenlabrada 32
+Fuente de la Mora 133
+Galapagar - La Navata 33
+Getafe Centro 34
+Getafe Industrial 35
+Getafe Sector 3 36
+Guadalajara 38
+Humanes 104
+La Garena 106
+La Serna 77
+Laguna 40
+Las Águilas 1
+Las Margaritas - Universidad 43
+Las Matas 44
+Las Retamas 66
+Las Rozas 68
+Las Zorreras 96
+Leganés 41
+Los Molinos 47
+Los Negrales 50
+Maestra Justa Freire-Polideportivo Aluche 30
+Majadahonda 42
+Meco 45
+Méndez Álvaro 46
+Mirasierra-Paco de Lucía 145
+Móstoles 48
+Móstoles - El Soto 49
+Nuevos Ministerios 51
+Orcasitas 52
+Parla 53
+Parque Polvoranca 105
+Pinar de las Rozas 55
+Pinto 56
+Pirámides 57
+Pitis 58
+Pozuelo 60
+Príncipe Pío 61
+Puente Alcocer 62
+Puerto Navacerrada 63
+Ramón y Cajal 64
+Recoletos 65
+Robledo de Chavela 67
+San Cristóbal de los Ángeles 69
+San Cristóbal Industrial 70
+San Fernando 71
+San José de Valderas 72
+San Yago 74
+Santa Eugenia 75
+Santa María de la Alameda 76
+Sol 122
+Soto del Henares 143
+Torrejón de Ardoz 81
+Torrelodones 82
+Tres Cantos 83
+Universidad P. Comillas 84
+Valdebebas 144
+Valdelasfuentes 85
+Valdemoro 86
+Vallecas 87
+Vicálvaro 90
+Villalba de Guadarrama 91
+Villaverde Alto 92
+Villaverde Bajo 93
+Zarzalejo 94
+Zarzaquemada 95
