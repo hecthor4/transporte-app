@@ -113,7 +113,10 @@ public class bus : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            StartCoroutine(GetStopsByAPI("https://www.crtm.es/widgets/api/GetLinesInformation.php?activeItinerary=1&codLine=8__" + "280" + "___", "280 HOSPITAL-LOECHES"));
+        }
     }
 
     public void SaveInfo()
@@ -144,7 +147,12 @@ public class bus : MonoBehaviour
     public void SaveLineaToFavs()
     {
         favorites favorites = FindFirstObjectByType<favorites>();
-        favorites.SaveLinea(busLinea.text, "bus");
+
+        string line;
+        if (busLinea.text.Contains("EMT")) { line = "emt_" + busLinea.text.Substring(4); }
+        else { line = busLinea.text; }
+
+        favorites.SaveLinea(line, "bus");
     }
     public void SaveParadaFullToFavs() //guardar parada (entera: con todas las lineas) en favoritos
     {
@@ -332,6 +340,52 @@ public class bus : MonoBehaviour
         OpenAndLoadDirection(line, "2", d2_parent);
     }
 
+
+
+    // <work>
+    // WORK IN PROGRESS
+    IEnumerator GetStopsByAPI(string apiURL, string targetLine)
+    {
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(apiURL))
+        {
+            yield return webRequest.SendWebRequest();
+
+            if (webRequest.result == UnityWebRequest.Result.Success)
+            {
+                string jsonResult = webRequest.downloadHandler.text;
+
+                ResponseBS data = JsonUtility.FromJson<ResponseBS>(jsonResult);
+
+                OpenAndLoadDirectionByAPI(data, targetLine);
+            }
+            else
+            {
+                Debug.Log("error api: " + webRequest.error);
+            }
+        }
+    }
+
+    void OpenAndLoadDirectionByAPI(ResponseBS data, string targetLine)
+    {
+        var itineraries = data.lines.LineInformation.itinerary?.Itinerary;
+
+        foreach (var itinerary in itineraries)
+        {
+            if (itinerary == null) { continue; }
+            if (itinerary.name != targetLine) { continue; }
+
+            foreach (var stop in itinerary.stops.StopInformation)
+            {
+                Debug.Log("stop code: " + stop.codStop + " / stop name: " + stop.name);
+            }
+        }
+    }
+    //
+    // </work>
+
+
+
+
     void OpenAndLoadDirection(string line, string dir, RectTransform parentTransform)
     {
         string basePath = "buses/paradas/" + line.Trim() + "/dir" + dir.Trim();
@@ -490,7 +544,11 @@ public class bus : MonoBehaviour
         selection.SetActive(true);
 
         selection_direction = dir;
-        string line = busLinea.text;
+
+        string line;
+        if (busLinea.text.Contains("EMT")) { line = "emt_" + busLinea.text.Substring(4); }
+        else { line = busLinea.text; }
+
         string basePath = "buses/paradas/" + line.Trim() + "/dir" + dir.Trim();
 
         TextAsset paradaRaw = Resources.Load<TextAsset>(basePath + "_pa");
@@ -540,14 +598,14 @@ public class bus : MonoBehaviour
         if (isContarParadas == false)
         {
             paradaInicial = paradaID;
-            lineaInicial = busLinea.text;
+            lineaInicial = busLinea.text; //fix for emt
 
             selection_contarParadas.text = "Viajar desde aquí hasta...";
         }
         else if (isContarParadas == true)
         {
             paradaFinal = paradaID;
-            lineaFinal = busLinea.text;
+            lineaFinal = busLinea.text; //fix for emt
             readyToSendInfo = true;
             //SaveInfo();
 

@@ -3,6 +3,114 @@ using System.Collections.Generic;
 
 
 // ==============================
+//          BUS STOPS
+// ==============================
+
+[Serializable]
+public class ResponseBS
+{
+    public LinesRootBS lines;
+}
+
+[Serializable]
+public class LinesRootBS
+{
+    public LineInformationBS LineInformation;
+}
+
+[Serializable]
+public class LineInformationBS
+{
+    public string codLine;
+    public string shortDescription;
+    public string description;
+    public string codMode;
+    public CodMunicipalitiesBS codMunicipalities;
+    public ItineraryContainerBS itinerary;
+}
+
+[Serializable]
+public class CodMunicipalitiesBS
+{
+    public string[] stringn;
+}
+
+[Serializable]
+public class ItineraryContainerBS
+{
+    public ItineraryBS[] Itinerary;
+}
+
+[Serializable]
+public class ItineraryBS
+{
+    public string codItinerary;
+    public string name;
+    public int direction;
+    public string kml;
+    public StopsContainerBS stops;
+}
+
+[Serializable]
+public class StopsContainerBS
+{
+    public StopInformationBS[] StopInformation;
+}
+
+[Serializable]
+public class StopInformationBS
+{
+    public string codStop;
+    public string shortCodStop;
+    public string codMode;
+    public string name;
+    public string address;
+    public string postCode;
+    public string codMunicipality;
+    public CoordinatesBS coordinates;
+    public LinesContainerBS lines;
+    public int access;
+    public int park;
+    public int nightLinesService;
+}
+
+[Serializable]
+public class CoordinatesBS
+{
+    public float longitude;
+    public float latitude;
+}
+
+[Serializable]
+public class LinesContainerBS
+{
+    public LineBS[] Line;
+}
+
+[Serializable]
+public class LineBS
+{
+    public string codLine;
+    public string shortDescription;
+    public string description;
+    public string codMode;
+    public string updateDate;
+    public string updateKmlDate;
+    public int nightService;
+    public bool active;
+    public ShortItineraryBS shortItinerary;
+    public string companyCode;
+}
+
+[Serializable]
+public class ShortItineraryBS
+{
+
+}
+
+
+
+// ==============================
 //          REAL TIMES
 // ==============================
 
