@@ -200,6 +200,8 @@ public class stopVisualizer : MonoBehaviour
         paradaCodigo.text = "";
         paradaDireccion.text = "";
 
+        Instantiate(loading, rt_iterationParent.transform); //loading indicator
+
 
         StartCoroutine(GetRealTimes("https://api.transit.welbits.com/stops/times/" + code, "all"));
         lastSavedCode = code;
@@ -277,6 +279,12 @@ public class stopVisualizer : MonoBehaviour
 
             notIteratedLines.Add(data.routes.ToString());
             linesToIterate = notIteratedLines.Count;
+
+            //remove loading indicator
+            for (int i = rt_iterationParent.transform.childCount - 1; i >= 0; i--)
+            {
+                Destroy(rt_iterationParent.transform.GetChild(i).gameObject);
+            }
 
 
             //buscar los tiempos de las lineas

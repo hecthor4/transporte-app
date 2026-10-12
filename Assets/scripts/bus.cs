@@ -72,6 +72,7 @@ public class bus : MonoBehaviour
 
     //selection
     public GameObject background;
+    public string lastClickedParadaCode;
 
     public string selection_direction;              //direccion de la parada seleccionada
     public bool hasFoundRoute;                      //si ha parseado datos de tiempo real bus
@@ -80,7 +81,7 @@ public class bus : MonoBehaviour
     public GameObject se_corresObj;                 //correspondencia titulo texto
     public TMP_Text se_corresText;                  //correspondencia texto
     public GameObject se_trObj;                     //tiempo real objeto parent
-    public TMP_Text se_loadingText;                      //tiempo real en hh:mm
+    public GameObject se_loading;                   //tiempo real en hh:mm
     public TMP_Text se_trText;                      //tiempo real en hh:mm
     public TMP_Text se_trMinsText;                  //tiempo real restante en minutos
     public TMP_Text selection_contarParadas;
@@ -571,17 +572,6 @@ public class bus : MonoBehaviour
         se_codigoParada.text = codigos[paradaID];
 
 
-        //conseguir realtimes
-        StopAllCoroutines();
-        hasFoundRoute = false;
-
-        //arreglar los codigos
-        string fixedCode = codigos[paradaID].Trim();
-        if (codigos[paradaID].Length == 4 && fixedCode.Substring(0, 1) == "7") { fixedCode = "0" + fixedCode; }
-
-        StartCoroutine(GetRealTimes("https://api.transit.welbits.com/stops/times/" + fixedCode, lineaInicial));
-
-
 
         if (!string.IsNullOrEmpty(conexion[index].Trim()))
         {
@@ -611,20 +601,34 @@ public class bus : MonoBehaviour
 
             selection_contarParadas.text = "Viajar hasta aquí";
         }
+
+
+
+
+        //conseguir realtimes
+        StopAllCoroutines();
+        hasFoundRoute = false;
+
+        //arreglar los codigos
+        string fixedCode = codigos[paradaID].Trim();
+        if (codigos[paradaID].Length == 4 && fixedCode.Substring(0, 1) == "7") { fixedCode = "0" + fixedCode; }
+
+        lastClickedParadaCode = fixedCode;
+
+        StartCoroutine(GetRealTimes("https://api.transit.welbits.com/stops/times/" + fixedCode, lineaInicial));
     }
 
 
     IEnumerator GetRealTimes(string apiURL, string targetLine)
     {
-        se_loadingText.text = "Cargando...";
+        se_loading.SetActive(true);
         se_trText.text = "";
         se_trMinsText.text = "";
-        Coroutine anim = StartCoroutine(RealTimeTextAnim());
 
         using (UnityWebRequest webRequest = UnityWebRequest.Get(apiURL))
         {
             yield return webRequest.SendWebRequest();
-            StopCoroutine(anim);
+            se_loading.SetActive(false);
 
             if (webRequest.result == UnityWebRequest.Result.Success)
             {
@@ -638,23 +642,6 @@ public class bus : MonoBehaviour
             {
                 Debug.Log("error api: " + webRequest.error);
             }
-        }
-    }
-
-    IEnumerator RealTimeTextAnim()
-    {
-        float time = 0.25f;
-
-        while (hasFoundRoute == false)
-        {
-            se_loadingText.text = "Cargando...";
-            yield return new WaitForSeconds(time);
-            se_loadingText.text = "Cargando";
-            yield return new WaitForSeconds(time);
-            se_loadingText.text = "Cargando.";
-            yield return new WaitForSeconds(time);
-            se_loadingText.text = "Cargando..";
-            yield return new WaitForSeconds(time);
         }
     }
 
@@ -672,7 +659,7 @@ public class bus : MonoBehaviour
 
         System.Collections.Generic.List<string> formattedTimes = new System.Collections.Generic.List<string>();
         System.Collections.Generic.List<string> substractedTime = new System.Collections.Generic.List<string>();
-        
+
 
         //si estas viendo el tiempo de un bus en su respectivo menu, dentro de b all
         if (targetLine == lineaInicial)
@@ -709,23 +696,6 @@ public class bus : MonoBehaviour
                             Debug.Log("no se pudo parsear. " + time.arrivalDate);
                             se_trMinsText.text = "Error";
                         }
-
-                        /*
-                        if (string.IsNullOrEmpty(time.arrivalDate) == false && time.arrivalDate.Contains("T"))
-                        {
-                            string[] split = time.arrivalDate.Split('T')[1].Split(':');
-                            int timeUTC = int.Parse(split[0]);
-                            string minutes = split[1];
-
-                            int localTime = (timeUTC + 2) % 24;
-                            string cleanDate = localTime.ToString();
-
-                            Debug.Log("hora est: " + cleanDate);
-
-                            if (se_trText.text != "") { se_trText.text = se_trText.text + "   /   " + cleanDate; }
-                            else { se_trText.text = cleanDate; }
-                        }
-                        */
                     }
                 }
 
@@ -734,13 +704,13 @@ public class bus : MonoBehaviour
 
             if (hasFoundRoute == true && formattedTimes.Count > 0)
             {
-                se_loadingText.text = "";
+                se_loading.SetActive(false);
                 se_trText.text = string.Join("   /   ", formattedTimes);
                 se_trMinsText.text = string.Join("   /   ", substractedTime);
             }
             else
             {
-                se_loadingText.text = "";
+                se_loading.SetActive(false);
                 se_trText.text = "No se encuentran tiempos.";
                 se_trMinsText.text = "";
             }
@@ -859,6 +829,13 @@ public class bus : MonoBehaviour
 
     void IterateList()
     {
+        /* the code below is used to iterate every bus saved in the database
+         * and render it on the on the bus scrollview, under main
+         * it is not needed as the buses are now pre-rendered
+         * (we ran these lines once and saved the fetched information)
+         * 
+         */
+
         //buses emt
         TextAsset todosLosNumerosDeLineas_emt = Resources.Load<TextAsset>("buses/iterar/bus11_emt");
         string[] numerosLineas_emt = todosLosNumerosDeLineas_emt.text.Trim().Split('\n');
