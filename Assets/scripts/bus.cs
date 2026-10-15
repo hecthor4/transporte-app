@@ -114,10 +114,12 @@ public class bus : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        /*
         if (Input.GetKeyDown(KeyCode.A))
         {
-            StartCoroutine(GetStopsByAPI("https://www.crtm.es/widgets/api/GetLinesInformation.php?activeItinerary=1&codLine=8__" + "280" + "___", "280 HOSPITAL-LOECHES"));
+            StartCoroutine(GetStopsByAPI("https://www.crtm.es/widgets/api/GetLinesInformation.php?activeItinerary=1&codLine=8__" + "1" + "___", "1"));
         }
+        */
     }
 
     public void SaveInfo()

@@ -21,9 +21,11 @@ public class busMapGeometry : MonoBehaviour
             gaze.transform.localScale = map.transform.localScale;
         }
 
+        /*
         if (Input.GetKeyDown(KeyCode.C))
         {
 
         }
+        */
     }
 }

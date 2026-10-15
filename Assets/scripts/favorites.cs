@@ -77,6 +77,21 @@ public class favorites : MonoBehaviour
     public string _f_p5_name;
     public string _f_p5_parada;
 
+    public string _f_p6_name;
+    public string _f_p6_parada;
+
+    public string _f_p7_name;
+    public string _f_p7_parada;
+
+    public string _f_p8_name;
+    public string _f_p8_parada;
+
+    public string _f_p9_name;
+    public string _f_p9_parada;
+
+    public string _f_p10_name;
+    public string _f_p10_parada;
+
 
     //check if its empty
     public bool is1stEmpty;
@@ -94,6 +109,11 @@ public class favorites : MonoBehaviour
     public bool isf_p3_Empty;
     public bool isf_p4_Empty;
     public bool isf_p5_Empty;
+    public bool isf_p6_Empty;
+    public bool isf_p7_Empty;
+    public bool isf_p8_Empty;
+    public bool isf_p9_Empty;
+    public bool isf_p10_Empty;
 
 
     //objetos en escena - parents
@@ -114,6 +134,11 @@ public class favorites : MonoBehaviour
     public GameObject f_p3;
     public GameObject f_p4;
     public GameObject f_p5;
+    public GameObject f_p6;
+    public GameObject f_p7;
+    public GameObject f_p8;
+    public GameObject f_p9;
+    public GameObject f_p10;
 
 
     //objetos en escena - children
@@ -168,6 +193,21 @@ public class favorites : MonoBehaviour
 
     public TMP_Text f_p5_name;
     public TMP_Text f_p5_code;
+
+    public TMP_Text f_p6_name;
+    public TMP_Text f_p6_code;
+
+    public TMP_Text f_p7_name;
+    public TMP_Text f_p7_code;
+
+    public TMP_Text f_p8_name;
+    public TMP_Text f_p8_code;
+
+    public TMP_Text f_p9_name;
+    public TMP_Text f_p9_code;
+
+    public TMP_Text f_p10_name;
+    public TMP_Text f_p10_code;
 
 
     //editing
@@ -261,6 +301,21 @@ public class favorites : MonoBehaviour
         _f_p5_name = PlayerPrefs.GetString("_f_p5_name", "Default name");
         _f_p5_parada = PlayerPrefs.GetString("_f_p5_parada", "0");
 
+        _f_p6_name = PlayerPrefs.GetString("_f_p6_name", "Default name");
+        _f_p6_parada = PlayerPrefs.GetString("_f_p6_parada", "0");
+
+        _f_p7_name = PlayerPrefs.GetString("_f_p7_name", "Default name");
+        _f_p7_parada = PlayerPrefs.GetString("_f_p7_parada", "0");
+
+        _f_p8_name = PlayerPrefs.GetString("_f_p8_name", "Default name");
+        _f_p8_parada = PlayerPrefs.GetString("_f_p8_parada", "0");
+
+        _f_p9_name = PlayerPrefs.GetString("_f_p9_name", "Default name");
+        _f_p9_parada = PlayerPrefs.GetString("_f_p9_parada", "0");
+
+        _f_p10_name = PlayerPrefs.GetString("_f_p10_name", "Default name");
+        _f_p10_parada = PlayerPrefs.GetString("_f_p10_parada", "0");
+
 
         GetEmptySlots();
         RefreshData();
@@ -330,6 +385,21 @@ public class favorites : MonoBehaviour
         if (_f_p5_parada == "0") { isf_p5_Empty = true; f_p5.SetActive(false); }
         else { isf_p5_Empty = false; f_p5.SetActive(true); }
 
+        if (_f_p6_parada == "0") { isf_p6_Empty = true; f_p6.SetActive(false); }
+        else { isf_p6_Empty = false; f_p6.SetActive(true); }
+
+        if (_f_p7_parada == "0") { isf_p7_Empty = true; f_p7.SetActive(false); }
+        else { isf_p7_Empty = false; f_p7.SetActive(true); }
+
+        if (_f_p8_parada == "0") { isf_p8_Empty = true; f_p8.SetActive(false); }
+        else { isf_p8_Empty = false; f_p8.SetActive(true); }
+
+        if (_f_p9_parada == "0") { isf_p9_Empty = true; f_p9.SetActive(false); }
+        else { isf_p9_Empty = false; f_p9.SetActive(true); }
+
+        if (_f_p10_parada == "0") { isf_p10_Empty = true; f_p10.SetActive(false); }
+        else { isf_p10_Empty = false; f_p10.SetActive(true); }
+
 
         CheckForNoRouteError();
     }
@@ -337,14 +407,15 @@ public class favorites : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     void CheckForNoRouteError()
     {
         if (is1stEmpty == true && is2ndEmpty == true && is3rdEmpty == true && is4thEmpty == true && is5thEmpty == true &&
             isf_l1_Empty == true && isf_l2_Empty == true && isf_l3_Empty == true && isf_l4_Empty == true && isf_l5_Empty == true &&
-            isf_p1_Empty == true && isf_p2_Empty == true && isf_p3_Empty == true && isf_p4_Empty == true && isf_p5_Empty == true)
+            isf_p1_Empty == true && isf_p2_Empty == true && isf_p3_Empty == true && isf_p4_Empty == true && isf_p5_Empty == true &&
+            isf_p6_Empty == true && isf_p7_Empty == true && isf_p8_Empty == true && isf_p9_Empty == true && isf_p10_Empty == true)
         {
             noRoutesError.SetActive(true);
         }
@@ -553,6 +624,31 @@ public class favorites : MonoBehaviour
             f_p5_name.text = _f_p5_name;
             f_p5_code.text = _f_p5_parada;
         }
+        if (isf_p6_Empty == false)
+        {
+            f_p6_name.text = _f_p6_name;
+            f_p6_code.text = _f_p6_parada;
+        }
+        if (isf_p7_Empty == false)
+        {
+            f_p7_name.text = _f_p7_name;
+            f_p7_code.text = _f_p7_parada;
+        }
+        if (isf_p8_Empty == false)
+        {
+            f_p8_name.text = _f_p8_name;
+            f_p8_code.text = _f_p8_parada;
+        }
+        if (isf_p9_Empty == false)
+        {
+            f_p9_name.text = _f_p9_name;
+            f_p9_code.text = _f_p9_parada;
+        }
+        if (isf_p10_Empty == false)
+        {
+            f_p10_name.text = _f_p10_name;
+            f_p10_code.text = _f_p10_parada;
+        }
     }
 
     public void SaveRoute(int paradaInicial, string lineaInicial, int paradaFinal, string lineaFinal, string type)
@@ -709,6 +805,41 @@ public class favorites : MonoBehaviour
 
             isf_p5_Empty = false;
         }
+        else if (isf_p6_Empty == true)
+        {
+            _f_p6_name = "Default name";
+            _f_p6_parada = code;
+
+            isf_p6_Empty = false;
+        }
+        else if (isf_p7_Empty == true)
+        {
+            _f_p7_name = "Default name";
+            _f_p7_parada = code;
+
+            isf_p7_Empty = false;
+        }
+        else if (isf_p8_Empty == true)
+        {
+            _f_p8_name = "Default name";
+            _f_p8_parada = code;
+
+            isf_p8_Empty = false;
+        }
+        else if (isf_p9_Empty == true)
+        {
+            _f_p9_name = "Default name";
+            _f_p9_parada = code;
+
+            isf_p9_Empty = false;
+        }
+        else if (isf_p10_Empty == true)
+        {
+            _f_p10_name = "Default name";
+            _f_p10_parada = code;
+
+            isf_p10_Empty = false;
+        }
         else
         {
             indicators indicators = FindFirstObjectByType<indicators>();
@@ -739,13 +870,20 @@ public class favorites : MonoBehaviour
         DeleteFP3();
         DeleteFP4();
         DeleteFP5();
+        DeleteFP5();
+        DeleteFP6();
+        DeleteFP7();
+        DeleteFP8();
+        DeleteFP9();
+        DeleteFP10();
+
 
         GetEmptySlots();
         SaveDataToPlayerPrefs();
         RefreshData();
 }
 
-    void SaveDataToPlayerPrefs()
+    public void SaveDataToPlayerPrefs()
     {
         PlayerPrefs.SetString("_1_name", fav1_name.text);
         PlayerPrefs.SetString("_1_type", _1_type);
@@ -819,6 +957,21 @@ public class favorites : MonoBehaviour
         PlayerPrefs.SetString("_f_p5_name", f_p5_name.text);
         PlayerPrefs.SetString("_f_p5_parada", _f_p5_parada);
 
+        PlayerPrefs.SetString("_f_p6_name", f_p6_name.text);
+        PlayerPrefs.SetString("_f_p6_parada", _f_p6_parada);
+
+        PlayerPrefs.SetString("_f_p7_name", f_p7_name.text);
+        PlayerPrefs.SetString("_f_p7_parada", _f_p7_parada);
+
+        PlayerPrefs.SetString("_f_p8_name", f_p8_name.text);
+        PlayerPrefs.SetString("_f_p8_parada", _f_p8_parada);
+
+        PlayerPrefs.SetString("_f_p9_name", f_p9_name.text);
+        PlayerPrefs.SetString("_f_p9_parada", _f_p9_parada);
+
+        PlayerPrefs.SetString("_f_p510_name", f_p10_name.text);
+        PlayerPrefs.SetString("_f_p510_parada", _f_p10_parada);
+
 
         PlayerPrefs.Save();
     }
@@ -827,6 +980,8 @@ public class favorites : MonoBehaviour
     {
         metro metro = FindFirstObjectByType<metro>();
         trayecto trayecto = FindFirstObjectByType<trayecto>();
+        goBack goback = FindFirstObjectByType<goBack>();
+        
 
         if (favNumber == 1)
         {
@@ -899,26 +1054,61 @@ public class favorites : MonoBehaviour
         {
             stopVisualizer stopVisualizer = FindFirstObjectByType<stopVisualizer>();
             stopVisualizer.Load(_f_p1_parada);
+            goback.OpenScreen();
         }
         if (favNumber == 202)
         {
             stopVisualizer stopVisualizer = FindFirstObjectByType<stopVisualizer>();
             stopVisualizer.Load(_f_p2_parada);
+            goback.OpenScreen();
         }
         if (favNumber == 203)
         {
             stopVisualizer stopVisualizer = FindFirstObjectByType<stopVisualizer>();
             stopVisualizer.Load(_f_p3_parada);
+            goback.OpenScreen();
         }
         if (favNumber == 204)
         {
             stopVisualizer stopVisualizer = FindFirstObjectByType<stopVisualizer>();
             stopVisualizer.Load(_f_p4_parada);
+            goback.OpenScreen();
         }
         if (favNumber == 205)
         {
             stopVisualizer stopVisualizer = FindFirstObjectByType<stopVisualizer>();
             stopVisualizer.Load(_f_p5_parada);
+            goback.OpenScreen();
+        }
+        if (favNumber == 206)
+        {
+            stopVisualizer stopVisualizer = FindFirstObjectByType<stopVisualizer>();
+            stopVisualizer.Load(_f_p6_parada);
+            goback.OpenScreen();
+        }
+        if (favNumber == 207)
+        {
+            stopVisualizer stopVisualizer = FindFirstObjectByType<stopVisualizer>();
+            stopVisualizer.Load(_f_p7_parada);
+            goback.OpenScreen();
+        }
+        if (favNumber == 208)
+        {
+            stopVisualizer stopVisualizer = FindFirstObjectByType<stopVisualizer>();
+            stopVisualizer.Load(_f_p8_parada);
+            goback.OpenScreen();
+        }
+        if (favNumber == 209)
+        {
+            stopVisualizer stopVisualizer = FindFirstObjectByType<stopVisualizer>();
+            stopVisualizer.Load(_f_p9_parada);
+            goback.OpenScreen();
+        }
+        if (favNumber == 210)
+        {
+            stopVisualizer stopVisualizer = FindFirstObjectByType<stopVisualizer>();
+            stopVisualizer.Load(_f_p10_parada);
+            goback.OpenScreen();
         }
     }
 
@@ -1029,6 +1219,31 @@ public class favorites : MonoBehaviour
     {
         _f_p5_name = "Default name";
         _f_p5_parada = "0";
+    }
+    void DeleteFP6()
+    {
+        _f_p6_name = "Default name";
+        _f_p6_parada = "0";
+    }
+    void DeleteFP7()
+    {
+        _f_p7_name = "Default name";
+        _f_p7_parada = "0";
+    }
+    void DeleteFP8()
+    {
+        _f_p8_name = "Default name";
+        _f_p8_parada = "0";
+    }
+    void DeleteFP9()
+    {
+        _f_p9_name = "Default name";
+        _f_p9_parada = "0";
+    }
+    void DeleteFP10()
+    {
+        _f_p10_name = "Default name";
+        _f_p10_parada = "0";
     }
 
     public void SaveEditedContent()
@@ -1210,6 +1425,66 @@ public class favorites : MonoBehaviour
             if (_f_p5_name == "<borrar>")
             {
                 DeleteFP5();
+
+                GetEmptySlots();
+                SaveDataToPlayerPrefs();
+            }
+        }
+        if (editingNumb == 206)
+        {
+            _f_p6_name = newName.text;
+
+            if (_f_p6_name == "<borrar>")
+            {
+                DeleteFP6();
+
+                GetEmptySlots();
+                SaveDataToPlayerPrefs();
+            }
+        }
+        if (editingNumb == 207)
+        {
+            _f_p7_name = newName.text;
+
+            if (_f_p7_name == "<borrar>")
+            {
+                DeleteFP7();
+
+                GetEmptySlots();
+                SaveDataToPlayerPrefs();
+            }
+        }
+        if (editingNumb == 208)
+        {
+            _f_p8_name = newName.text;
+
+            if (_f_p8_name == "<borrar>")
+            {
+                DeleteFP8();
+
+                GetEmptySlots();
+                SaveDataToPlayerPrefs();
+            }
+        }
+        if (editingNumb == 209)
+        {
+            _f_p9_name = newName.text;
+
+            if (_f_p9_name == "<borrar>")
+            {
+                DeleteFP9();
+
+                GetEmptySlots();
+                SaveDataToPlayerPrefs();
+            }
+        }
+        if (editingNumb == 210)
+        {
+            _f_p10_name = newName.text;
+
+            if (_f_p10_name == "<borrar>")
+            {
+                DeleteFP10();
 
                 GetEmptySlots();
                 SaveDataToPlayerPrefs();

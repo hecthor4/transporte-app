@@ -120,7 +120,7 @@ public class indicators : MonoBehaviour
         }
         if (type == "save_parada")
         {
-            nm_text.text = "No se ha podido guardar la parada porque intentas exceder el máximo (5).";
+            nm_text.text = "No se ha podido guardar la parada porque intentas exceder el máximo (10).";
         }
 
 
