@@ -1,7 +1,10 @@
+using Mono.Cecil.Cil;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
@@ -48,6 +51,10 @@ public class stopVisualizer : MonoBehaviour
     public GameObject setTimer;
     public GameObject setTimerCustomTime;
     public TMP_Dropdown customTimeDropdown;
+
+    public GameObject schedules;
+    public GameObject sch_bus;
+    public GameObject sch_parent;
 
     public bool hasSetAlarm = false;
 
@@ -177,6 +184,86 @@ public class stopVisualizer : MonoBehaviour
         if (mode == "ps")
         {
             StartCoroutine(GetPositions("https://apisvt.avanzagrupo.com/lineas/getTrayectos?empresa=" + lastSavedCorp + "&linea=" + lastSavedCode + "&sentido=V", lastSavedCode, "0"));
+        }
+    }
+
+    public void GetSchedules()
+    {
+        schedules.SetActive(true);
+
+        //clear all
+        for (int i = sch_parent.transform.childCount - 1; i >= 0; i--)
+        {
+            Destroy(sch_parent.transform.GetChild(i).gameObject);
+        }
+
+        TextAsset scheduleRaw = Resources.Load<TextAsset>("buses/paradas/stop_times/stop_times");
+        string[] schedule = scheduleRaw.text.Trim().Split('\n');
+
+        for (int j = 0; j < rt_iterationParent.transform.childCount; j++)
+        {
+            GameObject iteration = rt_iterationParent.transform.GetChild(j).gameObject;
+            TMP_Text lineaText = iteration.transform.Find("title").gameObject.GetComponent<TMP_Text>();
+            string lineaNumb = lineaText.text;
+
+            List<string> times = new List<string>();
+
+            for (int i = 0; i < schedule.Length; i++)
+            {
+                if (schedule[i].Contains("__" + lineaNumb) && schedule[i].Contains(paradaCodigo.text))
+                {
+                    string[] columns = schedule[i].Split(',');
+
+                    string arrivalTime = columns[1].Trim();
+
+                    if (times.Contains(arrivalTime.Substring(0, 5)) == false)
+                    {
+                        times.Add(arrivalTime.Substring(0, 5));
+                    }
+                }
+            }
+
+
+            times.Sort();
+
+            GameObject instantiated = Instantiate(sch_bus, sch_parent.transform);
+            TMP_Text text = instantiated.GetComponentInChildren<TMP_Text>();
+            text.text = "<b>" + lineaNumb + "</b> \n \n" + string.Join("\n", times.ToArray());
+        }
+    }
+
+    public void GetOppositeStop()
+    {
+        string path = "buses/paradas/";
+
+        foreach (BusTripRT route in rt_jsonData.routes)
+        {
+            for (int i = 1; i < 3; i++)
+            {
+                TextAsset codigoRaw = Resources.Load<TextAsset>(path + route.shortName.Trim() + "/dir" + i + "_co");
+                string[] codigos = codigoRaw.text.Trim().Split('\n');
+
+                for (int j = 0; j < codigos.Length; j++)
+                {
+                    if (codigos[j].Trim() == paradaCodigo.text)
+                    {
+                        int position = j;
+                        int lenght = codigos.Length;
+
+                        int newDir = 0;
+                        if (i == 1) { newDir = 2; } else { newDir = 1; }
+
+                        codigoRaw = Resources.Load<TextAsset>(path + route.shortName.Trim() + "/dir" + newDir + "_co");
+                        codigos = codigoRaw.text.Trim().Split('\n');
+
+                        int oppStopPos = (lenght) - position;
+
+                        Load(codigos[oppStopPos]);
+                        return;
+                    }
+                }
+            }
+
         }
     }
 
@@ -348,7 +435,9 @@ public class stopVisualizer : MonoBehaviour
                         }
                     }
                 }
-                //
+
+
+                StartCoroutine(ContinueUpdating());
             }
 
 
@@ -393,6 +482,12 @@ public class stopVisualizer : MonoBehaviour
             }
         }
     }
+
+    IEnumerator ContinueUpdating()
+    {
+        yield return null;
+    }
+
 
     IEnumerator UIPosCorrector(GameObject gameObject)
     {
