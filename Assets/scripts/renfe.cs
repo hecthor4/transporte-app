@@ -302,7 +302,7 @@ public class renfe : MonoBehaviour
 
             if (paradasCorres[i].text == "")
             {
-                paradasCorres[i].text = "<i>Sin correspondencias</i>";
+                paradasCorres[i].text = "<i><color=#CFCFCF25>Sin correspondencias</color></i>";
             }
         }
         for (int i = paradas.Length; i < 30; i++)

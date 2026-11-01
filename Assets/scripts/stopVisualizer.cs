@@ -1,10 +1,7 @@
-using Mono.Cecil.Cil;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
@@ -46,6 +43,7 @@ public class stopVisualizer : MonoBehaviour
 
     public GameObject selection;
     public TMP_Text selection_lineName;
+    public TMP_Text selection_linedir;
     public GameObject selection_iterationParent;
     public GameObject selection_iteration;
     public GameObject setTimer;
@@ -91,6 +89,7 @@ public class stopVisualizer : MonoBehaviour
             if (route.shortName == line)
             {
                 selection_lineName.text = route.shortName;
+                selection_linedir.text = route.routeName;
 
                 for (int i = 0; i < route.times.Count; i++)
                 {

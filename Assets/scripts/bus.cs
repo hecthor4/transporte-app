@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
@@ -108,6 +109,8 @@ public class bus : MonoBehaviour
 
 
         paradaLineasTiempoReal.SetActive(false);
+
+        botonesBusLineaParent.spacing = new Vector2(10, 10);
     }
 
 
@@ -300,6 +303,8 @@ public class bus : MonoBehaviour
         botonesBusLineaParent.cellSize = new Vector2(500, 200);
         pltr_parent_layout.padding.left = 15;
         viewportContentLayout.padding.left = 0;
+
+        botonesBusLineaParent.spacing = new Vector2(10, 10);
 
         Debug.Log("layout groups refreshed - forced redrawn");
     }
