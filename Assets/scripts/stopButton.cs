@@ -7,7 +7,7 @@ public class stopButton : MonoBehaviour
     public RectTransform contRect;
 
     public float min = 0.05f;
-    public float max = 1f;
+    public float max = 2;
 
     public string code;
 
@@ -24,10 +24,13 @@ public class stopButton : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float t = Mathf.InverseLerp(1f, 4f, contRect.localScale.x);
-        float newScale = Mathf.Lerp(max, min, t);
+        if (contRect.gameObject.activeInHierarchy == true)
+        {
+            float t = Mathf.InverseLerp(1f, 4f, contRect.localScale.x);
+            float newScale = Mathf.Lerp(max, min, t);
 
-        transform.localScale = Vector3.one * Mathf.Clamp(newScale, min, max);
+            transform.localScale = Vector3.one * Mathf.Clamp(newScale, min, max);
+        }
     }
 
     public void SetCode(string newCode)
