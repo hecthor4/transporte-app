@@ -1,3 +1,4 @@
+using Mono.Cecil.Cil;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -23,6 +24,13 @@ public class stopVisualizer : MonoBehaviour
 
     public GameObject rt_iterationParent;
     public GameObject rt_iteration;
+    public GameObject rt_iteration_favSaved;
+
+    public GameObject rt_map_notfound;
+    public GameObject rt_map_content;
+    public RectTransform rt_map_contentRT;
+    public ScrollRect rt_map_scroll;
+    public RectTransform rt_map_busStop;
 
     public GameObject ps_iterationParent;
     public RectTransform ps_iterationParentRect;
@@ -405,7 +413,16 @@ public class stopVisualizer : MonoBehaviour
                             }
                         }
 
-                        GameObject lineaIterada = Instantiate(rt_iteration, rt_iterationParent.transform);
+
+
+                        GameObject iteration;
+
+                        if (favorites.favLines.Contains(route.shortName)) { iteration = rt_iteration_favSaved; }
+                        else { iteration = rt_iteration; }
+
+                        GameObject lineaIterada = Instantiate(iteration, rt_iterationParent.transform);
+
+
                         lineaIterada.transform.localScale = new Vector3(0, 0, 0);
                         lineaIterada.transform.localScale = Vector3.one;
 
@@ -437,6 +454,7 @@ public class stopVisualizer : MonoBehaviour
 
 
                 StartCoroutine(ContinueUpdating());
+                StartCoroutine(RealTimeVisualizerMap());
             }
 
 
@@ -480,6 +498,131 @@ public class stopVisualizer : MonoBehaviour
                 }
             }
         }
+    }
+
+    IEnumerator RealTimeVisualizerMap()
+    {
+        yield return new WaitForSeconds(0.1f);
+
+        rt_map_notfound.gameObject.SetActive(false);
+
+        string empresa = "58";
+        string line = rt_jsonData.routes[0].shortName.Trim();
+        string code = paradaCodigo.text.Trim();
+        bool found = false;
+
+        if (code[0] == '0') { code = code.Substring(1); }
+
+        using (UnityWebRequest webRequest = UnityWebRequest.Get("https://apisvt.avanzagrupo.com/lineas/getTrayectos?empresa=" + empresa + "&linea=" + line + "&sentido=V"))
+        {
+            yield return webRequest.SendWebRequest();
+
+            if (webRequest.result == UnityWebRequest.Result.Success)
+            {
+                string jsonResult = webRequest.downloadHandler.text;
+
+                ResponsePS data = JsonUtility.FromJson<ResponsePS>(jsonResult);
+
+                foreach (TrayectoPS route in data.data.trayectos)
+                {
+                    foreach (ParadaPS stop in route.paradas)
+                    {
+                        if (stop.codigo == code || stop.nombre.Contains(paradaNombre.text))
+                        {
+                            found = true;
+
+                            float minLatitude = 40.25002f;
+                            float maxLatitude = 40.56269f;
+                            float minLongitude = -3.9829f;
+                            float maxLongitude = -3.253411f;
+                            float lon = float.Parse(stop.coordinates[0], System.Globalization.CultureInfo.InvariantCulture);
+                            float lat = float.Parse(stop.coordinates[1], System.Globalization.CultureInfo.InvariantCulture);
+
+                            float pctX = (lon - minLongitude) / (maxLongitude - minLongitude);
+                            float pctY = (lat - minLatitude) / (maxLatitude - minLatitude);
+
+                            pctX = Mathf.Clamp01(pctX);
+                            pctY = Mathf.Clamp01(pctY);
+
+
+                            float mapWidth = ps_iterationParentRect.rect.width;
+                            float mapHeight = ps_iterationParentRect.rect.height;
+
+
+                            float localX = (pctX - ps_iterationParentRect.pivot.x) * mapWidth;
+                            float localY = (pctY - ps_iterationParentRect.pivot.y) * mapHeight;
+
+                            rt_map_busStop.anchoredPosition = new Vector2(localX, localY);
+                        }
+                    }
+                }
+            }
+        }
+
+        yield return new WaitForSeconds(0.1f);
+
+        using (UnityWebRequest webRequest = UnityWebRequest.Get("https://apisvt.avanzagrupo.com/lineas/getTrayectos?empresa=" + empresa + "&linea=" + line + "&sentido=I"))
+        {
+            yield return webRequest.SendWebRequest();
+
+            if (webRequest.result == UnityWebRequest.Result.Success)
+            {
+                string jsonResult = webRequest.downloadHandler.text;
+
+                ResponsePS data = JsonUtility.FromJson<ResponsePS>(jsonResult);
+
+                foreach (TrayectoPS route in data.data.trayectos)
+                {
+                    foreach (ParadaPS stop in route.paradas)
+                    {
+                        if (stop.codigo == paradaCodigo.text)
+                        {
+                            found = true;
+
+                            float minLatitude = 40.25002f;
+                            float maxLatitude = 40.56269f;
+                            float minLongitude = -3.9829f;
+                            float maxLongitude = -3.253411f;
+                            float lon = float.Parse(stop.coordinates[0], System.Globalization.CultureInfo.InvariantCulture);
+                            float lat = float.Parse(stop.coordinates[1], System.Globalization.CultureInfo.InvariantCulture);
+
+                            float pctX = (lon - minLongitude) / (maxLongitude - minLongitude);
+                            float pctY = (lat - minLatitude) / (maxLatitude - minLatitude);
+
+                            pctX = Mathf.Clamp01(pctX);
+                            pctY = Mathf.Clamp01(pctY);
+
+
+                            float mapWidth = ps_iterationParentRect.rect.width;
+                            float mapHeight = ps_iterationParentRect.rect.height;
+
+
+                            float localX = (pctX - ps_iterationParentRect.pivot.x) * mapWidth;
+                            float localY = (pctY - ps_iterationParentRect.pivot.y) * mapHeight;
+
+                            rt_map_busStop.anchoredPosition = new Vector2(localX, localY);
+                        }
+                    }
+                }
+            }
+        }
+
+        if (found == false) { rt_map_notfound.gameObject.SetActive(true); }
+
+        yield return new WaitForSeconds(0.1f);
+
+        Canvas.ForceUpdateCanvases();
+
+        RectTransform viewport = rt_map_scroll.viewport;
+
+        Vector2 locatorLocalPos = rt_map_contentRT.transform.InverseTransformPoint(rt_map_busStop.position);
+
+        Vector3 viewportWorldCenter = viewport.TransformPoint(viewport.rect.center);
+        Vector2 viewportCenterInContentSpace = rt_map_contentRT.transform.InverseTransformPoint(viewportWorldCenter);
+
+        Vector2 offset = viewportCenterInContentSpace - locatorLocalPos;
+
+        rt_map_contentRT.anchoredPosition += offset;
     }
 
     IEnumerator ContinueUpdating()

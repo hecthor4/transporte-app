@@ -1,3 +1,5 @@
+using NUnit.Framework;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -40,6 +42,8 @@ public class favorites : MonoBehaviour
     public int _5_paradFinal;
 
     //lineas favoritas
+    public static List<string> favLines = new List<string>();
+
     public string _f_l1_name;
     public string _f_l1_type;
     public string _f_l1_linea;
@@ -320,6 +324,16 @@ public class favorites : MonoBehaviour
         GetEmptySlots();
         RefreshData();
         noRoutesError.SetActive(true);
+
+
+
+
+        favLines.Clear();
+        favLines.Add(_f_l1_linea);
+        favLines.Add(_f_l2_linea);
+        favLines.Add(_f_l3_linea);
+        favLines.Add(_f_l4_linea);
+        favLines.Add(_f_l5_linea);
     }
 
     void GetEmptySlots()
