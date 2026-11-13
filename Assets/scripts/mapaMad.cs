@@ -25,8 +25,13 @@ public class mapaMad : MonoBehaviour
 
     public void Locate()
     {
-        if (locatorObj.activeInHierarchy == true)
+        GPS gps = FindFirstObjectByType<GPS>();
+        string isGPSEnabled = gps.isActivated;
+
+        if (locatorObj.activeInHierarchy == true && isGPSEnabled == "true")
         {
+            locatorObj.SetActive(true);
+
             Canvas.ForceUpdateCanvases();
 
             RectTransform viewport = scroll.viewport;
@@ -43,6 +48,7 @@ public class mapaMad : MonoBehaviour
         else
         {
             StartCoroutine(InitializeGPSPipeline());
+            locatorObj.SetActive(false);
         }
     }
 

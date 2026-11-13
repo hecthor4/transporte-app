@@ -182,6 +182,9 @@ public class ajustes : MonoBehaviour
             b_preferenciaInterurbano.value = b_preferenciaInterurbanoSave;
         }
 
+        GPS gps = FindFirstObjectByType<GPS>();
+        gps.Disable();
+
         RefreshSettings();
         SaveValues();
     }

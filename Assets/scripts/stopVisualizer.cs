@@ -1,4 +1,3 @@
-using Mono.Cecil.Cil;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -26,6 +25,7 @@ public class stopVisualizer : MonoBehaviour
     public GameObject rt_iteration;
     public GameObject rt_iteration_favSaved;
 
+    public GameObject rt_map;
     public GameObject rt_map_notfound;
     public GameObject rt_map_content;
     public RectTransform rt_map_contentRT;
@@ -281,6 +281,7 @@ public class stopVisualizer : MonoBehaviour
         visorDeParadas.SetActive(true);
         realtimeScrollview.SetActive(true);
         mapScrollview.SetActive(false);
+        rt_map.SetActive(false);
 
         Debug.Log(code);
 
@@ -606,6 +607,7 @@ public class stopVisualizer : MonoBehaviour
                 }
             }
         }
+        rt_map.SetActive(true);
 
         if (found == false) { rt_map_notfound.gameObject.SetActive(true); }
 

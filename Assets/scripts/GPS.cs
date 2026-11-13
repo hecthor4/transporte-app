@@ -1,5 +1,9 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
+using TMPro;
+
+
 
 #if UNITY_ANDROID
 using UnityEngine.Android;
@@ -26,10 +30,57 @@ public class GPS : MonoBehaviour
     private float lastKnownLon;
     private bool isServiceStarted = false;
 
+    //ajustes
+    public Button toggle;
+    public TMP_Text toggleText;
+    public string isActivated;
+
+    public GameObject gpsWarning;
+
     void Start()
     {
-        StartCoroutine(InitializeGPSPipeline());
+        isActivated = PlayerPrefs.GetString("isActive", "false");
+
+        if (isActivated == "true")
+        {
+            StartCoroutine(InitializeGPSPipeline());
+            toggleText.text = "Desactivar GPS";
+            gpsWarning.SetActive(false);
+        }
+        else
+        {
+            toggleText.text = "Activar GPS";
+            gpsWarning.SetActive(true);
+        }
     }
+
+    public void Toggle()
+    {
+        if (isActivated == "true")
+        {
+            isActivated = "false";
+            toggleText.text = "Activar GPS";
+            gpsWarning.SetActive(true);
+        }
+        else
+        {
+            isActivated = "true";
+            toggleText.text = "Desactivar GPS";
+            gpsWarning.SetActive(false);
+        }
+
+        PlayerPrefs.SetString("isActive", isActivated);
+        PlayerPrefs.Save();
+    }
+
+    public void Disable()
+    {
+        PlayerPrefs.SetString("isActive", "false");
+        PlayerPrefs.Save();
+        toggleText.text = "Activar GPS";
+        gpsWarning.SetActive(true);
+    }
+
 
     IEnumerator InitializeGPSPipeline()
     {
@@ -79,15 +130,18 @@ public class GPS : MonoBehaviour
 
     void Update()
     {
-        ProcessRealGPS();
+        if (isActiveAndEnabled == true)
+        {
+            ProcessRealGPS();
 
-        float positionLerpFactor = 1f - Mathf.Exp(-smoothSpeed * Time.deltaTime);
-        float rotationLerpFactor = 1f - Mathf.Exp(-rotationSmoothSpeed * Time.deltaTime);
+            float positionLerpFactor = 1f - Mathf.Exp(-smoothSpeed * Time.deltaTime);
+            float rotationLerpFactor = 1f - Mathf.Exp(-rotationSmoothSpeed * Time.deltaTime);
 
-        playerIndicator.anchoredPosition = Vector2.Lerp(playerIndicator.anchoredPosition, targetAnchoredPosition, positionLerpFactor);
+            playerIndicator.anchoredPosition = Vector2.Lerp(playerIndicator.anchoredPosition, targetAnchoredPosition, positionLerpFactor);
 
-        Quaternion targetVisualRotation = Quaternion.Euler(0, 0, targetRotation);
-        playerIndicator.rotation = Quaternion.Lerp(playerIndicator.rotation, targetVisualRotation, rotationLerpFactor);
+            Quaternion targetVisualRotation = Quaternion.Euler(0, 0, targetRotation);
+            playerIndicator.rotation = Quaternion.Lerp(playerIndicator.rotation, targetVisualRotation, rotationLerpFactor);
+        }
     }
 
     private void ProcessRealGPS()
